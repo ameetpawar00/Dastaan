@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval" android:useLevel="true"
+    android:dither="true">
+
+    <size android:height="@dimen/pager_dot_size" android:width="@dimen/pager_dot_size"/>
+
+    <gradient
+        android:startColor="@color/forget_password_color"
+        android:endColor="@color/forget_password_color"
+        android:angle="90"
+        />
+</shape>

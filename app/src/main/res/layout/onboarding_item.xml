@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="splashScreenAdapter"
+            type="com.itsupportwale.dastaan.adapters.OnBoardingAdapter" />
+    </data>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/theme_color"
+        >
+        <RelativeLayout
+            android:visibility="visible"
+            android:layout_centerInParent="true"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_marginTop="150dp"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center">
+                <ImageView
+                    android:id="@+id/ivOnboard"
+                    android:layout_width="wrap_content"
+                    android:layout_height="300dp"
+                    android:gravity="center"/>
+                <TextView
+                    android:layout_marginTop="-100dp"
+                    android:id="@+id/tvHeader"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:paddingLeft="100dp"
+                    android:paddingRight="100dp"
+                    android:fontFamily="@font/louis_george_cafe_bold"
+                    android:layout_marginVertical="10dp"
+                    android:textColor="@color/colorHeadings"
+                    android:textSize="@dimen/dim_25_dp" />
+                <TextView
+                    android:id="@+id/tvDesc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:paddingLeft="@dimen/dim_60_dp"
+                    android:paddingRight="@dimen/dim_60_dp"
+                    android:lineHeight="18dp"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+        </RelativeLayout>
+    </RelativeLayout>
+</layout>

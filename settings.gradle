@@ -1,0 +1,4 @@
+include ':app'
+include ':imagepicker'
+include ':tagadapter'
+rootProject.name = "Dastaan"

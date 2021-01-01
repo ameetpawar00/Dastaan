@@ -1,0 +1,22 @@
+<resources>
+
+    <!-- Declare custom theme attributes that allow changing which styles are
+         used for button bars depending on the API level.
+         ?android:attr/buttonBarStyle is new as of API 11 so this is
+         necessary to support previous API levels. -->
+    <declare-styleable name="ButtonBarContainerTheme">
+        <attr name="metaButtonBarStyle" format="reference" />
+        <attr name="metaButtonBarButtonStyle" format="reference" />
+    </declare-styleable>
+    <declare-styleable name="CustomRatingBar">
+        <attr name="maxStars" format="integer" />
+        <attr name="stars" format="float" />
+        <attr name="starOff" format="reference|integer" />
+        <attr name="starOn" format="reference|integer" />
+        <attr name="starHalf" format="reference|integer" />
+        <attr name="starPadding" format="dimension" />
+        <attr name="onlyForDisplay" format="boolean" />
+        <attr name="halfStars" format="boolean" />
+    </declare-styleable>
+
+</resources>

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <variable
+            name="welcomeActivity"
+            type="com.itsupportwale.dastaan.activity.WelcomeActivity" />
+    </data>
+    <RelativeLayout
+        android:orientation="vertical"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        tools:context=".activity.WelcomeActivity">
+
+
+        <LinearLayout
+            android:layout_centerInParent="true"
+            android:layout_marginTop="@dimen/dim_20_dp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+            <ImageView
+                android:layout_marginBottom="@dimen/dim_20_dp"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal"
+                android:id="@+id/ivOnboard"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dim_100_dp"
+                android:src="@drawable/dastaan_land" />
+            <TextView
+                android:layout_marginTop="-100dp"
+                android:id="@+id/tvHeader"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/hello_welcome"
+                android:paddingLeft="100dp"
+                android:paddingRight="100dp"
+                android:fontFamily="@font/louis_george_cafe_bold"
+                android:layout_marginVertical="10dp"
+                android:textColor="@color/colorHeadings"
+                android:textSize="@dimen/dim_25_dp" />
+            <TextView
+                android:id="@+id/tvDesc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Please Select Your Preferences/Genres "
+                android:padding="@dimen/dim_20_dp"
+                android:lineHeight="18dp"
+                android:textColor="@color/black"
+                android:fontFamily="@font/montserrat_regular"
+                android:textSize="@dimen/text_size_16sp" />
+            <LinearLayout
+                android:id="@+id/currentLocationButton"
+                android:layout_marginTop="@dimen/dim_20_dp"
+                android:layout_marginBottom="@dimen/dim_50_dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginHorizontal="@dimen/dim_50_dp"
+                android:background="@drawable/blue_capsule"
+                android:gravity="center_horizontal"
+                >
+                <ImageView
+                    android:layout_width="@dimen/dim_20_dp"
+                    android:layout_height="@dimen/dim_20_dp"
+                    android:src="@drawable/navigator"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="@dimen/dim_5_dp"
+                    />
+                <TextView
+                    android:layout_gravity="center_vertical"
+                    android:textSize="@dimen/text_size_16sp"
+                    android:layout_width="wrap_content"
+                    android:textColor="@color/white"
+                    android:text=" "
+                    android:textAllCaps="true"
+                    android:paddingVertical="@dimen/dim_10_dp"
+                    android:layout_height="wrap_content"
+                    />
+                <TextView
+                    android:layout_gravity="center_vertical"
+                    android:textSize="@dimen/text_size_16sp"
+                    android:layout_width="wrap_content"
+                    android:textColor="@color/white"
+                    android:text="Submit"
+                    android:textAllCaps="true"
+                    android:paddingVertical="@dimen/dim_10_dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/louis_george_cafe_bold"
+                    />
+            </LinearLayout>
+        </LinearLayout>
+
+
+    </RelativeLayout>
+</layout>

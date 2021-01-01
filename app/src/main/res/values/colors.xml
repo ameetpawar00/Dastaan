@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorHeadings">#000000</color><!--Main headings-->
+    <color name="colorGradientPrimary">#4587d1</color><!--Main headings-->
+    <color name="colorGradientSecondry">#48d16f</color><!--Main headings-->;
+    <color name="black_overlay">#98979b</color>
+    <color name="navbar_icon_colors">#B0B0B0</color>
+    <color name="edt_back_color">#f0eff6</color>
+    <color name="forget_password_color">#3b7ff7</color>
+    <color name="rem_color">#737373</color>
+    <color name="signup_color">#3978fd</color>
+    <color name="colorTwitter">#64ccf1</color>
+    <color name="colorGoogle">#EA4335</color>
+    <color name="colorFacebook">#507dc0</color>
+    <color name="colorPrimary">#000000</color>
+    <color name="colorPrimaryDark">#004AAD</color>
+    <color name="colorAccent">#de0c2e</color>
+    <color name="black">#000000</color>
+    <color name="black_hue">#77000000</color>
+    <color name="black_second_hue">#B5000000</color>
+    <color name="theme_color">#f4f5f9</color>
+    <color name="white">#FFFFFF</color>
+    <color name="white_trans">#DAFFFFFF</color>
+    <color name="dialog_msg_text_color">#4A4A4A</color>
+    <color name="fb_Image_shadow">#374F8B</color>
+    <color name="for_star">#d8d8db</color>
+    <color name="cream_back">#edefed</color>
+    <color name="gery">#656565</color>
+    <color name="search_text">#aaa0a0</color>
+    <color name="color_milk">#f4f3f3</color>
+
+    <color name="bid_referred_updated_color">#FF5757</color>
+    <color name="bid_referred_green_color">#8BC34A</color>
+    <color name="bid_referred_red_color">#FF9800</color>
+    <color name="bid_on_color">#33cc33</color>
+    <color name="selected_dot">#2365AC</color>
+    <color name="idle_dot">#7a7171</color>
+    <color name="ob_header">#4A4A4A</color>
+    <color name="ob_desc">#4A4A4A</color>
+    <color name="red_live_pending">#BDBDBD</color>
+    <color name="red_live">#FF5757</color>
+    <color name="red_blood">#de0c2e</color>
+    <color name="green_live_pending">#979797</color>
+    <color name="green_live">#23ac8e</color>
+    <color name="red_live_2">#23ac8e</color>
+    <color name="blue_live">#2365AC</color>
+    <color name="grey_live">#7a7171</color>
+    <color name="searchBack">#f8f8f8</color>
+    <color name="color_dfe5e4">#dfe5e4</color>
+    <color name="color_48ac8e">#48ac8e</color>
+    <color name="color_8a8383">#8a8383</color>
+    <color name="color_504840">#504840</color>
+    <color name="color_c4b6b6">#c4b6b6</color>
+    <color name="color_7d7575">#7d7575</color>
+    <color name="color_666666">#666666</color>
+    <color name="color_c0b3b3">#c0b3b3</color>
+    <color name="color_7f7f7f">#7f7f7f</color>
+    <color name="color_7a7171">#7a7171</color>
+    <color name="color_bbb9b9">#bbb9b9</color>
+    <color name="color_9a9494">#9a9494</color>
+    <color name="color_8d8686">#8d8686</color>
+    <color name="color_dedada">#dedada</color>
+    <color name="quantum_grey">#03a9f4</color>
+    <color name="color_1f1f1f">#1f1f1f</color>
+    <color name="color_928b8b">#928b8b</color>
+    <color name="color_edefed">#edefed</color>
+
+    <color name="color_e6e6e6">#E6E6E6</color>
+    <color name="color_f4f3f3">#f4f3f3</color>
+    <color name="color_d1d1d1">#d1d1d1</color>
+    <color name="color8b8b8b">#8b8b8b</color>
+    <color name="color_121212">#121212</color>
+    <color name="sent_msg">#03032B</color>
+    <color name="divider">#ececec</color>
+    <color name="transperent_dark_navy">#3341556C</color>
+
+    <declare-styleable name="imagepicker_ProgressWheel">
+        <attr name="matProg_progressIndeterminate" format="boolean" />
+        <attr name="matProg_barColor" format="color" />
+        <attr name="matProg_rimColor" format="color" />
+        <attr name="matProg_rimWidth" format="dimension" />
+        <attr name="matProg_spinSpeed" format="float" />
+        <attr name="matProg_barSpinCycleTime" format="integer" />
+        <attr name="matProg_circleRadius" format="dimension" />
+        <attr name="matProg_fillRadius" format="boolean" />
+        <attr name="matProg_barWidth" format="dimension" />
+        <attr name="matProg_linearProgress" format="boolean" />
+    </declare-styleable>
+</resources>

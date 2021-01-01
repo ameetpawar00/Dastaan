@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dim_10_dp"
+        android:fontFamily="@font/louis_george_cafe_bold"
+        android:gravity="center_horizontal"
+        android:text="Today"
+        android:visibility="gone"
+        android:textColor="@color/colorHeadings"
+        android:textSize="@dimen/text_size_14sp" />
+    <LinearLayout
+        android:id="@+id/receiverLinLay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dim_20_dp"
+        android:layout_marginEnd="@dimen/dim_80_dp"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="start"
+        android:gravity="start"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/receiverChatTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|center"
+            android:background="@drawable/custom_chat_bg"
+            android:ellipsize="end"
+            android:gravity="start|center"
+            android:paddingVertical="7dp"
+            android:paddingHorizontal="20dp"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_14sp" />
+
+        <ImageView
+            android:id="@+id/receiverImage"
+            android:layout_width="150dp"
+            android:layout_gravity="start"
+            android:contentDescription="@null"
+            android:visibility="gone"
+            android:src="@drawable/default_image_icon"
+            android:scaleType="centerCrop"
+            android:layout_marginTop="@dimen/dim_10_dp"
+            android:layout_height="150dp"/>
+        <TextView
+            android:id="@+id/receiverTimeTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dim_10_dp"
+            android:fontFamily="@font/montserrat_regular"
+            android:gravity="center"
+            android:text="12_25_pm"
+            android:textColor="@color/colorHeadings"
+            android:textSize="@dimen/text_size_10sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/senderLinLay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:gravity="end"
+        android:layout_marginStart="@dimen/dim_80_dp"
+        android:layout_marginEnd="@dimen/dim_20_dp"
+        android:layout_marginTop="@dimen/dim_20_dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/senderChatTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|center"
+            android:background="@drawable/custom_chat_sent"
+            android:ellipsize="end"
+            android:paddingVertical="7dp"
+            android:paddingHorizontal="20dp"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_14sp" />
+
+        <ImageView
+            android:id="@+id/senderImage"
+            android:layout_width="150dp"
+            android:layout_gravity="end"
+            android:contentDescription="@null"
+            android:visibility="gone"
+            android:scaleType="centerCrop"
+            android:src="@drawable/default_image_icon"
+
+            android:layout_marginTop="@dimen/dim_10_dp"
+            android:layout_height="150dp"/>
+        <TextView
+            android:id="@+id/senderTimeTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginTop="@dimen/dim_10_dp"
+            android:fontFamily="@font/montserrat_regular"
+            android:text="12_25_pm"
+            android:textColor="@color/colorHeadings"
+            android:textSize="@dimen/text_size_10sp" />
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "529752278498",
+    "project_id": "dastaan-3f70d",
+    "storage_bucket": "dastaan-3f70d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:529752278498:android:67589ae149416cc5bf25bb",
+        "android_client_info": {
+          "package_name": "com.itsupportwale.dastaan"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "529752278498-r6n7fp0h5hkbi1hld42omtbn7ktkt2rl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.itsupportwale.dastaan",
+            "certificate_hash": "74064c3cca62286430816b607ce33bc6fde8fce6"
+          }
+        },
+        {
+          "client_id": "529752278498-0v8bs5ok1p9uia4rrms67gjfvkpq5ck4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBZbUuNIWAJJW0gw0Km_w33NSA9I-DO9pc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "529752278498-0v8bs5ok1p9uia4rrms67gjfvkpq5ck4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

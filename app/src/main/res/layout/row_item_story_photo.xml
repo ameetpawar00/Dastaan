@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="storyPhotoAdapter"
+            type="com.itsupportwale.dastaan.adapters.StoryPhotoAdapter" />
+    </data>
+    <androidx.cardview.widget.CardView
+        android:id="@+id/parentPanel"
+        android:layout_margin="@dimen/dim_5_dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="@dimen/dim_10_dp"
+        >
+        <ImageView
+            android:id="@+id/thisImage"
+            android:layout_width="@dimen/dim_200_dp"
+            android:layout_height="@dimen/dim_150_dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/dastaan"
+            android:contentDescription="@null"/>
+    </androidx.cardview.widget.CardView>
+</layout>

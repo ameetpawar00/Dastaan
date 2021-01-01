@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <RelativeLayout android:paddingHorizontal="@dimen/dim_20_dp"
+        android:elevation="@dimen/dim_100_dp"
+        android:id="@+id/topBarRelLay"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dim_60_dp"
+        >
+        <ImageView
+            android:id="@+id/menuIcon"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="6dp"
+            android:contentDescription="@null"
+            android:padding="2dp"
+            android:tint="@color/black"
+            android:src="@drawable/menu_icon" />
+        <ImageView
+            android:visibility="gone"
+            android:id="@+id/backIcon"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="6dp"
+            android:contentDescription="@null"
+            android:padding="2dp"
+            android:src="@drawable/back_icon" />
+        <TextView
+            android:layout_centerInParent="true"
+            android:id="@+id/navTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAllCaps="true"
+            android:text="Home"
+            android:textColor="@color/black"
+            android:layout_marginBottom="-6dp"
+            android:layout_marginTop="-6dp"
+            android:textSize="@dimen/text_size_18sp"
+            android:fontFamily="@font/louis_george_cafe_bold"
+            />
+        <LinearLayout
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            >
+            <ImageView
+                android:id="@+id/notificationIcon"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:contentDescription="@null"
+                android:padding="2dp"
+                android:tint="@color/black"
+                android:src="@drawable/notification_icon" />
+            <TextView
+                android:layout_marginStart="-15dp"
+                android:id="@+id/notification_count"
+                android:layout_width="@dimen/dim_15_dp"
+                android:layout_height="@dimen/dim_15_dp"
+                android:background="@drawable/badge_background"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:text="0"
+                android:textSize="10sp"/>
+        </LinearLayout>
+
+
+
+        <TextView
+            android:visibility="gone"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
+            android:text="Edit"
+            android:id="@+id/editBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/louis_george_cafe_bold"
+            android:textStyle="bold"
+            android:lines="1"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_14sp" />
+
+    </RelativeLayout>
+</layout>

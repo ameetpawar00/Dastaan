@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="notificationDataAdapter"
+            type="com.itsupportwale.dastaan.adapters.NotificationDataAdapter" />
+    </data>
+    <androidx.cardview.widget.CardView
+        android:id="@+id/parentPanel"
+        android:layout_margin="@dimen/dim_5_dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="@dimen/dim_10_dp"
+        >
+        <LinearLayout
+            android:padding="@dimen/dim_10_dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:lines="1"
+                android:layout_marginBottom="@dimen/dim_5_dp"
+                android:ellipsize="end"
+                android:textSize="@dimen/text_size_18sp"
+                android:textColor="@color/colorHeadings"
+                android:fontFamily="@font/louis_george_cafe_bold"
+                />
+            <TextView
+                android:id="@+id/description"
+                android:layout_marginBottom="@dimen/dim_5_dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_size_12sp"
+                android:lines="2"
+                android:ellipsize="end"
+                android:textColor="@color/grey_live"
+                android:fontFamily="@font/montserrat_regular"
+                />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+</layout>

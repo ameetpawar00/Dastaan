@@ -1,0 +1,272 @@
+<resources>
+    <string name="app_name">Dastaan</string>
+        <string name="title_activity_splashscreen">FullscreenActivity</string>
+        <string name="check_internet">Please check internet connection</string>
+        <string name="ob_header1">Read</string>
+        <string name="ob_header2">Write</string>
+        <string name="ob_header3">Secure Secrets</string>
+        <string name="ob_get_started">GET STARTED</string>
+        <string name="ob_desc1">Read Stories, Experiences, Secrets For free, Get Notified For stuff you love</string>
+        <string name="ob_desc2">Share Your Stories, Experiences, Secrets just have a cup of tea and become story teller</string>
+        <string name="ob_desc3">Your secrets are secure with us. you can post Anonymously we will never break our side of deal</string>
+        <string name="permission_necessary">Permission necessary</string>
+        <string name="tit_permission_necessary">External storage permission is necessary</string>
+        <string name="gps_network_not_enabled">GPS Network not Enabled</string>
+        <string name="open_location_settings">Open Location Settings</string>
+        <string name="cancel">Cancel</string>
+        <string name="yes">Yes</string>
+        <string name="gps_error">Please on gps or internet</string>
+        <string name="enablepermission">Enable Permissions</string>
+        <string name="welcome_user">Welcome User</string>
+        <string name="sign_in_to_continue">Sign in to continue</string>
+        <string name="email">Email id</string>
+        <string name="password">Password</string>
+        <string name="remember_me">Remember Me</string>
+        <string name="forget_password">Forget Password ?</string>
+        <string name="sign_in">Sign In</string>
+        <string name="dont_have_an_account">Dont have an account?</string>
+        <string name="sign_up_to_join">Sign up to join</string>
+        <string name="mobile_no">Phone Number</string>
+        <string name="full_name">Name</string>
+        <string name="dealership_name">Dealership Name</string>
+        <string name="dealer_license_number">Dealer Licence Number</string>
+        <string name="i_agree_to_the">I agree to the </string>
+        <string name="terms_of_service">Terms and Conditions</string>
+        <string name="terms_of_policy">terms of the Privacy Policy</string>
+        <!-- TODO: Remove or change this placeholder text -->
+        <string name="have_an_account">Have an account?</string>
+
+        <!-- TODO: Remove or change this placeholder text -->
+
+        <string name="next">Next</string>
+        <string name="submit">Submit</string>
+        <string name="empty_str"> </string>
+        <string name="please_enter_email">Please Enter Email</string>
+        <string name="please_enter_full_name">Please Enter Full Name</string>
+        <string name="verify_otp">Verify OTP</string>
+        <string name="please_enter_otp">Please Enter OTP</string>
+        <string name="please_enter_new_password">Please Enter New Password</string>
+        <string name="please_confirm_password">Confirm Password</string>
+        <string name="error_email">Please Enter Email Id</string>
+        <string name="error_phone_number">Please Enter Phone Number</string>
+        <string name="error_password">Please Enter Password</string>
+        <string name="please_wait">Please Wait</string>
+        <string name="error_otp">Please Enter OTP</string>
+        <string name="error_new_password">Please Enter New Password</string>
+        <string name="error_confirm_password">Please Confirm Password</string>
+        <string name="error_password_not_match">Password not match</string>
+        <string name="error_name">Please Enter Name</string>
+        <string name="error_mobile">Please Enter Mobile Number</string>
+        <string name="contact_us">Contact Us</string>
+        <string name="terms_amp_condition"><![CDATA[Terms and Conditions]]></string>
+        <string name="log_out">Log out</string>
+        <string name="message">Messages</string>
+        <string name="please_enter_mobile_number">Please Enter Mobile Number</string>
+        <string name="please_enter_message">Please Enter Message</string>
+        <string name="term_amp_conditions"><![CDATA[Terms & Conditions]]></string>
+        <string name="privacy_policy"><![CDATA[Privacy Policy]]></string>
+        <string name="profile">Profile</string>
+        <string name="update">Update</string>
+        <string name="finish">finish</string>
+        <string name="skip">skip</string>
+        <string name="login">Login</string>
+        <string name="register">register</string>
+        <string name="don_t_have_account">Don\'t Have Account?</string>
+        <string name="sign_up">Sign Up</string>
+        <string name="or">- or -</string>
+        <string name="facebook">Login with facebook</string>
+        <string name="google">Login with google</string>
+        <string name="login_with">Login with</string>
+        <string name="twitter">twitter</string>
+        <string name="login_to_continue">Login To Continue</string>
+        <string name="signup_here_now">Signup here now!</string>
+        <string name="use_current_location">Use current location</string>
+        <string name="search">Search. . .</string>
+        <string name="hello_welcome">Hello! Welcome</string>
+        <string name="favourite">Favourite</string>
+        <string name="most_popular">Most popular</string>
+        <string name="recommended">recommended</string>
+        <string name="properties">Properties</string>
+        <string name="story_details">Story Details</string>
+        <string name="map">Map</string>
+        <string name="year_of_build">Year Of Build</string>
+        <string name="features">Features</string>
+        <string name="privacy_notice">Privacy Notice</string>
+        <string name="landmark">Landmark</string>
+        <!-- TODO: Remove or change this placeholder text -->
+        <string name="hello_blank_fragment">Hello blank fragment</string>
+        <string name="home">HOME</string>
+        <string name="favorite">Favorite</string>
+        <string name="settings">Settings</string>
+        <string name="notification">Notification</string>
+        <string name="property_name">Property Name</string>
+        <string name="area_size_sqft">Area Size (SqFt)</string>
+        <string name="property_type">Property Type</string>
+
+        <string name="year_of_built">Year of Built</string>
+        <string name="description">Description</string>
+        <string name="property_photos">Property Photos</string>
+        <string name="upload_photo">Upload Photo</string>
+        <string name="add_story">Add Story</string>
+        <string name="edit_story">Edit Story</string>
+        <string name="popular_cities">popular Cities</string>
+        <string name="followers">Followers</string>
+        <string name="recently_viewed">Recently Viewed</string>
+        <string name="country">Country</string>
+        <string name="region">Region</string>
+        <string name="city">City</string>
+        <string name="error_country">Please Select Country</string>
+        <string name="error_region">Please Select Region</string>
+        <string name="error_city">Please Select City</string>
+        <string name="notifications">Notifications</string>
+        <string name="currency">Currency</string>
+        <string name="dollars">Dollars</string>
+        <string name="logout">Logout</string>
+        <string name="faq_s">FAQ\'s</string>
+        <string name="help_support"><![CDATA[Help & support]]></string>
+        <string name="online">Online</string>
+        <string name="error_could_not_connect">Could not connect</string>
+        <string name="user_not_available">User not available</string>
+        <string name="settings_file_name">com.app.sample.fchat.temp</string>
+        <string name="error_account_mobile_number">Please enter mobile number.</string>
+        <string name="select_picture_title">Get Photo From</string>
+        <string name="loading">Loading</string>
+        <string name="chat">Chat</string>
+        <string name="folder">Folder</string>
+        <string name="tap_to_select">Tap to select</string>
+        <string name="enter_otp">Enter OTP</string>
+        <string name="verification_code">Verification Code</string>
+        <string name="didn_t_receive_the_otp">Didn\'t receive the OTP?</string>
+        <string name="resend_code">Resend Code</string>
+        <string name="conne_msg">No Network Connection!!!</string>
+        <string name="otp_dont_match">Otp don\'t matched.</string>
+        <string name="edit_user_details">Edit User Details</string>
+        <string name="take_photo">Take Photo</string>
+        <string name="no_data_available">No Data Available</string>
+        <string name="select_price">Select Price</string>
+        <string name="price">Price</string>
+        <string name="top_rated">Top rated</string>
+        <string name="latest">Latest</string>
+        <string name="for_sale">for sale</string>
+
+        <string name="dollar">$</string>
+        <string name="square_meter"> sq/m</string>
+        <string name="no_reviews"> No Reviews</string>
+        <string name="reviews">  Review</string>
+
+        <string name="rent">For Rent</string>
+        <string name="sale">For Sale</string>
+        <string name="budget">Budget</string>
+
+
+
+        <string name="bedrooms">Bedrooms</string>
+        <string name="bathrooms">Bathrooms</string>
+        <string name="kitchen">Kitchen</string>
+        <string name="kitchens">Kitchens</string>
+        <string name="parkings">Parkings</string>
+        <!-- //  <string name="kitchen">For Kitchen</string>-->
+        <string name="no_kitchen">Kitchen</string>
+
+        <string name="bathroom">Bathroom</string>
+        <!--  <string name="bathrooms">Bathrooms</string>-->
+        <string name="no_bathroom">No Bathroom</string>
+        <string name="bedroom">Bedroom</string>
+        <!--    <string name="bedrooms">Bedrooms</string>-->
+        <string name="no_bedroom">No Bedroom</string>
+        <string name="parking">Parking</string>
+        <!--  <string name="parkings">Parkings</string>-->
+        <string name="no_parking">No Parking</string>
+        <string name="property_owner">Property Owner</string>
+        <string name="call">Call</string>
+        <string name="mail">Mail</string>
+
+
+
+        <string name="rating_msg"> Please give rating.</string>
+        <string name="comment">comment</string>
+        <string name="comments">comments</string>
+        <string name="menu_logout">Logout</string>
+        <string name="logout_msg">Are you sure you want to logout?</string>
+        <string name="error_propety_name">Please Enter Property Name</string>
+        <string name="error_description">Please Enter Description</string>
+        <string name="error_purchase_product_name">Payment Products information invalid</string>
+        <string name="error_purchase_product_description">Payment Products information invalid</string>
+        <string name="error_address">Please Select Address</string>
+        <string name="error_year_of_build">Please Enter Year of Build</string>
+        <string name="error_parkings">Please Enter Number Of Parkings</string>
+        <string name="error_kitchen">Please Enter Number of Kitchens</string>
+        <string name="error_bathrooms">please Enter Number of Bathrooms</string>
+        <string name="error_bedrooms">Please Enter Number of Bedrooms</string>
+        <string name="error_type">Please Select Property Type</string>
+        <string name="error_squareft">Please Enter Property Size</string>
+        <string name="property_price">Property Price</string>
+        <string name="edit">Edit</string>
+        <string name="select_property_type">Select Property Type</string>
+        <string name="select_property_range">Select Property Range</string>
+        <string name="select_payment_options">Select Payment Options</string>
+        <string name="ratings">Ratings</string>
+        <string name="review">Review</string>
+        <string name="search_location">Search Location</string>
+        <string name="location_message">Please enable location,To access the app further services.</string>
+    <string name="story_title">Story Title</string>
+    <string name="story_title_error">Please Enter Story Title</string>
+    <string name="story_tags_tags">Story Tags (#Tags)</string>
+    <string name="story_tags_tags_error">Please Enter Story Tags (#Tags)</string>
+    <string name="category">Category</string>
+    <string name="story_content">Story Content</string>
+    <string name="story_content_error">Please Enter Story Content</string>
+    <string name="photos">Photos</string>
+    <string name="follow">Follow</string>
+
+    <string-array name="rent_sell">
+            <item>Rent</item>
+            <item>Sell</item>
+
+        </string-array>
+
+        <string-array name="rent_sell_id">
+            <item>1</item>
+            <item>2</item>
+
+        </string-array>
+
+        <string-array name="features_list">
+            <item>No Private Pool</item>
+            <item>Area Tennis</item>
+            <item>Yard</item>
+            <item>Garage Apt/Guest House</item>
+            <item>Sprinkler</item>
+            <item>Patio/Deck</item>
+            <item>Media Room</item>
+            <item>Study Room</item>
+            <item>Spa/Hot Tub</item>
+            <item>Waterfront</item>
+            <item>Energy Features</item>
+            <item>Controlled Access</item>
+            <item>Elevator/Elevator Shaft</item>
+            <item>Air Conditioning</item>
+            <item>Central Heating</item>
+            <item>Fire Alarm</item>
+            <item>Electric Range</item>
+            <item>TV Cable</item>
+            <item>Gym</item>
+            <item>WIFI</item>
+            <item>Washer</item>
+        </string-array>
+
+
+        <string-array name="price_range_list">
+            <item>Below 400</item>
+            <item>400-600</item>
+            <item>600-1000</item>
+            <item>Above 1000</item>
+        </string-array>
+
+        <string-array name="price_range_id_list">
+            <item>1</item>
+            <item>2</item>
+            <item>3</item>
+            <item>4</item>
+        </string-array>
+</resources>
