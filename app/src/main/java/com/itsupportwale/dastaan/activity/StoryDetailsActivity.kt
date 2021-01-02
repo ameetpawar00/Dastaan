@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.gson.Gson
 import com.google.gson.JsonObject
@@ -19,6 +20,8 @@ import com.itsupportwale.dastaan.R
 import com.itsupportwale.dastaan.adapters.StoryPhotoAdapter
 import com.itsupportwale.dastaan.adapters.StoryRatingAdapter
 import com.itsupportwale.dastaan.beans.GetStoryDetailsModel
+import com.itsupportwale.dastaan.beans.ResponseStoryDetailsData
+import com.itsupportwale.dastaan.beans.ResponseUpdateBookmarkData
 import com.itsupportwale.dastaan.databinding.ActivityStoryDetailsBinding
 import com.itsupportwale.dastaan.servermanager.UrlManager
 import com.itsupportwale.dastaan.servermanager.UrlManager.Companion.METHOD_NAME
@@ -26,23 +29,21 @@ import com.itsupportwale.dastaan.servermanager.request.CommonValueModel
 import com.itsupportwale.dastaan.utility.API
 import com.itsupportwale.dastaan.utility.CustomRatingBar
 import com.itsupportwale.dastaan.utility.UserPreference
-import dev.amin.tagadapter.Tag
-import dev.amin.tagadapter.TagAdapter
+import kotlinx.android.synthetic.main.row_item_my_subscription.*
+
 
 class StoryDetailsActivity : BaseActivity(), View.OnClickListener, StoryPhotoAdapter.onRecyclerViewItemClickListener{
     lateinit var activityStoryDetailsBinding: ActivityStoryDetailsBinding
 
     private val storyPhotoArray: ArrayList<String> = ArrayList()
     lateinit var storyPhotoAdapter : StoryPhotoAdapter
-    private val storyRatingArray: ArrayList<GetStoryDetailsModel.RatingDatum> = ArrayList()
+    private val storyRatingArray: ArrayList<ResponseStoryDetailsData.RatingDatum> = ArrayList()
     lateinit var storyRatingAdapter : StoryRatingAdapter
     private var userPreference: UserPreference? = null
 
     var storyId: String=""
     var rating = 0.0
 
-    lateinit var featureListAdapter: TagAdapter
-    private val featureList: ArrayList<Tag> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -119,131 +120,97 @@ class StoryDetailsActivity : BaseActivity(), View.OnClickListener, StoryPhotoAda
         super.onSuccess(result, apiName, commonModel)
 
         showLog("HOME_METHOD_NAME-result", result.toString())
-     /*
+
         if(apiName.equals(UrlManager.GET_STORY_DETAILS_METHOD_NAME))
         {
             closeLoader()
-            val model: GetStoryDetailsModel = getGsonAsConvert().fromJson(result, GetStoryDetailsModel::class.java)
-            if (model.status!!&& model.data!=null) {
-                storyPhotoArray.clear()
-                storyPhotoArray.addAll(model.data!!.photo!!)
-                storyPhotoAdapter.notifyDataSetChanged()
+              val model: ResponseStoryDetailsData = getGsonAsConvert().fromJson(result, ResponseStoryDetailsData::class.java)
+              if (model.status!!&& model.data!=null) {
+                  storyPhotoArray.clear()
+                  storyPhotoArray.addAll(model.data!!.photo!!)
+                  storyPhotoAdapter.notifyDataSetChanged()
 
-                storyRatingArray.clear()
-                storyRatingArray.addAll(model.data!!.ratingData!!)
+                  storyRatingArray.clear()
+                  storyRatingArray.addAll(model.data!!.ratingData!!)
 
-                setRatingAdapter()
+                  setRatingAdapter()
 
-                if(storyPhotoArray.size>0)
-                {
+                  if(storyPhotoArray.size>0)
+                  {
+                      activityStoryDetailsBinding.noPicAvailable.visibility = View.GONE
+                      activityStoryDetailsBinding.photoListRv.visibility = View.VISIBLE
 
-                    activityStoryDetailsBinding.noPicAvailable.visibility = View.GONE
-                    activityStoryDetailsBinding.photoListRv.visibility = View.VISIBLE
+                  }else{
+                      activityStoryDetailsBinding.photoListRv.visibility = View.GONE
+                      activityStoryDetailsBinding.noPicAvailable.visibility = View.VISIBLE
+                  }
 
-                }else{
-                    activityStoryDetailsBinding.photoListRv.visibility = View.GONE
-                    activityStoryDetailsBinding.noPicAvailable.visibility = View.VISIBLE
-                }
+                  if(model.data!!.writerData!=null){
+                      if(model.data!!.writerData!!.photo!=null&& model.data!!.writerData!!.photo!!.isNotEmpty()){
+                          Glide.with(this)
+                              .load(model.data!!.writerData!!.photo)
+                              .error(R.drawable.ic_default_image)
+                              .into(activityStoryDetailsBinding.storyWriterImage)
+                          //writerImage = model.data!!.writerData!!.photo!!
+                      }
+                    /*  writerId = model.data!!.writerData!!.id!!
+                      writerName = model.data!!.writerData!!.name!!*/
 
-                if(model.data!!.ownerData!=null){
-                    if(model.data!!.ownerData!!.photo!=null&& model.data!!.ownerData!!.photo!!.isNotEmpty()){
-                        Glide.with(this)
-                            .load(model.data!!.ownerData!!.photo)
-                            .error(R.drawable.ic_default_image)
-                            .into(activityStoryDetailsBinding.storyWriterImage)
-                        ownerImage = model.data!!.ownerData!!.photo!!
-                    }
-                    ownerId = model.data!!.ownerData!!.id!!
-                    ownerName = model.data!!.ownerData!!.name!!
+                      activityStoryDetailsBinding.storyWriterName.text = model.data!!.writerData!!.name
+                  }
 
-                    activityStoryDetailsBinding.storyWriterName.text = model.data!!.ownerData!!.name
-                }
+                  // scheduleAVisitBtn
+                  if(model.data!!.photo!=null && model.data!!.photo!!.isNotEmpty()){
+                      Glide.with(this)
+                          .load(model.data!!.photo!![0])
+                          .error(R.drawable.ic_default_image)
+                          .into(activityStoryDetailsBinding.storyImg)
+                  }
 
-                // scheduleAVisitBtn
-                if(model.data!!.photo!=null && model.data!!.photo!!.isNotEmpty()){
-                    Glide.with(this)
-                        .load(model.data!!.photo!![0])
-                        .error(R.drawable.ic_default_image)
-                        .into(activityStoryDetailsBinding.storyImg)
-                }
+                  activityStoryDetailsBinding.ratingTxt.text = model.data!!.ratingData!!.size.toString()+" "+"Reviews"
 
-                activityStoryDetailsBinding.ratingTxt.text = model.data!!.ratingData!!.size.toString()+" "+"Reviews"
+                  if(userPreference!!.user_id!! == model.data!!.writerData!!.id)
+                  {
+                      activityStoryDetailsBinding.thisEditBtn.visibility = View.VISIBLE
+                  }else{
+                      activityStoryDetailsBinding.thisEditBtn.visibility = View.GONE
+                  }
 
-                if(userPreference!!.user_id!! == model.data!!.ownerData!!.id)
-                {
-                    activityStoryDetailsBinding.thisChatBtn.visibility = View.GONE
-                    activityStoryDetailsBinding.thisEditBtn.visibility = View.VISIBLE
-                }else{
-                    activityStoryDetailsBinding.thisChatBtn.visibility = View.VISIBLE
-                    activityStoryDetailsBinding.thisEditBtn.visibility = View.GONE
-                }
-
-                rating = model.data!!.rating!!.toFloat().toDouble()
+                  rating = model.data!!.rating!!.toFloat().toDouble()
 
 
-                if(model.data!!.isFavourite!!)
-                {
-                    activityStoryDetailsBinding.favImage.setImageBitmap(null)
-                    activityStoryDetailsBinding.favImage.setImageDrawable(resources.getDrawable(R.drawable.favorite_gold_icon))
+                  if(model.data!!.isFavourite!!)
+                  {
+                      activityStoryDetailsBinding.favImage.setImageBitmap(null)
+                      activityStoryDetailsBinding.favImage.setImageDrawable(resources.getDrawable(R.drawable.favorite_gold_icon))
 
-                }else{
-                    activityStoryDetailsBinding.favImage.setImageBitmap(null)
-                    activityStoryDetailsBinding.favImage.setImageDrawable(resources.getDrawable(R.drawable.favorite_gray_icon))
-                }
-
-
-
-                var theseFeaturesList = model.data!!.features!!.split(",")
-                featureList.clear()
-                for (feature in theseFeaturesList) {
-                    if(!feature.equals(""))
-                    {
-                        var tag = Tag()
-                        tag.title= feature
-                        featureList.add(tag)
-                    }
-                }
-                if(featureList.size>0)
-                {
-
-                    activityStoryDetailsBinding.noDataAvailable.visibility = View.GONE
-                    activityStoryDetailsBinding.thisListRv.visibility = View.VISIBLE
-
-                }else{
-                    activityStoryDetailsBinding.thisListRv.visibility = View.GONE
-                    activityStoryDetailsBinding.noDataAvailable.visibility = View.VISIBLE
-                }
-
-                setFeatureAdapter()
+                  }else{
+                      activityStoryDetailsBinding.favImage.setImageBitmap(null)
+                      activityStoryDetailsBinding.favImage.setImageDrawable(resources.getDrawable(R.drawable.favorite_gray_icon))
+                  }
 
 
+                  activityStoryDetailsBinding.storyTitle.text = model.data!!.title
 
+              } else {
+                  showSnackBar(activityStoryDetailsBinding.photoListRv, model.message)
+              }
+          }else if(apiName.equals(UrlManager.SET_STORY_RATING)){
+              closeLoader()
+          }else if(apiName.equals(UrlManager.UPDATE_BOOKMARK_STATUS)){
 
+              closeLoader()
 
-
-                activityStoryDetailsBinding.storyTitle.text = model.data!!.title
-
-            } else {
-                showSnackBar(activityStoryDetailsBinding.photoListRv, model.message)
-            }
-        }else if(apiName.equals(UrlManager.SET_STORY_RATING)){
-            closeLoader()
-        }else if(apiName.equals(UrlManager.SET_FAV)){
-
-            closeLoader()
-
-            val model: SetFavModel = getGsonAsConvert().fromJson(result, SetFavModel::class.java)
+            val model: ResponseUpdateBookmarkData = getGsonAsConvert().fromJson(
+                result,
+                ResponseUpdateBookmarkData::class.java
+            )
             if (model.status!!) {
-                if(model.message.equals("Added to favourite successfully.."))
-                {
-                    activityStoryDetailsBinding.favImage.setImageBitmap(null)
-                    activityStoryDetailsBinding.favImage.setImageDrawable(resources.getDrawable(R.drawable.favorite_gold_icon))
-                }else{
-                    activityStoryDetailsBinding.favImage.setImageBitmap(null)
-                    activityStoryDetailsBinding.favImage.setImageDrawable(resources.getDrawable(R.drawable.favorite_gray_icon))
-                }
+                showSnackBar(activityStoryDetailsBinding.ratingsListRv, "Bookmark Updated Successfully")
+            }else{
+                showSnackBar(activityStoryDetailsBinding.ratingsListRv, model.message)
             }
-        }*/
+          }
     }
     override fun onFailure(message: String?, apiName: String?, commonModel: CommonValueModel?) {
         super.onFailure(message, apiName, commonModel)
@@ -264,12 +231,6 @@ class StoryDetailsActivity : BaseActivity(), View.OnClickListener, StoryPhotoAda
         activityStoryDetailsBinding.ratingsListRv.adapter = storyRatingAdapter
     }
 
-    private fun setFeatureAdapter() {
-        featureListAdapter = TagAdapter(this, featureList, 0)
-        activityStoryDetailsBinding.thisListRv.layoutManager = LinearLayoutManager(this)
-        activityStoryDetailsBinding.thisListRv.adapter = featureListAdapter
-        featureListAdapter.notifyDataSetChanged()
-    }
 
 
 
@@ -287,7 +248,7 @@ class StoryDetailsActivity : BaseActivity(), View.OnClickListener, StoryPhotoAda
                 val params = RequestParams()
                 var commonModel = CommonValueModel()
                 val jsObj = Gson().toJsonTree(API()) as JsonObject
-                jsObj.addProperty(METHOD_NAME, UrlManager.SET_FAV)
+                jsObj.addProperty(METHOD_NAME, UrlManager.UPDATE_BOOKMARK_STATUS)
                 jsObj.addProperty(UrlManager.PARAM_STORY_ID, storyId)
                 jsObj.addProperty(UrlManager.PARAM_USER_ID, userPreference!!.user_id)
                 showLog("HOME_METHOD_NAME-param", jsObj.toString())
@@ -295,7 +256,7 @@ class StoryDetailsActivity : BaseActivity(), View.OnClickListener, StoryPhotoAda
                 apiCall(
                     applicationContext,
                     UrlManager.MAIN_URL,
-                    UrlManager.SET_FAV,
+                    UrlManager.UPDATE_BOOKMARK_STATUS,
                     params,
                     commonModel
                 )

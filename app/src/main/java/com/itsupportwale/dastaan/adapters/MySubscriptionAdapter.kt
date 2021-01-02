@@ -14,10 +14,10 @@ import com.itsupportwale.dastaan.beans.ResponseHomeData
 import com.itsupportwale.dastaan.databinding.RowItemMySubscriptionBinding
 
 
-class MySubscriptionAdapter(activity: Context, arrayList: ArrayList<ResponseHomeData.Story>) : RecyclerView.Adapter<MySubscriptionAdapter.ListViewHolder>() {
+class MySubscriptionAdapter(activity: Context, arrayList: ArrayList<ResponseHomeData.MySubscription>) : RecyclerView.Adapter<MySubscriptionAdapter.ListViewHolder>() {
 
     var activity: Context
-    var arrayList:ArrayList<ResponseHomeData.Story>
+    var arrayList:ArrayList<ResponseHomeData.MySubscription>
 
     init {
         this.activity = activity

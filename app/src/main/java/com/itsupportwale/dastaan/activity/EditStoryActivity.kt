@@ -20,8 +20,6 @@ import com.itsupportwale.dastaan.servermanager.UrlManager
 import com.itsupportwale.dastaan.servermanager.request.CommonValueModel
 import com.itsupportwale.dastaan.utility.*
 import com.squareup.picasso.Picasso
-import dev.amin.tagadapter.Tag
-import dev.amin.tagadapter.TagAdapter
 import io.github.inflationx.viewpump.ViewPumpContextWrapper
 import java.io.File
 import java.io.FileNotFoundException
@@ -30,16 +28,15 @@ import kotlin.collections.ArrayList
 import com.itsupportwale.dastaan.databinding.ActivityEditStoryBinding
 
 
-class EditStoryActivity : BaseActivity(), View.OnClickListener, TagAdapter.onRecyclerViewItemClickListener {
+
+class EditStoryActivity : BaseActivity(), View.OnClickListener {
     lateinit var activityEditStoryBinding: ActivityEditStoryBinding
     private var galleryImages = ArrayList<Image>()
     var isFeatured = false
     var capturedFile: File? = null
 
     var storyId: String? = ""
-    lateinit var featureListAdapter: TagAdapter
-    private val featureList: ArrayList<Tag> = ArrayList()
-    private var featureListCurrent : ArrayList<Tag> = ArrayList()
+
 
     private var userPreference: UserPreference? = null
 
@@ -71,19 +68,8 @@ class EditStoryActivity : BaseActivity(), View.OnClickListener, TagAdapter.onRec
 
     private fun initView() {
 
-        var featuresList = resources.getStringArray(R.array.features_list)
-        featureList.clear()
-        for (i in 0..featuresList.size-1) {
-            var tag = Tag()
-            tag.title= featuresList[i]
-            featureList.add(tag)
-        }
 
-        featureListAdapter = TagAdapter(this, featureList, 0)
-        activityEditStoryBinding.thisListRv.layoutManager = LinearLayoutManager(this)
-        activityEditStoryBinding.thisListRv.adapter = featureListAdapter
-        featureListAdapter.setOnItemClickListener(this)
-        featureListAdapter.notifyDataSetChanged()
+
 
         activityEditStoryBinding.updateBtn.setOnClickListener(this)
         activityEditStoryBinding.uploadPhotoBtn.setOnClickListener(this)
@@ -142,19 +128,6 @@ class EditStoryActivity : BaseActivity(), View.OnClickListener, TagAdapter.onRec
             )
         }else{
 
-            var stringBuilder = StringBuilder()
-            var prefix = ""
-            for(featureData in featureListCurrent)
-            {
-                if(featureData.isSelected!!)
-                {
-                    stringBuilder.append(prefix)
-                    prefix = ","
-                    stringBuilder.append(featureData.title)
-                }
-            }
-
-
             val params = RequestParams()
             showLoader(resources.getString(R.string.please_wait))
             var commonModel = CommonValueModel()
@@ -165,7 +138,7 @@ class EditStoryActivity : BaseActivity(), View.OnClickListener, TagAdapter.onRec
             jsObj.addProperty(UrlManager.PARAM_STORY_TITLE, activityEditStoryBinding.storyTitle.text.toString().trim())
             jsObj.addProperty(UrlManager.PARAM_TAGS, activityEditStoryBinding.storyTags.text.toString().trim())
             jsObj.addProperty(UrlManager.PARAM_STORY_CONTENT, activityEditStoryBinding.storyContent.text.toString().trim())
-            jsObj.addProperty(UrlManager.PARAM_FEATURES, stringBuilder.toString())
+            jsObj.addProperty(UrlManager.PARAM_FEATURES, 1)
             jsObj.addProperty(UrlManager.PARAM_WRITER, userPreference!!.user_id)
             jsObj.addProperty(UrlManager.PARAM_STORY_ID, storyId)
 
@@ -294,16 +267,5 @@ class EditStoryActivity : BaseActivity(), View.OnClickListener, TagAdapter.onRec
         }
     }
 
-    override fun onItemClickListener(position: Int, thisTagList: ArrayList<Tag>, commingFrom: Int) {
-        if(thisTagList[position].isSelected!!)
-        {
-            thisTagList[position].isSelected = false
-        }else{
-            thisTagList[position].isSelected = true
-        }
 
-        featureListAdapter.notifyDataSetChanged()
-        featureListCurrent.clear()
-        featureListCurrent.addAll(thisTagList)
-    }
 }

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/custom_top_curve_bg"
+    android:orientation="vertical"
+    app:behavior_peekHeight="400dp">
+
+    <LinearLayout
+        android:id="@+id/childListParentRelLay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:background="@android:color/transparent"
+        android:baselineAligned="true"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:fontFamily="@font/louis_george_cafe_bold"
+                android:gravity="center"
+                android:text="Select Sort By"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_size_20sp" />
+
+            <ImageView
+                android:id="@+id/cancelImg"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="10dp"
+                android:contentDescription="@null"
+                android:padding="5dp"
+                android:src="@drawable/close_icon" />
+        </RelativeLayout>
+        <TextView
+            android:id="@+id/thisRecent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/dim_15_dp"
+            android:fontFamily="@font/montserrat_bold"
+            android:text="@string/recent_stories"
+            android:textColor="@color/colorPrimary"
+            android:textSize="18sp" />
+        <TextView
+            android:id="@+id/thisMostPopular"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/dim_15_dp"
+            android:fontFamily="@font/montserrat_bold"
+            android:text="@string/popular_stories"
+            android:textColor="@color/colorPrimary"
+            android:textSize="18sp" />
+        <TextView
+            android:id="@+id/thisHighlyRated"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/dim_15_dp"
+            android:fontFamily="@font/montserrat_bold"
+            android:text="@string/highly_rated"
+            android:textColor="@color/colorPrimary"
+            android:textSize="18sp" />
+
+    </LinearLayout>
+</LinearLayout>

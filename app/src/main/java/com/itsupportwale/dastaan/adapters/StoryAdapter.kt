@@ -14,6 +14,10 @@ import com.itsupportwale.dastaan.R
 import com.itsupportwale.dastaan.beans.ResponseHomeData
 import com.itsupportwale.dastaan.databinding.RowItemMySubscriptionBinding
 import com.itsupportwale.dastaan.databinding.RowItemStoryBinding
+import com.itsupportwale.dastaan.utility.CLICK_FROM_FAV
+import com.itsupportwale.dastaan.utility.CLICK_FROM_NOT_FAV
+import com.itsupportwale.dastaan.utility.CLICK_FROM_PARENT
+import com.itsupportwale.dastaan.utility.TAB_PROP_MOST
 
 
 class StoryAdapter(activity: Context, arrayList: ArrayList<ResponseHomeData.Story>) : RecyclerView.Adapter<StoryAdapter.ListViewHolder>() {
@@ -73,7 +77,23 @@ class StoryAdapter(activity: Context, arrayList: ArrayList<ResponseHomeData.Stor
             .error(R.drawable.default_image_icon)
             .into(holder.listBinding.bannerImage)
 
+        holder.listBinding.parentPanel.setOnClickListener{
+            if (mItemClickListener != null) {
+                mItemClickListener?.onItemListItemClickListener(position, CLICK_FROM_PARENT)
+            }
+        }
 
+        holder.listBinding.bookmarked.setOnClickListener{
+            if (mItemClickListener != null) {
+                mItemClickListener?.onItemListItemClickListener(position, CLICK_FROM_FAV)
+            }
+        }
+
+        holder.listBinding.bookmarkedNot.setOnClickListener{
+            if (mItemClickListener != null) {
+                mItemClickListener?.onItemListItemClickListener(position, CLICK_FROM_NOT_FAV)
+            }
+        }
 
 
         /*holder.listBinding.titleTxt.text = arrayList[position].title

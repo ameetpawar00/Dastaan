@@ -216,8 +216,19 @@
     <string name="category">Category</string>
     <string name="story_content">Story Content</string>
     <string name="story_content_error">Please Enter Story Content</string>
+    <string name="story_genre_error">Please Select Story Genre</string>
+    <string name="story_images_error">Please Select Images</string>
     <string name="photos">Photos</string>
     <string name="follow">Follow</string>
+    <string name="recent_title"><u>Recent</u></string>
+    <string name="popular_title"><u>Popular</u></string>
+    <string name="high_rated_title"><u>High Rating</u></string>
+    <string name="discover">Discover</string>
+    <string name="recent_stories">Recent Stories</string>
+    <string name="popular_stories">Popular Stories</string>
+    <string name="highly_rated">Highly Rated</string>
+    <string name="story_genre">Story Genre</string>
+    <string name="select_story_genre">Select Story Genre</string>
 
     <string-array name="rent_sell">
             <item>Rent</item>

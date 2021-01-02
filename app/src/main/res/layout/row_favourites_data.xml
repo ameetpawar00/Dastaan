@@ -28,7 +28,7 @@
                 android:layout_marginEnd="@dimen/dim_20_dp"
                 android:layout_width="@dimen/dim_40_dp"
                 android:layout_height="@dimen/dim_40_dp"
-                android:src="@drawable/ic_baseline_bookmark_border_24"
+                android:src="@drawable/ic_outline_bookmark_24"
                 android:scaleType="fitXY"
                 android:layout_marginTop="-5dp"
                 android:contentDescription="@null"/>
@@ -57,7 +57,7 @@
                             android:id="@+id/bannerImage"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:scaleType="centerCrop"
+                            android:scaleType="fitXY"
                             android:src="@drawable/model_1"
                             android:contentDescription="@null"/>
                         <RelativeLayout
@@ -91,7 +91,6 @@
                                     android:layout_gravity="center_vertical"
                                     android:maxLines="1"
                                     android:fontFamily="@font/montserrat_regular"
-                                    android:text="150"
                                     android:textColor="@color/white"
                                     android:textSize="@dimen/text_size_12sp" />
                             </LinearLayout>
@@ -113,32 +112,29 @@
                         android:textColor="@color/black"
                         android:lines="1"
                         android:ellipsize="end"
-                        android:text="#Love #Magic"
                         android:textSize="@dimen/text_size_14sp"
                         android:fontFamily="@font/louis_george_cafe"
                         />
                     <TextView
-                        android:id="@+id/thisWriterName"
+                        android:id="@+id/thisTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/black"
                         android:textStyle="bold"
                         android:lines="2"
                         android:ellipsize="end"
-                        android:text="Ek Kahani Aisi bhi jaha gam bhi na ho aansu bhi na ho bas pyar hi pyar rahe"
                         android:textSize="@dimen/text_size_16sp"
                         android:fontFamily="@font/montserrat_medium"
                         android:layout_marginVertical="@dimen/dim_10_dp"
                         />
 
                     <TextView
-                        android:id="@+id/thisTime"
+                        android:id="@+id/thisWriterName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/black"
                         android:lines="1"
                         android:ellipsize="end"
-                        android:text="By Amit Kumar Pawar"
                         android:textSize="@dimen/text_size_14sp"
                         android:fontFamily="@font/louis_george_cafe"
                         />
@@ -155,7 +151,6 @@
                             android:textColor="@color/black"
                             android:lines="1"
                             android:ellipsize="end"
-                            android:text="Dec 25, 2020"
                             android:textSize="@dimen/text_size_12sp"
                             android:fontFamily="@font/louis_george_cafe"
                             />
@@ -176,7 +171,6 @@
                             android:textColor="@color/black"
                             android:lines="1"
                             android:ellipsize="end"
-                            android:text="6 Reads"
                             android:textSize="@dimen/text_size_12sp"
                             android:fontFamily="@font/louis_george_cafe"
                             />

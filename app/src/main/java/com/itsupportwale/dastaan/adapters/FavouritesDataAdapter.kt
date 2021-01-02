@@ -2,22 +2,29 @@ package com.itsupportwale.dastaan.adapters
 
 import com.itsupportwale.dastaan.R
 import android.content.Context
+import android.graphics.ColorMatrix
+import android.graphics.ColorMatrixColorFilter
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.itsupportwale.dastaan.beans.GetFavData
+import com.itsupportwale.dastaan.beans.ResponseBookmarkData
 import com.itsupportwale.dastaan.databinding.RowFavouritesDataBinding
+import com.itsupportwale.dastaan.utility.CLICK_FROM_FAV
+import com.itsupportwale.dastaan.utility.CLICK_FROM_NOT_FAV
+import com.itsupportwale.dastaan.utility.CLICK_FROM_PARENT
 import com.itsupportwale.dastaan.utility.TAB_PROP_MOST
 import java.text.NumberFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
-class FavouritesDataAdapter(activity: Context, arrayList:ArrayList<String>) : RecyclerView.Adapter<FavouritesDataAdapter.ListViewHolder>() {
+class FavouritesDataAdapter(activity: Context, arrayList:ArrayList<ResponseBookmarkData.Datum>) : RecyclerView.Adapter<FavouritesDataAdapter.ListViewHolder>() {
 
     var activity: Context
-    var arrayList:ArrayList<String>
+    var arrayList:ArrayList<ResponseBookmarkData.Datum>
 
     init {
         this.activity = activity
@@ -43,24 +50,28 @@ class FavouritesDataAdapter(activity: Context, arrayList:ArrayList<String>) : Re
     }
 
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
-      /*  holder.listBinding.propertyName.text = arrayList[position].title
-        holder.listBinding.price.text =""+activity.resources.getString(R.string.dollar)+" "+ NumberFormat.getNumberInstance(Locale.US).format(arrayList[position].price!!.toDouble())
-        holder.listBinding.size.text = arrayList[position].propertySize+" "+activity.resources.getString(R.string.square_meter)
-        holder.listBinding.ratings.text = arrayList[position].rating+" " +activity.resources.getString(R.string.reviews)
-        if(arrayList[position].photo!=null&& arrayList[position].photo!!.isNotEmpty()){
-            Glide.with(activity).load(arrayList[position].photo!![0]).error(R.drawable.ic_default_image).into( holder.listBinding.propertyImage)
-        }
+        val matrix = ColorMatrix()
+        matrix.setSaturation(0f)
+
+        val filter = ColorMatrixColorFilter(matrix)
+        holder.listBinding.bannerImage.setColorFilter(filter)
+        holder.listBinding.thisTitle.text = arrayList[position].title
+        holder.listBinding.thisWriterName.text = "By "+arrayList[position].writerData!!.name
+        holder.listBinding.storyTags.text = arrayList[position].storyTags
+        holder.listBinding.storyDate.text = arrayList[position].timestamp
+        holder.listBinding.storyReads.text = arrayList[position].view+" Reads"
+        holder.listBinding.ratingTxt.text = arrayList[position].ratings
+
+        Glide.with(activity)
+            .load(arrayList[position].photo!![0])
+            .error(R.drawable.default_image_icon)
+            .into(holder.listBinding.bannerImage)
+
         holder.listBinding.parentPanel.setOnClickListener{
             if (mItemClickListener != null) {
                 mItemClickListener?.onItemListItemClickListener(position)
             }
         }
-
-        if(arrayList[position].type.equals("1")){
-            holder.listBinding.type.text  = activity.resources.getString(R.string.rent)
-        }else{
-            holder.listBinding.type.text  = activity.resources.getString(R.string.sale)
-        }*/
     }
 
     private var mItemClickListener: onRecyclerViewItemClickListener? = null

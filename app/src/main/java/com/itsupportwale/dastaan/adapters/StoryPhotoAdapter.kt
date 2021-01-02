@@ -8,6 +8,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.itsupportwale.dastaan.databinding.RowItemStoryBinding
+import com.itsupportwale.dastaan.databinding.RowItemStoryPhotoBinding
 import com.itsupportwale.dastaan.utility.TAB_PROP_LATEST
 
 import kotlin.collections.ArrayList
@@ -22,16 +23,16 @@ class StoryPhotoAdapter(activity: Context, arrayList:ArrayList<String>) : Recycl
         this.arrayList = arrayList
     }
 
-    class ListViewHolder(listBinding: RowItemStoryBinding) : RecyclerView.ViewHolder(listBinding.root)
+    class ListViewHolder(listBinding: RowItemStoryPhotoBinding) : RecyclerView.ViewHolder(listBinding.root)
     {
-        var listBinding: RowItemStoryBinding
+        var listBinding: RowItemStoryPhotoBinding
         init {
             this.listBinding = listBinding
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
-        val listBinding = DataBindingUtil.inflate<RowItemStoryBinding>(LayoutInflater.from(parent.context), R.layout.row_item_story_photo ,parent ,false  )
+        val listBinding = DataBindingUtil.inflate<RowItemStoryPhotoBinding>(LayoutInflater.from(parent.context), R.layout.row_item_story_photo ,parent ,false  )
 
         return ListViewHolder(listBinding)
     }

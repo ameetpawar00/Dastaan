@@ -7,14 +7,15 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.itsupportwale.dastaan.beans.GetStoryDetailsModel
+import com.itsupportwale.dastaan.beans.ResponseStoryDetailsData
 import com.itsupportwale.dastaan.databinding.RowItemPropertyRatingBinding
 
 import kotlin.collections.ArrayList
 
-class StoryRatingAdapter(activity: Context, arrayList:ArrayList<GetStoryDetailsModel.RatingDatum>) : RecyclerView.Adapter<StoryRatingAdapter.ListViewHolder>() {
+class StoryRatingAdapter(activity: Context, arrayList:ArrayList<ResponseStoryDetailsData.RatingDatum>) : RecyclerView.Adapter<StoryRatingAdapter.ListViewHolder>() {
 
     var activity: Context
-    var arrayList:ArrayList<GetStoryDetailsModel.RatingDatum>
+    var arrayList:ArrayList<ResponseStoryDetailsData.RatingDatum>
 
     init {
         this.activity = activity

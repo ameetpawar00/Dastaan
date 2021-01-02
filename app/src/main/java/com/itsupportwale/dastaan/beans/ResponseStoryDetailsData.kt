@@ -2,10 +2,9 @@ package com.itsupportwale.dastaan.beans
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
-import java.math.BigInteger
 
 
-class ResponseHomeData {
+class ResponseStoryDetailsData {
     @SerializedName("status")
     @Expose
     var status: Boolean? = null
@@ -18,42 +17,11 @@ class ResponseHomeData {
     @Expose
     var message: String? = null
 
+
     class Data {
-        @SerializedName("genre")
-        @Expose
-        var genre: List<Genre>? = null
-
-        @SerializedName("story")
-        @Expose
-        var story: List<Story>? = null
-
-        @SerializedName("my_subscription")
-        @Expose
-        var mySubscription: List<MySubscription>? = null
-
-    }
-
-    class Genre {
         @SerializedName("id")
         @Expose
-        var id: Int? = null
-
-        @SerializedName("name")
-        @Expose
-        var name: String? = null
-
-        @SerializedName("story_count")
-        @Expose
-        var storyCount: Int? = null
-
-        var isSelected: Boolean? = false
-
-    }
-
-    class Story {
-        @SerializedName("id")
-        @Expose
-        var id: BigInteger? = null
+        var id: String? = null
 
         @SerializedName("title")
         @Expose
@@ -83,25 +51,25 @@ class ResponseHomeData {
         @Expose
         var ratings: String? = null
 
-        @SerializedName("view")
+        @SerializedName("photo")
         @Expose
-        var view: String? = null
+        var photo: List<String>? = null
 
         @SerializedName("status")
         @Expose
         var status: String? = null
 
-        @SerializedName("photo")
+        @SerializedName("writer")
         @Expose
-        var photo: List<String>? = null
+        var writer: String? = null
+
+        @SerializedName("view")
+        @Expose
+        var view: String? = null
 
         @SerializedName("timestamp")
         @Expose
         var timestamp: String? = null
-
-        @SerializedName("writer")
-        @Expose
-        var writer: String? = null
 
         @SerializedName("writer_data")
         @Expose
@@ -111,68 +79,13 @@ class ResponseHomeData {
         @Expose
         var isFavourite: Boolean? = null
 
-    }
-
-    class MySubscription {
-        @SerializedName("id")
+        @SerializedName("rating")
         @Expose
-        var id: BigInteger? = null
+        var rating: Int? = null
 
-        @SerializedName("title")
+        @SerializedName("rating_data")
         @Expose
-        var title: String? = null
-
-        @SerializedName("approve_status")
-        @Expose
-        var approveStatus: String? = null
-
-        @SerializedName("content")
-        @Expose
-        var content: String? = null
-
-        @SerializedName("story_tags")
-        @Expose
-        var storyTags: String? = null
-
-        @SerializedName("genre")
-        @Expose
-        var genre: String? = null
-
-        @SerializedName("likes")
-        @Expose
-        var likes: String? = null
-
-        @SerializedName("ratings")
-        @Expose
-        var ratings: String? = null
-
-        @SerializedName("view")
-        @Expose
-        var view: String? = null
-
-        @SerializedName("status")
-        @Expose
-        var status: String? = null
-
-        @SerializedName("photo")
-        @Expose
-        var photo: List<String>? = null
-
-        @SerializedName("timestamp")
-        @Expose
-        var timestamp: String? = null
-
-        @SerializedName("writer")
-        @Expose
-        var writer: String? = null
-
-        @SerializedName("writer_data")
-        @Expose
-        var writerData: WriterData? = null
-
-        @SerializedName("is_favourite")
-        @Expose
-        var isFavourite: Boolean? = null
+        var ratingData: List<RatingDatum>? = null
 
     }
 
@@ -221,6 +134,36 @@ class ResponseHomeData {
         @Expose
         var timestamp: String? = null
 
+    }
+
+    class RatingDatum {
+        @SerializedName("id")
+        @Expose
+        var id: String? = null
+
+        @SerializedName("review")
+        @Expose
+        var review: String? = null
+
+        @SerializedName("rating")
+        @Expose
+        var rating: Float? = null
+
+        @SerializedName("story_id")
+        @Expose
+        var storyId: String? = null
+
+        @SerializedName("reviewer_id")
+        @Expose
+        var reviewerId: String? = null
+
+        @SerializedName("status")
+        @Expose
+        var status: String? = null
+
+        @SerializedName("timestamp")
+        @Expose
+        var timestamp: String? = null
     }
 
 }

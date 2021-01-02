@@ -73,7 +73,6 @@ dependencies {
 //Kotlin
     implementation "com.android.billingclient:billing-ktx:$billing_version"
     implementation project(':imagepicker')
-    implementation project(':tagadapter')
 
 
 }

@@ -2,40 +2,43 @@ package com.itsupportwale.dastaan.activity
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.view.View
+import android.widget.RadioButton
+import android.widget.RadioGroup
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
-import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.gson.Gson
 import com.google.gson.JsonObject
-import com.loopj.android.http.RequestParams
-import com.nguyenhoanglam.imagepicker.model.Config
-import com.nguyenhoanglam.imagepicker.model.Image
-import com.nguyenhoanglam.imagepicker.ui.imagepicker.ImagePicker
 import com.itsupportwale.dastaan.R
+import com.itsupportwale.dastaan.beans.ResponseGenreData
 import com.itsupportwale.dastaan.beans.ResponseStoryAddedData
 import com.itsupportwale.dastaan.databinding.ActivityAddStoryBinding
 import com.itsupportwale.dastaan.servermanager.UrlManager
 import com.itsupportwale.dastaan.servermanager.request.CommonValueModel
-import com.itsupportwale.dastaan.utility.*
+import com.itsupportwale.dastaan.utility.API
+import com.itsupportwale.dastaan.utility.UserPreference
+import com.loopj.android.http.RequestParams
+import com.nguyenhoanglam.imagepicker.model.Config
+import com.nguyenhoanglam.imagepicker.model.Image
+import com.nguyenhoanglam.imagepicker.ui.imagepicker.ImagePicker
 import com.squareup.picasso.Picasso
-import dev.amin.tagadapter.Tag
-import dev.amin.tagadapter.TagAdapter
 import java.io.File
 import java.io.FileNotFoundException
-import kotlin.collections.ArrayList
 
-class AddStoryActivity : BaseActivity(), View.OnClickListener,TagAdapter.onRecyclerViewItemClickListener {
+
+class AddStoryActivity : BaseActivity(), View.OnClickListener {
     lateinit var activityAddStoryBinding: ActivityAddStoryBinding
     private var galleryImages = ArrayList<Image>()
+    private var genreData = ArrayList<ResponseGenreData.Datum>()
     var isFeatured = false
     var capturedFile: File? = null
-    lateinit var featureListAdapter: TagAdapter
-    private val featureList: ArrayList<Tag> = ArrayList()
-    private var featureListCurrent : ArrayList<Tag> = ArrayList()
+    var selectedGenre = 0
     private var userPreference: UserPreference? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,18 +52,6 @@ class AddStoryActivity : BaseActivity(), View.OnClickListener,TagAdapter.onRecyc
     }
 
     private fun submitFormData() {
-        var stringBuilder = StringBuilder()
-        var prefix = ""
-        for(featureData in featureListCurrent)
-        {
-            if(featureData.isSelected!!)
-            {
-                stringBuilder.append(prefix)
-                prefix = ","
-                stringBuilder.append(featureData.title)
-            }
-        }
-
         val params = RequestParams()
         showLoader(resources.getString(R.string.please_wait))
         var commonModel = CommonValueModel()
@@ -70,7 +61,7 @@ class AddStoryActivity : BaseActivity(), View.OnClickListener,TagAdapter.onRecyc
         jsObj.addProperty(UrlManager.PARAM_TITLE, activityAddStoryBinding.storyTitle.text.toString().trim())
         jsObj.addProperty(UrlManager.PARAM_CONTENT, activityAddStoryBinding.storyContent.text.toString().trim())
         jsObj.addProperty(UrlManager.PARAM_STORY_TAGS, activityAddStoryBinding.storyTags.text.toString().trim())
-        jsObj.addProperty(UrlManager.PARAM_GENRE, 1)
+        jsObj.addProperty(UrlManager.PARAM_GENRE, selectedGenre)
         jsObj.addProperty(UrlManager.PARAM_WRITER, userPreference!!.user_id)
 
         if(galleryImages.size>0)
@@ -105,6 +96,7 @@ class AddStoryActivity : BaseActivity(), View.OnClickListener,TagAdapter.onRecyc
 
     private fun initView() {
 
+        activityAddStoryBinding.storyGenre.setOnClickListener(this)
         activityAddStoryBinding.submitBtn.setOnClickListener(this)
         activityAddStoryBinding.uploadPhotoBtn.setOnClickListener(this)
         activityAddStoryBinding.topNavBar.backIcon.setOnClickListener(this)
@@ -123,29 +115,29 @@ class AddStoryActivity : BaseActivity(), View.OnClickListener,TagAdapter.onRecyc
             )
         )
 
-        var featuresList = resources.getStringArray(R.array.features_list)
-        featureList.clear()
-        for (i in 0..featuresList.size-1) {
-            var tag = Tag()
-            tag.title= featuresList[i]
-            featureList.add(tag)
-        }
+        callGetGenreApi()
+    }
 
-        featureListAdapter = TagAdapter(this, featureList, 0)
-        activityAddStoryBinding.thisListRv.layoutManager = LinearLayoutManager(this)
-        activityAddStoryBinding.thisListRv.adapter = featureListAdapter
-        featureListAdapter.setOnItemClickListener(this)
-        featureListAdapter.notifyDataSetChanged()
+
+    private fun callGetGenreApi() {
+
+        val params = RequestParams()
+        showLoader(resources.getString(R.string.please_wait))
+        var commonModel = CommonValueModel()
+        val jsObj = Gson().toJsonTree(API()) as JsonObject
+        jsObj.addProperty(UrlManager.METHOD_NAME, UrlManager.GET_GENRE_METHOD_NAME)
+        params.put("data", API.toBase64(jsObj.toString()))
+        apiCall(
+            this,
+            UrlManager.MAIN_URL,
+            UrlManager.GET_GENRE_METHOD_NAME,
+            params,
+            commonModel
+        )
+        Log.d("paramsparams", API.toBase64(jsObj.toString()))
     }
 
     private fun checkValiadtion() {
-        /*else if (TextUtils.isEmpty(activityAddPropertyBinding.countryLinLay.text.toString().trim())) {
-            showSnackBar(activityAddPropertyBinding.countryLinLay, resources.getString(R.string.error_country))
-        }else if (TextUtils.isEmpty(activityAddPropertyBinding.regionLinLay.text.toString().trim())) {
-            showSnackBar(activityAddPropertyBinding.regionLinLay, resources.getString(R.string.error_region))
-        }else if (TextUtils.isEmpty(activityAddPropertyBinding.cityLinLay.text.toString().trim())) {
-            showSnackBar(activityAddPropertyBinding.cityLinLay, resources.getString(R.string.error_city))
-        }*/
         if (TextUtils.isEmpty(activityAddStoryBinding.storyTitle.text.toString().trim())) {
             showSnackBar(
                 activityAddStoryBinding.storyTitle,
@@ -165,6 +157,16 @@ class AddStoryActivity : BaseActivity(), View.OnClickListener,TagAdapter.onRecyc
                 activityAddStoryBinding.storyContent,
                 resources.getString(R.string.story_content_error)
             )
+        }else if (selectedGenre!=0) {
+            showSnackBar(
+                activityAddStoryBinding.storyContent,
+                resources.getString(R.string.story_genre_error)
+            )
+        }else if (galleryImages.size==0) {
+            showSnackBar(
+                activityAddStoryBinding.storyContent,
+                resources.getString(R.string.story_images_error)
+            )
         }else{
             submitFormData()
         }
@@ -174,19 +176,29 @@ class AddStoryActivity : BaseActivity(), View.OnClickListener,TagAdapter.onRecyc
     override fun onSuccess(result: String?, apiName: String?, commonModel: CommonValueModel?) {
         super.onSuccess(result, apiName, commonModel)
 
-            showLog("HOME_METHOD_NAME-result", result.toString())
+        showLog("HOME_METHOD_NAME-result", result.toString())
 
-           if(apiName.equals(UrlManager.ADD_STORY_METHOD_NAME))
-           {
-               closeLoader()
-               val model: ResponseStoryAddedData = getGsonAsConvert().fromJson(result, ResponseStoryAddedData::class.java)
-               if (model.status!!) {
-                   showSnackBar(activityAddStoryBinding.storyContent, model.message)
-                   finish()
-               } else {
-                   showSnackBar(activityAddStoryBinding.storyContent, model.message)
-               }
-           }
+        if(apiName.equals(UrlManager.GET_GENRE_METHOD_NAME))
+        {
+            closeLoader()
+            val model: ResponseGenreData = getGsonAsConvert().fromJson(result, ResponseGenreData::class.java)
+            if (model.status!!) {
+
+                genreData.addAll(model.data!!)
+            } else {
+                showSnackBar(activityAddStoryBinding.storyContent, model.message)
+            }
+        }else if(apiName.equals(UrlManager.ADD_STORY_METHOD_NAME))
+        {
+            closeLoader()
+            val model: ResponseStoryAddedData = getGsonAsConvert().fromJson(result, ResponseStoryAddedData::class.java)
+            if (model.status!!) {
+                showSnackBar(activityAddStoryBinding.storyContent, model.message)
+                finish()
+            } else {
+                showSnackBar(activityAddStoryBinding.storyContent, model.message)
+            }
+        }
     }
     override fun onFailure(message: String?, apiName: String?, commonModel: CommonValueModel?) {
         super.onFailure(message, apiName, commonModel)
@@ -207,6 +219,9 @@ class AddStoryActivity : BaseActivity(), View.OnClickListener,TagAdapter.onRecyc
             }
             R.id.submitBtn -> {
                 checkValiadtion()
+            }
+            R.id.storyGenre -> {
+                initializeChildBottomBar()
             }
         }
     }
@@ -233,16 +248,37 @@ class AddStoryActivity : BaseActivity(), View.OnClickListener,TagAdapter.onRecyc
         }
     }
 
-    override fun onItemClickListener(position: Int, thisTagList: ArrayList<Tag>, commingFrom: Int) {
+    var bottomSheetDialog: BottomSheetDialog? = null
+    fun initializeChildBottomBar() {
+        bottomSheetDialog = BottomSheetDialog(this)
+        val parentView = layoutInflater.inflate(R.layout.bottom_sheet_genre, null)
+        bottomSheetDialog!!.setContentView(parentView)
+        parentView.minimumHeight = 200
+        (parentView.parent as View).setBackgroundColor(Color.TRANSPARENT)
 
-        if(thisTagList[position].isSelected!!)
-        {
-            thisTagList[position].isSelected = false
-        }else{
-            thisTagList[position].isSelected = true
+        parentView.findViewById<View>(R.id.cancelImg)
+            .setOnClickListener { bottomSheetDialog!!.cancel() }
+
+        val hourButtonLayout =
+            parentView.findViewById<RadioGroup>(R.id.hour_radio_group)  // This is the id of the RadioGroup we defined
+
+        for (data in genreData) {
+            val button = RadioButton(this)
+            button.id = data.id!!
+            button.text = data.name
+            button.isChecked =  (data.id!! == selectedGenre) // Only select button with same index as currently selected number of hours
+            button.setBackgroundResource(R.drawable.item_selector) // This is a custom button drawable, defined in XML
+            hourButtonLayout.addView(button)
         }
-        featureListAdapter.notifyDataSetChanged()
-        featureListCurrent.clear()
-        featureListCurrent.addAll(thisTagList)
+
+        hourButtonLayout.setOnCheckedChangeListener(RadioGroup.OnCheckedChangeListener { radioGroup, i ->
+            val radioButton = radioGroup.findViewById<View>(i)
+            val index = radioGroup.indexOfChild(radioButton)
+            activityAddStoryBinding.storyGenre.text = genreData[index].name
+            selectedGenre = genreData[index].id!!
+            bottomSheetDialog!!.dismiss()
+        })
+        bottomSheetDialog!!.show()
     }
+
 }
