@@ -2,13 +2,19 @@ package com.itsupportwale.dastaan.activity
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.view.View
+import android.widget.RadioButton
+import android.widget.RadioGroup
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.loopj.android.http.RequestParams
@@ -16,6 +22,10 @@ import com.nguyenhoanglam.imagepicker.model.Config
 import com.nguyenhoanglam.imagepicker.model.Image
 import com.nguyenhoanglam.imagepicker.ui.imagepicker.ImagePicker
 import com.itsupportwale.dastaan.R
+import com.itsupportwale.dastaan.beans.GetStoryDetailsModel
+import com.itsupportwale.dastaan.beans.ResponseGenreData
+import com.itsupportwale.dastaan.beans.ResponseStoryDetailsData
+import com.itsupportwale.dastaan.beans.ResponseUpdateStoryData
 import com.itsupportwale.dastaan.servermanager.UrlManager
 import com.itsupportwale.dastaan.servermanager.request.CommonValueModel
 import com.itsupportwale.dastaan.utility.*
@@ -34,9 +44,10 @@ class EditStoryActivity : BaseActivity(), View.OnClickListener {
     private var galleryImages = ArrayList<Image>()
     var isFeatured = false
     var capturedFile: File? = null
-
-    var storyId: String? = ""
-
+    var selectedGenre = 0
+    var previousGenre = 0
+    var storyId: Int? = 0
+    private var genreData = ArrayList<ResponseGenreData.Datum>()
 
     private var userPreference: UserPreference? = null
 
@@ -60,7 +71,7 @@ class EditStoryActivity : BaseActivity(), View.OnClickListener {
     private fun getBundleData() {
         val extras = intent.extras
         if (null != extras) {
-            storyId = extras.getString(UrlManager.PARAM_STORY_ID, "")
+            storyId = extras.getInt(UrlManager.PARAM_STORY_ID)
             getStoryDetails()
         }
 
@@ -71,6 +82,7 @@ class EditStoryActivity : BaseActivity(), View.OnClickListener {
 
 
 
+        activityEditStoryBinding.storyGenre.setOnClickListener(this)
         activityEditStoryBinding.updateBtn.setOnClickListener(this)
         activityEditStoryBinding.uploadPhotoBtn.setOnClickListener(this)
         activityEditStoryBinding.topNavBar.backIcon.setOnClickListener(this)
@@ -126,7 +138,13 @@ class EditStoryActivity : BaseActivity(), View.OnClickListener {
                 activityEditStoryBinding.storyContent,
                 resources.getString(R.string.story_content_error)
             )
+        }else if (selectedGenre==0) {
+            showSnackBar(
+                activityEditStoryBinding.storyContent,
+                resources.getString(R.string.story_genre_error)
+            )
         }else{
+
 
             val params = RequestParams()
             showLoader(resources.getString(R.string.please_wait))
@@ -135,10 +153,11 @@ class EditStoryActivity : BaseActivity(), View.OnClickListener {
             val jsObj = Gson().toJsonTree(API()) as JsonObject
             jsObj.addProperty(UrlManager.METHOD_NAME, UrlManager.EDIT_STORY_METHOD_NAME)
 
-            jsObj.addProperty(UrlManager.PARAM_STORY_TITLE, activityEditStoryBinding.storyTitle.text.toString().trim())
-            jsObj.addProperty(UrlManager.PARAM_TAGS, activityEditStoryBinding.storyTags.text.toString().trim())
-            jsObj.addProperty(UrlManager.PARAM_STORY_CONTENT, activityEditStoryBinding.storyContent.text.toString().trim())
-            jsObj.addProperty(UrlManager.PARAM_FEATURES, 1)
+            jsObj.addProperty(UrlManager.PARAM_TITLE, activityEditStoryBinding.storyTitle.text.toString().trim())
+            jsObj.addProperty(UrlManager.PARAM_STORY_TAGS, activityEditStoryBinding.storyTags.text.toString().trim())
+            jsObj.addProperty(UrlManager.PARAM_CONTENT, activityEditStoryBinding.storyContent.text.toString().trim())
+            jsObj.addProperty(UrlManager.PARAM_GENRE, selectedGenre)
+            jsObj.addProperty(UrlManager.PARAM_GENRE_OLD, previousGenre)
             jsObj.addProperty(UrlManager.PARAM_WRITER, userPreference!!.user_id)
             jsObj.addProperty(UrlManager.PARAM_STORY_ID, storyId)
 
@@ -167,59 +186,44 @@ class EditStoryActivity : BaseActivity(), View.OnClickListener {
         super.onSuccess(result, apiName, commonModel)
         closeLoader()
 
-       /* if(apiName.equals(UrlManager.EDIT_STORY_METHOD_NAME)) {
-            val model: UpdateStoryData = getGsonAsConvert().fromJson(result, UpdateStoryData::class.java)
+        if(apiName.equals(UrlManager.GET_GENRE_METHOD_NAME))
+        {
+            closeLoader()
+            val model: ResponseGenreData = getGsonAsConvert().fromJson(result, ResponseGenreData::class.java)
+            if (model.status!!) {
+
+                genreData.addAll(model.data!!)
+            } else {
+                showSnackBar(activityEditStoryBinding.storyContent, model.message)
+            }
+        }else if(apiName.equals(UrlManager.EDIT_STORY_METHOD_NAME)) {
+            showLog("HOME_METHOD_NAME-result", result.toString())
+            val model: ResponseUpdateStoryData = getGsonAsConvert().fromJson(result, ResponseUpdateStoryData::class.java)
             if (model.status!! && model.message != null) {
-                showSnackBar(activityEditStoryBinding.cityLinLay, model.message)
+                showSnackBar(activityEditStoryBinding.storyContent, model.message)
+                finish()
+            }else{
+                showSnackBar(activityEditStoryBinding.storyContent, model.message)
             }
         }else if(apiName.equals(UrlManager.GET_STORY_DETAILS_METHOD_NAME)) {
             showLog("HOME_METHOD_NAME-result", result.toString())
-            val model: GetStoryDetailsModel = getGsonAsConvert().fromJson(result, GetStoryDetailsModel::class.java)
+            val model: ResponseStoryDetailsData = getGsonAsConvert().fromJson(result, ResponseStoryDetailsData::class.java)
             if (model.status!! && model.data != null) {
-
-                activityEditStoryBinding.edtStoryName.setText(model.data!!.title)
-                activityEditStoryBinding.edtLandmark.setText(model.data!!.landmark)
-                defaultStoryType = model.data!!.type!!
-                if(model.data!!.type==1){
-                    activityEditStoryBinding.edtStoryType.setText(resources.getString(R.string.rent))
-                }else{
-                    activityEditStoryBinding.edtStoryType.setText(resources.getString(R.string.sale))
+                activityEditStoryBinding.storyTitle.setText(model.data!!.title)
+                activityEditStoryBinding.storyContent.setText(model.data!!.content)
+                activityEditStoryBinding.storyGenre.setText(model.data!!.genre)
+                activityEditStoryBinding.storyTags.setText(model.data!!.storyTags)
+                selectedGenre = model.data!!.genreId!!
+                previousGenre = model.data!!.genreId!!
+                callGetGenreApi()
+                if(model.data!!.photo!=null && model.data!!.photo!!.isNotEmpty()){
+                    Glide.with(this)
+                        .load(model.data!!.photo!![0])
+                        .error(R.drawable.ic_default_image)
+                        .into(activityEditStoryBinding.imageFeatured)
                 }
-                activityEditStoryBinding.edtStoryPrice.setText(model.data!!.price)
-                activityEditStoryBinding.edtAreaSizeSqft.setText(model.data!!.propertySize)
-                activityEditStoryBinding.edtKitchen.setText(model.data!!.kitchen)
-                activityEditStoryBinding.edtBathrooms.setText(model.data!!.bathroom)
-                activityEditStoryBinding.edtBedrooms.setText(model.data!!.bedroom)
-                activityEditStoryBinding.edtParkings.setText(model.data!!.parking)
-                activityEditStoryBinding.edtYearOfBuilt.setText(model.data!!.yearBuild)
-                activityEditStoryBinding.edtDescription.setText(model.data!!.description)
-                activityEditStoryBinding.countryLinLay.setText(model.data!!.countryName)
-                activityEditStoryBinding.regionLinLay.setText(model.data!!.regionName)
-                activityEditStoryBinding.cityLinLay.setText(model.data!!.cityName)
-                activityEditStoryBinding.etLocation.setText(model.data!!.address)
-                gblLatitude = parseDouble(model.data!!.latitude!!)
-                gblLongitude = parseDouble(model.data!!.longitude!!)
-
-                var thisSelectedOne = model.data!!.features!!.split(",")
-                var stringBuilder = StringBuilder()
-                var prefix = ""
-                for((index, value) in featureList.withIndex()  )
-                {
-                    if(thisSelectedOne.contains(value.title) )
-                    {
-                        featureList[index].isSelected = true
-                    }
-                }
-                featureListAdapter.notifyDataSetChanged()
-
-                //activityEditStoryBinding.cityLinLay.setText(model.data!!.features)
-
-                countryId = model.data!!.country
-                regionId = model.data!!.state
-                cityId = model.data!!.city
-
             }
-        }*/
+        }
     }
 
     override fun onFailure(message: String?, apiName: String?, commonModel: CommonValueModel?) {
@@ -227,6 +231,25 @@ class EditStoryActivity : BaseActivity(), View.OnClickListener {
         closeLoader()
         showLog("HOME_METHOD_NAME-result", message.toString())
         showSnackBar(activityEditStoryBinding.imageFeatured, message.toString())
+    }
+
+
+    private fun callGetGenreApi() {
+
+        val params = RequestParams()
+        showLoader(resources.getString(R.string.please_wait))
+        var commonModel = CommonValueModel()
+        val jsObj = Gson().toJsonTree(API()) as JsonObject
+        jsObj.addProperty(UrlManager.METHOD_NAME, UrlManager.GET_GENRE_METHOD_NAME)
+        params.put("data", API.toBase64(jsObj.toString()))
+        apiCall(
+            this,
+            UrlManager.MAIN_URL,
+            UrlManager.GET_GENRE_METHOD_NAME,
+            params,
+            commonModel
+        )
+        Log.d("paramsparams", API.toBase64(jsObj.toString()))
     }
 
     override fun onClick(view: View?) {
@@ -238,6 +261,9 @@ class EditStoryActivity : BaseActivity(), View.OnClickListener {
             }
             R.id.uploadPhotoBtn -> {
                 chooseGalleryImage()
+            }
+            R.id.storyGenre -> {
+                initializeChildBottomBar()
             }
             R.id.updateBtn -> {
                 checkValiadtion()
@@ -268,4 +294,36 @@ class EditStoryActivity : BaseActivity(), View.OnClickListener {
     }
 
 
+    var bottomSheetDialog: BottomSheetDialog? = null
+    fun initializeChildBottomBar() {
+        bottomSheetDialog = BottomSheetDialog(this)
+        val parentView = layoutInflater.inflate(R.layout.bottom_sheet_genre, null)
+        bottomSheetDialog!!.setContentView(parentView)
+        parentView.minimumHeight = 200
+        (parentView.parent as View).setBackgroundColor(Color.TRANSPARENT)
+
+        parentView.findViewById<View>(R.id.cancelImg)
+            .setOnClickListener { bottomSheetDialog!!.cancel() }
+
+        val hourButtonLayout =
+            parentView.findViewById<RadioGroup>(R.id.hour_radio_group)  // This is the id of the RadioGroup we defined
+
+        for (data in genreData) {
+            val button = RadioButton(this)
+            button.id = data.id!!
+            button.text = data.name
+            button.isChecked =  (data.id!! == selectedGenre) // Only select button with same index as currently selected number of hours
+            button.setBackgroundResource(R.drawable.item_selector) // This is a custom button drawable, defined in XML
+            hourButtonLayout.addView(button)
+        }
+
+        hourButtonLayout.setOnCheckedChangeListener(RadioGroup.OnCheckedChangeListener { radioGroup, i ->
+            val radioButton = radioGroup.findViewById<View>(i)
+            val index = radioGroup.indexOfChild(radioButton)
+            activityEditStoryBinding.storyGenre.text = genreData[index].name
+            selectedGenre = genreData[index].id!!
+            bottomSheetDialog!!.dismiss()
+        })
+        bottomSheetDialog!!.show()
+    }
 }

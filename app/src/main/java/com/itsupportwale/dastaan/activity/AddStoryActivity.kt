@@ -157,7 +157,7 @@ class AddStoryActivity : BaseActivity(), View.OnClickListener {
                 activityAddStoryBinding.storyContent,
                 resources.getString(R.string.story_content_error)
             )
-        }else if (selectedGenre!=0) {
+        }else if (selectedGenre==0) {
             showSnackBar(
                 activityAddStoryBinding.storyContent,
                 resources.getString(R.string.story_genre_error)

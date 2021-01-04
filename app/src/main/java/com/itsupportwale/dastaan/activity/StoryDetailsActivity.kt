@@ -3,6 +3,7 @@ package com.itsupportwale.dastaan.activity
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.EditText
@@ -15,21 +16,20 @@ import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.gson.Gson
 import com.google.gson.JsonObject
-import com.loopj.android.http.RequestParams
 import com.itsupportwale.dastaan.R
 import com.itsupportwale.dastaan.adapters.StoryPhotoAdapter
 import com.itsupportwale.dastaan.adapters.StoryRatingAdapter
-import com.itsupportwale.dastaan.beans.GetStoryDetailsModel
 import com.itsupportwale.dastaan.beans.ResponseStoryDetailsData
 import com.itsupportwale.dastaan.beans.ResponseUpdateBookmarkData
+import com.itsupportwale.dastaan.beans.ResponseUpdateFollowing
 import com.itsupportwale.dastaan.databinding.ActivityStoryDetailsBinding
 import com.itsupportwale.dastaan.servermanager.UrlManager
 import com.itsupportwale.dastaan.servermanager.UrlManager.Companion.METHOD_NAME
+import com.itsupportwale.dastaan.servermanager.UrlManager.Companion.PARAM_WRITER_ID
 import com.itsupportwale.dastaan.servermanager.request.CommonValueModel
-import com.itsupportwale.dastaan.utility.API
-import com.itsupportwale.dastaan.utility.CustomRatingBar
-import com.itsupportwale.dastaan.utility.UserPreference
-import kotlinx.android.synthetic.main.row_item_my_subscription.*
+import com.itsupportwale.dastaan.utility.*
+import com.loopj.android.http.RequestParams
+import kotlinx.android.synthetic.main.activity_story_details.*
 
 
 class StoryDetailsActivity : BaseActivity(), View.OnClickListener, StoryPhotoAdapter.onRecyclerViewItemClickListener{
@@ -41,7 +41,8 @@ class StoryDetailsActivity : BaseActivity(), View.OnClickListener, StoryPhotoAda
     lateinit var storyRatingAdapter : StoryRatingAdapter
     private var userPreference: UserPreference? = null
 
-    var storyId: String=""
+    var storyId: Int=0
+    var writerId: Int=0
     var rating = 0.0
 
 
@@ -52,17 +53,20 @@ class StoryDetailsActivity : BaseActivity(), View.OnClickListener, StoryPhotoAda
             R.layout.activity_story_details
         )
         userPreference = UserPreference.getInstance(this)
-
+        initView()
     }
 
     override fun onResume() {
         super.onResume()
-        initView()
+        getStoryDetails()
     }
     fun initView()
     {
         activityStoryDetailsBinding.shareBtn.setOnClickListener(this)
         activityStoryDetailsBinding.ratingLinLay.setOnClickListener(this)
+        activityStoryDetailsBinding.userLinLay.setOnClickListener(this)
+        activityStoryDetailsBinding.followBtn.setOnClickListener(this)
+        activityStoryDetailsBinding.followingBtn.setOnClickListener(this)
         activityStoryDetailsBinding.favoritesLinLay.setOnClickListener(this)
         activityStoryDetailsBinding.thisEditBtn.setOnClickListener(this)
         activityStoryDetailsBinding.topNavBar.notificationIcon.visibility = View.GONE
@@ -89,7 +93,7 @@ class StoryDetailsActivity : BaseActivity(), View.OnClickListener, StoryPhotoAda
     private fun getBundleData() {
         val extras = intent.extras
         if (null != extras) {
-            storyId = extras.getString(UrlManager.PARAM_STORY_ID, "")
+            storyId = extras.getInt(UrlManager.PARAM_STORY_ID)
             getStoryDetails()
         }
 
@@ -124,93 +128,124 @@ class StoryDetailsActivity : BaseActivity(), View.OnClickListener, StoryPhotoAda
         if(apiName.equals(UrlManager.GET_STORY_DETAILS_METHOD_NAME))
         {
             closeLoader()
-              val model: ResponseStoryDetailsData = getGsonAsConvert().fromJson(result, ResponseStoryDetailsData::class.java)
-              if (model.status!!&& model.data!=null) {
-                  storyPhotoArray.clear()
-                  storyPhotoArray.addAll(model.data!!.photo!!)
-                  storyPhotoAdapter.notifyDataSetChanged()
+            val model: ResponseStoryDetailsData = getGsonAsConvert().fromJson(result, ResponseStoryDetailsData::class.java)
+            if (model.status!!&& model.data!=null) {
+                storyPhotoArray.clear()
+                storyPhotoArray.addAll(model.data!!.photo!!)
+                storyPhotoAdapter.notifyDataSetChanged()
 
-                  storyRatingArray.clear()
-                  storyRatingArray.addAll(model.data!!.ratingData!!)
+                storyRatingArray.clear()
+                storyRatingArray.addAll(model.data!!.ratingData!!)
 
-                  setRatingAdapter()
+                setRatingAdapter()
 
-                  if(storyPhotoArray.size>0)
-                  {
-                      activityStoryDetailsBinding.noPicAvailable.visibility = View.GONE
-                      activityStoryDetailsBinding.photoListRv.visibility = View.VISIBLE
+                if(storyPhotoArray.size>0)
+                {
+                    activityStoryDetailsBinding.noPicAvailable.visibility = View.GONE
+                    activityStoryDetailsBinding.photoListRv.visibility = View.VISIBLE
 
-                  }else{
-                      activityStoryDetailsBinding.photoListRv.visibility = View.GONE
-                      activityStoryDetailsBinding.noPicAvailable.visibility = View.VISIBLE
-                  }
+                }else{
+                    activityStoryDetailsBinding.photoListRv.visibility = View.GONE
+                    activityStoryDetailsBinding.noPicAvailable.visibility = View.VISIBLE
+                }
 
-                  if(model.data!!.writerData!=null){
-                      if(model.data!!.writerData!!.photo!=null&& model.data!!.writerData!!.photo!!.isNotEmpty()){
-                          Glide.with(this)
-                              .load(model.data!!.writerData!!.photo)
-                              .error(R.drawable.ic_default_image)
-                              .into(activityStoryDetailsBinding.storyWriterImage)
-                          //writerImage = model.data!!.writerData!!.photo!!
-                      }
+                if(model.data!!.writerData!=null){
+                    if(model.data!!.writerData!!.photo!=null&& model.data!!.writerData!!.photo!!.isNotEmpty()){
+                        Glide.with(this)
+                            .load(model.data!!.writerData!!.photo)
+                            .error(R.drawable.ic_default_image)
+                            .into(activityStoryDetailsBinding.storyWriterImage)
+                        //writerImage = model.data!!.writerData!!.photo!!
+                        activityStoryDetailsBinding.storyWriterName.text = model.data!!.writerData!!.name!!
+                        activityStoryDetailsBinding.storyWriterEmail.text = model.data!!.writerData!!.email!!
+                        writerId = model.data!!.writerData!!.id!!
+                    }
                     /*  writerId = model.data!!.writerData!!.id!!
                       writerName = model.data!!.writerData!!.name!!*/
 
-                      activityStoryDetailsBinding.storyWriterName.text = model.data!!.writerData!!.name
-                  }
+                    activityStoryDetailsBinding.storyWriterName.text = model.data!!.writerData!!.name
+                }
 
-                  // scheduleAVisitBtn
-                  if(model.data!!.photo!=null && model.data!!.photo!!.isNotEmpty()){
-                      Glide.with(this)
-                          .load(model.data!!.photo!![0])
-                          .error(R.drawable.ic_default_image)
-                          .into(activityStoryDetailsBinding.storyImg)
-                  }
+                // scheduleAVisitBtn
+                if(model.data!!.photo!=null && model.data!!.photo!!.isNotEmpty()){
+                    Glide.with(this)
+                        .load(model.data!!.photo!![0])
+                        .error(R.drawable.ic_default_image)
+                        .into(activityStoryDetailsBinding.storyImg)
+                }
 
-                  activityStoryDetailsBinding.ratingTxt.text = model.data!!.ratingData!!.size.toString()+" "+"Reviews"
+                activityStoryDetailsBinding.ratingTxt.text = model.data!!.ratingData!!.size.toString()+" "+"Reviews"
 
-                  if(userPreference!!.user_id!! == model.data!!.writerData!!.id)
-                  {
-                      activityStoryDetailsBinding.thisEditBtn.visibility = View.VISIBLE
-                  }else{
-                      activityStoryDetailsBinding.thisEditBtn.visibility = View.GONE
-                  }
-
-                  rating = model.data!!.rating!!.toFloat().toDouble()
+                if(userPreference!!.user_id!! == model.data!!.writerData!!.id)
+                {
+                    activityStoryDetailsBinding.thisEditBtn.visibility = View.VISIBLE
+                }else{
+                    activityStoryDetailsBinding.thisEditBtn.visibility = View.GONE
+                }
 
 
-                  if(model.data!!.isFavourite!!)
-                  {
-                      activityStoryDetailsBinding.favImage.setImageBitmap(null)
-                      activityStoryDetailsBinding.favImage.setImageDrawable(resources.getDrawable(R.drawable.favorite_gold_icon))
+                if(model.data!!.isFollowing!!)
+                {
+                    activityStoryDetailsBinding.followBtn.visibility = View.GONE
+                    activityStoryDetailsBinding.followingBtn.visibility = View.VISIBLE
+                }else{
+                    activityStoryDetailsBinding.followBtn.visibility = View.VISIBLE
+                    activityStoryDetailsBinding.followingBtn.visibility = View.GONE
+                }
 
-                  }else{
-                      activityStoryDetailsBinding.favImage.setImageBitmap(null)
-                      activityStoryDetailsBinding.favImage.setImageDrawable(resources.getDrawable(R.drawable.favorite_gray_icon))
-                  }
+                rating = model.data!!.rating!!.toFloat().toDouble()
 
 
-                  activityStoryDetailsBinding.storyTitle.text = model.data!!.title
+                if(model.data!!.isFavourite!!)
+                {
+                    activityStoryDetailsBinding.favImage.setImageBitmap(null)
+                    activityStoryDetailsBinding.favImage.setImageDrawable(resources.getDrawable(R.drawable.favorite_gold_icon))
 
-              } else {
-                  showSnackBar(activityStoryDetailsBinding.photoListRv, model.message)
-              }
-          }else if(apiName.equals(UrlManager.SET_STORY_RATING)){
-              closeLoader()
-          }else if(apiName.equals(UrlManager.UPDATE_BOOKMARK_STATUS)){
+                }else{
+                    activityStoryDetailsBinding.favImage.setImageBitmap(null)
+                    activityStoryDetailsBinding.favImage.setImageDrawable(resources.getDrawable(R.drawable.favorite_gray_icon))
+                }
 
-              closeLoader()
+
+                activityStoryDetailsBinding.storyGenre.text = model.data!!.genre
+                activityStoryDetailsBinding.storyTitle.text = model.data!!.title
+                activityStoryDetailsBinding.storyContent.text = model.data!!.content
+
+            } else {
+                showSnackBar(activityStoryDetailsBinding.photoListRv, model.message)
+            }
+        }else if(apiName.equals(UrlManager.SET_STORY_RATING)){
+            getStoryDetails()
+            closeLoader()
+        }else if(apiName.equals(UrlManager.UPDATE_BOOKMARK_STATUS)){
+
+            closeLoader()
 
             val model: ResponseUpdateBookmarkData = getGsonAsConvert().fromJson(
                 result,
                 ResponseUpdateBookmarkData::class.java
             )
             if (model.status!!) {
+                getStoryDetails()
                 showSnackBar(activityStoryDetailsBinding.ratingsListRv, "Bookmark Updated Successfully")
             }else{
                 showSnackBar(activityStoryDetailsBinding.ratingsListRv, model.message)
             }
-          }
+        }else if(apiName.equals(UrlManager.UPDATE_FOLLOWING_STATUS)){
+
+            closeLoader()
+
+            val model: ResponseUpdateFollowing = getGsonAsConvert().fromJson(
+                result,
+                ResponseUpdateFollowing::class.java
+            )
+            if (model.status!!) {
+                getStoryDetails()
+                showSnackBar(activityStoryDetailsBinding.ratingsListRv, model.message)
+            }else{
+                showSnackBar(activityStoryDetailsBinding.ratingsListRv, model.message)
+            }
+        }
     }
     override fun onFailure(message: String?, apiName: String?, commonModel: CommonValueModel?) {
         super.onFailure(message, apiName, commonModel)
@@ -271,6 +306,19 @@ class StoryDetailsActivity : BaseActivity(), View.OnClickListener, StoryPhotoAda
             R.id.ratingLinLay -> {
                 initializeChildBottomBarBottomBar("Rating & Review")
             }
+            R.id.followBtn -> {
+                setFollowingStatus()
+            }
+            R.id.followingBtn -> {
+                setFollowingStatus()
+            }
+            R.id.userLinLay -> {
+                val intent = Intent(applicationContext , MainActivity::class.java)
+                intent.putExtra(PARAM_COMING_FROM, TAB_BAR_PROFILE)
+                intent.putExtra(PARAM_WRITER_ID, writerId)
+                startActivity(intent)
+                overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
+            }
         }
     }
 
@@ -325,7 +373,34 @@ class StoryDetailsActivity : BaseActivity(), View.OnClickListener, StoryPhotoAda
         )
     }
 
-    override fun onItemListItemClickListener(position: Int, tabType: Int) {
-        TODO("Not yet implemented")
+    private fun setFollowingStatus()
+    {
+        if(writerId!=0)
+        {
+            val params = RequestParams()
+            showLoader(resources.getString(R.string.please_wait))
+            var commonModel = CommonValueModel()
+            val jsObj = Gson().toJsonTree(API()) as JsonObject
+            jsObj.addProperty(METHOD_NAME, UrlManager.UPDATE_FOLLOWING_STATUS)
+            jsObj.addProperty(UrlManager.PARAM_USER_ID, userPreference!!.user_id)
+            jsObj.addProperty(UrlManager.PARAM_WRITER_ID, writerId)
+            showLog("HOME_METHOD_NAME-param", jsObj.toString())
+            params.put("data", toBase64(jsObj.toString()))
+            apiCall(
+                applicationContext,
+                UrlManager.MAIN_URL,
+                UrlManager.UPDATE_FOLLOWING_STATUS,
+                params,
+                commonModel
+            )
+        }else{
+            showSnackBar(activityStoryDetailsBinding.favImage,"Writer Missing")
+        }
+    }
+
+    override fun onItemListItemClickListener(position: Int) {
+        val i = Intent(Intent.ACTION_VIEW)
+        i.data = Uri.parse(storyPhotoArray[position])
+        startActivity(i)
     }
 }

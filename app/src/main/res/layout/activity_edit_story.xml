@@ -54,13 +54,11 @@
                     android:fontFamily="@font/louis_george_cafe_bold"
                     />
 
-
-
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/text_size_16sp"
-                    android:text="@string/story_tags_tags"
+                    android:text="@string/story_genre"
                     android:textColor="@color/colorHeadings"
                     android:fontFamily="@font/louis_george_cafe_bold"
                     android:layout_marginBottom="@dimen/dim_10_dp"
@@ -70,33 +68,15 @@
                     android:background="@drawable/edit_back_capsule"
                     android:layout_gravity="center_vertical"
                     android:textCursorDrawable="@drawable/color_cursor_dark"
-                    android:id="@+id/storyTags"
+                    android:id="@+id/storyGenre"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/story_tags_tags"
-                    android:inputType="text"
+                    android:hint="@string/select_story_genre"
                     android:padding="@dimen/dim_15_dp"
                     android:textColorHint="@color/black_overlay"
                     android:textSize="@dimen/text_size_16sp"
                     android:textColor="@color/colorHeadings"
                     android:fontFamily="@font/louis_george_cafe_bold"
-                    />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/text_size_16sp"
-                    android:text="@string/category"
-                    android:textColor="@color/colorHeadings"
-                    android:fontFamily="@font/louis_george_cafe_bold"
-
-                    />
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/thisListRv"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:importantForAutofill="auto"
-                    android:layout_marginVertical="@dimen/dim_10_dp"
                     />
 
                 <TextView
@@ -125,6 +105,34 @@
                     android:ems="10"
                     android:inputType="textMultiLine"
                     />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size_16sp"
+                    android:text="@string/story_tags_tags"
+                    android:textColor="@color/colorHeadings"
+                    android:fontFamily="@font/louis_george_cafe_bold"
+                    android:layout_marginBottom="@dimen/dim_10_dp"
+                    />
+                <EditText
+                    android:layout_marginBottom="@dimen/dim_20_dp"
+                    android:background="@drawable/edit_back_capsule"
+                    android:layout_gravity="center_vertical"
+                    android:textCursorDrawable="@drawable/color_cursor_dark"
+                    android:id="@+id/storyTags"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/story_tags_tags"
+                    android:inputType="text"
+                    android:padding="@dimen/dim_15_dp"
+                    android:textColorHint="@color/black_overlay"
+                    android:textSize="@dimen/text_size_16sp"
+                    android:textColor="@color/colorHeadings"
+                    android:fontFamily="@font/louis_george_cafe_bold"
+                    />
+
+
+
 
                 <TextView
                     android:layout_width="wrap_content"

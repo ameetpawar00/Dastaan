@@ -21,7 +21,7 @@ class ResponseStoryDetailsData {
     class Data {
         @SerializedName("id")
         @Expose
-        var id: String? = null
+        var id: Int? = null
 
         @SerializedName("title")
         @Expose
@@ -43,13 +43,15 @@ class ResponseStoryDetailsData {
         @Expose
         var genre: String? = null
 
+        @SerializedName("genre_id")
+        @Expose
+        var genreId: Int? = null
+
         @SerializedName("likes")
         @Expose
         var likes: String? = null
 
-        @SerializedName("ratings")
-        @Expose
-        var ratings: String? = null
+
 
         @SerializedName("photo")
         @Expose
@@ -79,20 +81,24 @@ class ResponseStoryDetailsData {
         @Expose
         var isFavourite: Boolean? = null
 
+        @SerializedName("is_following")
+        @Expose
+        var isFollowing: Boolean? = null
+
         @SerializedName("rating")
         @Expose
-        var rating: Int? = null
+        var rating: Double? = null
 
         @SerializedName("rating_data")
         @Expose
-        var ratingData: List<RatingDatum>? = null
+        val ratingData: List<RatingDatum>? = null
 
     }
 
     class WriterData {
         @SerializedName("id")
         @Expose
-        var id: String? = null
+        var id: Int? = null
 
         @SerializedName("name")
         @Expose

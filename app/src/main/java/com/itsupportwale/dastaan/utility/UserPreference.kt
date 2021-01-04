@@ -33,7 +33,7 @@ class UserPreference private constructor() {
 
 
     var name: String? = ""
-    var user_id: String? = ""
+    var user_id: Int? = 0
     var phone: String? = ""
     var countryCode: String? = ""
     var dealerLicenseNumber: String? = ""

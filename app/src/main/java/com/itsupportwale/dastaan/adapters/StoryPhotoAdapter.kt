@@ -44,14 +44,14 @@ class StoryPhotoAdapter(activity: Context, arrayList:ArrayList<String>) : Recycl
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
         //holder.listBinding.thisText.text = arrayList[position]
 
-      /*     Glide.with(activity).load(arrayList[position])
+           Glide.with(activity).load(arrayList[position])
                    .into(holder.listBinding.thisImage)
 
         holder.listBinding.parentPanel.setOnClickListener{
             if (mItemClickListener != null) {
-                mItemClickListener?.onItemListItemClickListener( position, TAB_PROP_LATEST)
+                mItemClickListener?.onItemListItemClickListener( position)
             }
-        }*/
+        }
     }
 
     private var mItemClickListener: onRecyclerViewItemClickListener? = null
@@ -61,6 +61,6 @@ class StoryPhotoAdapter(activity: Context, arrayList:ArrayList<String>) : Recycl
     }
 
     interface onRecyclerViewItemClickListener {
-        fun onItemListItemClickListener( position: Int,tabType: Int)
+        fun onItemListItemClickListener( position: Int)
     }
 }

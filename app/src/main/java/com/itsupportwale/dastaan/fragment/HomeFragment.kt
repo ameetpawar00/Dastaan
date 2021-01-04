@@ -1,6 +1,7 @@
 package com.itsupportwale.dastaan.fragment
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
@@ -22,6 +23,7 @@ import com.google.gson.JsonObject
 import com.jakewharton.rxbinding2.widget.RxTextView
 import com.jakewharton.rxbinding2.widget.TextViewTextChangeEvent
 import com.itsupportwale.dastaan.R
+import com.itsupportwale.dastaan.activity.StoryDetailsActivity
 import com.itsupportwale.dastaan.adapters.*
 import com.itsupportwale.dastaan.beans.GetPropertyListModel
 import com.itsupportwale.dastaan.beans.ResponseHomeData
@@ -60,7 +62,7 @@ class HomeFragment : BaseFragment(), FragmentBaseListener, View.OnClickListener,
     var searchValue: String= ""
     var pageIndex = 1
     var orderBy = 1
-    var genreSelected = 1
+    var genreSelected = ""
     private val disposable = CompositeDisposable()
 
     val gson: Gson = Gson()
@@ -129,6 +131,7 @@ class HomeFragment : BaseFragment(), FragmentBaseListener, View.OnClickListener,
             }
         }
     }
+
 
     private fun callGetHomeApi() {
 
@@ -245,6 +248,10 @@ class HomeFragment : BaseFragment(), FragmentBaseListener, View.OnClickListener,
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        callGetHomeApi()
+    }
 
     private var linearLayoutManager: LinearLayoutManager? = null
     private fun setAdapters() {
@@ -277,7 +284,10 @@ class HomeFragment : BaseFragment(), FragmentBaseListener, View.OnClickListener,
     override fun onItemListItemClickListener(position: Int, tabType: Int) {
         if(tabType== CLICK_FROM_PARENT)
         {
-
+            val intent = Intent(requireActivity(), StoryDetailsActivity::class.java)
+            intent.putExtra(UrlManager.PARAM_STORY_ID,  storyDataArray[position].id)
+            startActivity(intent)
+            requireActivity().overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
         }else if(tabType== CLICK_FROM_FAV)
         {
             setBookmarkStatus(storyDataArray[position].id!!)
@@ -294,7 +304,7 @@ class HomeFragment : BaseFragment(), FragmentBaseListener, View.OnClickListener,
         requireActivity().overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)*/
     }
 
-    private fun setBookmarkStatus(storyId: BigInteger) {
+    private fun setBookmarkStatus(storyId: Int) {
         val params = RequestParams()
         showLoader(resources.getString(R.string.please_wait))
         var commonModel = CommonValueModel()
@@ -327,12 +337,19 @@ class HomeFragment : BaseFragment(), FragmentBaseListener, View.OnClickListener,
         {
             data.isSelected = false
         }
+
         discoverDataArray[position].isSelected = true
         discoverAdapter.notifyDataSetChanged()
+        genreSelected = discoverDataArray[position].id.toString()
+        callGetHomeApi()
+
     }
 
     override fun onItemListItemClickListenerSubscription(position: Int) {
-        TODO("Not yet implemented")
+        val intent = Intent(requireActivity(), StoryDetailsActivity::class.java)
+        intent.putExtra(UrlManager.PARAM_STORY_ID,  mySubscriptionDataArray[position].id)
+        startActivity(intent)
+        requireActivity().overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
     }
 
     var bottomSheetDialog: BottomSheetDialog? = null

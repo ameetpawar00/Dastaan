@@ -128,7 +128,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                 {
                     showSnackBar(activityLoginBinding.edtPassword,"User Login Successful.")
 
-                    userPreference?.user_id = responseLoginData!!.data!!.user!!.id.toString()
+                    userPreference?.user_id = responseLoginData!!.data!!.user!!.id
                     userPreference?.name = responseLoginData!!.data!!.user!!.name
                     userPreference?.phone = responseLoginData.data!!.user!!.phone
                     userPreference?.countryCode = responseLoginData.data!!.user!!.countryCode

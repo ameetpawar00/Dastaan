@@ -133,7 +133,7 @@ class RegisterActivity : BaseActivity(), View.OnClickListener {
                 {
                     showSnackBar(activityRegisterBinding.edtConfirmPassword,"User Added Successfully.")
 
-                    userPreference?.user_id = responseRegistrationData!!.data!!.userId.toString()
+                    userPreference?.user_id = responseRegistrationData!!.data!!.userId
                     userPreference?.name = responseRegistrationData!!.data!!.name
                     userPreference?.phone = responseRegistrationData.data!!.phone
                     userPreference?.countryCode = responseRegistrationData.data!!.countryCode

@@ -229,6 +229,7 @@
     <string name="highly_rated">Highly Rated</string>
     <string name="story_genre">Story Genre</string>
     <string name="select_story_genre">Select Story Genre</string>
+    <string name="following">Following</string>
 
     <string-array name="rent_sell">
             <item>Rent</item>

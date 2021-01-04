@@ -53,7 +53,7 @@ class ResponseHomeData {
     class Story {
         @SerializedName("id")
         @Expose
-        var id: BigInteger? = null
+        var id: Int? = null
 
         @SerializedName("title")
         @Expose
