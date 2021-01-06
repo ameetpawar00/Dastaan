@@ -6,6 +6,7 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.loopj.android.http.RequestParams
@@ -31,6 +32,15 @@ class NotificationActivity : BaseActivity(), View.OnClickListener, NotificationD
         super.onCreate(savedInstanceState)
         activityNotificationBinding = DataBindingUtil.setContentView(this, R.layout.activity_notification)
         userPreference = UserPreference.getInstance(this)
+
+        val pullToRefresh: SwipeRefreshLayout = activityNotificationBinding.pullToRefresh
+        pullToRefresh.setOnRefreshListener(object : SwipeRefreshLayout.OnRefreshListener {
+            override fun onRefresh() {
+                initView()
+                pullToRefresh.setRefreshing(false)
+            }
+        })
+
         initView()
     }
 

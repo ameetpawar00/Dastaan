@@ -11,9 +11,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
-import android.widget.TextView
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -25,7 +22,6 @@ import com.jakewharton.rxbinding2.widget.TextViewTextChangeEvent
 import com.itsupportwale.dastaan.R
 import com.itsupportwale.dastaan.activity.StoryDetailsActivity
 import com.itsupportwale.dastaan.adapters.*
-import com.itsupportwale.dastaan.beans.GetPropertyListModel
 import com.itsupportwale.dastaan.beans.ResponseHomeData
 import com.itsupportwale.dastaan.beans.ResponseUpdateBookmarkData
 import com.itsupportwale.dastaan.databinding.FragmentHomeBinding
@@ -38,7 +34,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.observers.DisposableObserver
 import io.reactivex.schedulers.Schedulers
-import java.math.BigInteger
 import java.util.concurrent.TimeUnit
 
 /**

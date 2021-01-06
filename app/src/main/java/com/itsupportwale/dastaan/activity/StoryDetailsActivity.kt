@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.gson.Gson
@@ -53,6 +54,15 @@ class StoryDetailsActivity : BaseActivity(), View.OnClickListener, StoryPhotoAda
             R.layout.activity_story_details
         )
         userPreference = UserPreference.getInstance(this)
+
+        val pullToRefresh: SwipeRefreshLayout = activityStoryDetailsBinding.pullToRefresh
+        pullToRefresh.setOnRefreshListener(object : SwipeRefreshLayout.OnRefreshListener {
+            override fun onRefresh() {
+                initView()
+                pullToRefresh.setRefreshing(false)
+            }
+        })
+
         initView()
     }
 
@@ -96,7 +106,6 @@ class StoryDetailsActivity : BaseActivity(), View.OnClickListener, StoryPhotoAda
             storyId = extras.getInt(UrlManager.PARAM_STORY_ID)
             getStoryDetails()
         }
-
     }
 
     private fun getStoryDetails() {

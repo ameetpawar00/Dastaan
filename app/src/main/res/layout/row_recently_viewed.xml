@@ -4,8 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable
-            name="recentlyViewedAdapter"
-            type="com.itsupportwale.dastaan.adapters.RecentlyViewedAdapter" />
+            name="myStoriesAdapter"
+            type="com.itsupportwale.dastaan.adapters.MyStoriesAdapter" />
     </data>
     <androidx.cardview.widget.CardView
         android:layout_width="wrap_content"
@@ -38,13 +38,12 @@
                 android:orientation="vertical"
                 >
                 <TextView
-                    android:layout_above="@+id/thisWriter"
+                    android:layout_centerInParent="true"
                     android:id="@+id/thisTitleName"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:textColor="@color/white"
                     android:ellipsize="end"
-                    android:text="Ek Kahani Aisi bhi jaha gam bhi na ho aansu bhi na ho bas pyar hi pyar rahe"
                     android:textSize="@dimen/text_size_18sp"
                     android:fontFamily="@font/louis_george_cafe"
                     android:layout_marginBottom="@dimen/dim_10_dp"

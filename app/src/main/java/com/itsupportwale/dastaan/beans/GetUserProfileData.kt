@@ -5,6 +5,10 @@ import com.google.gson.annotations.SerializedName
 
 
 class GetUserProfileData {
+    @SerializedName("error")
+    @Expose
+    var error: Boolean? = null
+
     @SerializedName("status")
     @Expose
     var status: Boolean? = null
@@ -18,16 +22,16 @@ class GetUserProfileData {
     var message: String? = null
 
     class Data {
-        @SerializedName("my_properties")
+        @SerializedName("my_stories")
         @Expose
-        var myProperties: List<MyProperty>? = null
+        var myStories: List<MyStories>? = null
 
         @SerializedName("user")
         @Expose
         var user: User? = null
-    }
 
-    class MyProperty {
+    }
+    class MyStories {
         @SerializedName("id")
         @Expose
         var id: String? = null
@@ -40,81 +44,25 @@ class GetUserProfileData {
         @Expose
         var approveStatus: String? = null
 
-        @SerializedName("address")
+        @SerializedName("content")
         @Expose
-        var address: String? = null
+        var content: String? = null
 
-        @SerializedName("cityName")
+        @SerializedName("story_tags")
         @Expose
-        var cityName: String? = null
+        var storyTags: String? = null
 
-        @SerializedName("country")
+        @SerializedName("genre")
         @Expose
-        var country: String? = null
+        var genre: String? = null
 
-        @SerializedName("state")
+        @SerializedName("likes")
         @Expose
-        var state: String? = null
+        var likes: String? = null
 
-        @SerializedName("city")
+        @SerializedName("ratings")
         @Expose
-        var city: String? = null
-
-        @SerializedName("landmark")
-        @Expose
-        var landmark: String? = null
-
-        @SerializedName("zip")
-        @Expose
-        var zip: String? = null
-
-        @SerializedName("latitude")
-        @Expose
-        var latitude: String? = null
-
-        @SerializedName("longitude")
-        @Expose
-        var longitude: String? = null
-
-        @SerializedName("type")
-        @Expose
-        var type: String? = null
-
-        @SerializedName("price")
-        @Expose
-        var price: String? = null
-
-        @SerializedName("features")
-        @Expose
-        var features: String? = null
-
-        @SerializedName("property_size")
-        @Expose
-        var propertySize: String? = null
-
-        @SerializedName("kitchen")
-        @Expose
-        var kitchen: String? = null
-
-        @SerializedName("bathroom")
-        @Expose
-        var bathroom: String? = null
-
-        @SerializedName("bedroom")
-        @Expose
-        var bedroom: String? = null
-
-        @SerializedName("parking")
-        @Expose
-        var parking: String? = null
-
-        @SerializedName("year_build")
-        @Expose
-        var yearBuild: String? = null
-
-        @SerializedName("description")
-        @Expose
-        var description: String? = null
+        var ratings: String? = null
 
         @SerializedName("photo")
         @Expose
@@ -124,13 +72,9 @@ class GetUserProfileData {
         @Expose
         var status: String? = null
 
-        @SerializedName("owner")
+        @SerializedName("writer")
         @Expose
-        var owner: String? = null
-
-        @SerializedName("rating")
-        @Expose
-        var rating: Float? = null
+        var writer: String? = null
 
         @SerializedName("view")
         @Expose
@@ -139,7 +83,9 @@ class GetUserProfileData {
         @SerializedName("timestamp")
         @Expose
         var timestamp: String? = null
+
     }
+
 
     class User {
         @SerializedName("id")
@@ -154,9 +100,9 @@ class GetUserProfileData {
         @Expose
         var phone: String? = null
 
-        @SerializedName("country_code")
+        @SerializedName("follower_count")
         @Expose
-        var countryCode: String? = null
+        var followerCount: Int? = null
 
         @SerializedName("email")
         @Expose
@@ -166,36 +112,17 @@ class GetUserProfileData {
         @Expose
         var photo: String? = null
 
-        @SerializedName("country")
+        @SerializedName("followers")
         @Expose
-        var country: String? = null
+        var followers: String? = null
 
-        @SerializedName("state")
+        @SerializedName("rating")
         @Expose
-        var state: String? = null
-
-        @SerializedName("city")
-        @Expose
-        var city: String? = null
-
-        @SerializedName("latitude")
-        @Expose
-        var latitude: String? = null
-
-        @SerializedName("longitude")
-        @Expose
-        var longitude: String? = null
-
-        @SerializedName("zip")
-        @Expose
-        var zip: String? = null
-
-        @SerializedName("address")
-        @Expose
-        var address: String? = null
+        var rating: String? = null
 
         @SerializedName("device_token")
         @Expose
         var deviceToken: String? = null
+
     }
 }

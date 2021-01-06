@@ -19,6 +19,7 @@ interface UrlManager {
         const val SET_STORY_RATING = "set_story_rating"
         const val UPDATE_FOLLOWING_STATUS = "update_following_status"
         const val GET_HOME_METHOD_NAME = "get_home"
+        const val GET_MY_STORIES_METHOD_NAME = "get_my_stories"
         const val GET_GENRE_METHOD_NAME = "get_genre"
         const val GET_PROPERTY_METHOD_LOCATION = "get_properties_location"
         const val GET_NOTIFICATION_METHOD_NAME = "get_notification"
