@@ -23,6 +23,7 @@ import com.nguyenhoanglam.imagepicker.model.Image
 import com.nguyenhoanglam.imagepicker.ui.imagepicker.ImagePicker
 import com.itsupportwale.dastaan.R
 import com.itsupportwale.dastaan.beans.GetUserProfileData
+import com.itsupportwale.dastaan.beans.ResponseMyProfile
 import com.itsupportwale.dastaan.databinding.ActivityEditUserProfileBinding
 import com.itsupportwale.dastaan.databinding.ActivityRegisterBinding
 import com.itsupportwale.dastaan.servermanager.UrlManager
@@ -155,31 +156,49 @@ class EditUserProfileActivity : BaseActivity(), View.OnClickListener {
         super.onSuccess(result, apiName, commonModel)
         closeLoader()
         showLog("HOME_METHOD_NAME-result", result.toString())
-
-        val model: GetUserProfileData = getGsonAsConvert().fromJson(result, GetUserProfileData::class.java)
+        if(apiName.equals(UrlManager.UPDATE_PROFILE_METHOD_NAME))
+        {
+        val model: ResponseMyProfile = getGsonAsConvert().fromJson(result, ResponseMyProfile::class.java)
         if (model.status!!)
         {
-            activityEditUserProfileBinding.edtName.setText(model.data!!.user!!.name)
-            activityEditUserProfileBinding.edtEmail.setText(model.data!!.user!!.email)
-            activityEditUserProfileBinding.edtPhoneNumber.setText(model.data!!.user!!.phone)
-
-            Glide.with(this).asBitmap()
-                .load(model.data!!.user!!.photo)
-                .error(R.drawable.default_image_icon)
-                .into(activityEditUserProfileBinding.userImage)
-
             userPreference?.name = model.data!!.user!!.name
             userPreference?.email = model.data!!.user!!.email
             userPreference?.photo = model.data!!.user!!.photo
             userPreference?.device_token = device_token
             userPreference?.save(this)
 
+            showSnackBar(
+                activityEditUserProfileBinding.edtName,
+                model.message.toString())
+
+            finish()
         }else{
             showSnackBar(
                 activityEditUserProfileBinding.edtName,
-                resources.getString(R.string.no_data_available)
+                model.message.toString()
             )
         }
+        }else if(apiName.equals(UrlManager.PROFILE_METHOD_NAME))
+        {
+            val model: GetUserProfileData = getGsonAsConvert().fromJson(result, GetUserProfileData::class.java)
+            if (model.status!!)
+            {
+                activityEditUserProfileBinding.edtName.setText(model.data!!.user!!.name)
+                activityEditUserProfileBinding.edtEmail.setText(model.data!!.user!!.email)
+                activityEditUserProfileBinding.edtPhoneNumber.setText(model.data!!.user!!.phone)
+
+                Glide.with(this).asBitmap()
+                    .load(model.data!!.user!!.photo)
+                    .error(R.drawable.default_image_icon)
+                    .into(activityEditUserProfileBinding.userImage)
+            }else{
+                showSnackBar(
+                    activityEditUserProfileBinding.edtName,
+                    model.message.toString()
+                )
+            }
+        }
+
         closeLoader()
     }
 

@@ -179,7 +179,7 @@ class ResponseHomeData {
     class WriterData {
         @SerializedName("id")
         @Expose
-        var id: String? = null
+        var id: Int? = null
 
         @SerializedName("name")
         @Expose

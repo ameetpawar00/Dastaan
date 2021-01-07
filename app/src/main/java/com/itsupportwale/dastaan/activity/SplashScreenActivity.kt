@@ -5,19 +5,9 @@ import android.os.Bundle
 import android.os.Handler
 import android.view.View
 import androidx.databinding.DataBindingUtil
-import androidx.work.Data
-import androidx.work.OneTimeWorkRequest
-import androidx.work.WorkManager
 import com.google.gson.Gson
-import com.google.gson.JsonObject
-import com.loopj.android.http.RequestParams
 import com.itsupportwale.dastaan.R
-import com.itsupportwale.dastaan.beans.ResponseGetLocationData
 import com.itsupportwale.dastaan.databinding.ActivitySplashScreenBinding
-import com.itsupportwale.dastaan.databinding.ActivityWelcomeBinding
-import com.itsupportwale.dastaan.servermanager.UrlManager
-import com.itsupportwale.dastaan.servermanager.UrlManager.Companion.METHOD_NAME
-import com.itsupportwale.dastaan.servermanager.request.CommonValueModel
 import com.itsupportwale.dastaan.utility.*
 
 class SplashScreenActivity : BaseActivity(), View.OnClickListener{

@@ -7,9 +7,6 @@ import android.text.TextUtils
 import android.util.Log
 import android.view.View
 import androidx.databinding.DataBindingUtil
-import androidx.work.Data
-import androidx.work.OneTimeWorkRequest
-import androidx.work.WorkManager
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.iid.FirebaseInstanceId
 import com.google.gson.Gson
@@ -19,7 +16,6 @@ import com.nguyenhoanglam.imagepicker.model.Config
 import com.nguyenhoanglam.imagepicker.model.Image
 import com.nguyenhoanglam.imagepicker.ui.imagepicker.ImagePicker
 import com.itsupportwale.dastaan.R
-import com.itsupportwale.dastaan.beans.ResponseGetLocationData
 import com.itsupportwale.dastaan.beans.ResponseRegistrationData
 import com.itsupportwale.dastaan.databinding.ActivityRegisterBinding
 import com.itsupportwale.dastaan.servermanager.UrlManager

@@ -26,6 +26,7 @@ import com.itsupportwale.dastaan.beans.ResponseUpdateFollowing
 import com.itsupportwale.dastaan.databinding.ActivityStoryDetailsBinding
 import com.itsupportwale.dastaan.servermanager.UrlManager
 import com.itsupportwale.dastaan.servermanager.UrlManager.Companion.METHOD_NAME
+import com.itsupportwale.dastaan.servermanager.UrlManager.Companion.PARAM_USER_ID
 import com.itsupportwale.dastaan.servermanager.UrlManager.Companion.PARAM_WRITER_ID
 import com.itsupportwale.dastaan.servermanager.request.CommonValueModel
 import com.itsupportwale.dastaan.utility.*
@@ -185,14 +186,6 @@ class StoryDetailsActivity : BaseActivity(), View.OnClickListener, StoryPhotoAda
 
                 activityStoryDetailsBinding.ratingTxt.text = model.data!!.ratingData!!.size.toString()+" "+"Reviews"
 
-                if(userPreference!!.user_id!! == model.data!!.writerData!!.id)
-                {
-                    activityStoryDetailsBinding.thisEditBtn.visibility = View.VISIBLE
-                }else{
-                    activityStoryDetailsBinding.thisEditBtn.visibility = View.GONE
-                }
-
-
                 if(model.data!!.isFollowing!!)
                 {
                     activityStoryDetailsBinding.followBtn.visibility = View.GONE
@@ -201,6 +194,18 @@ class StoryDetailsActivity : BaseActivity(), View.OnClickListener, StoryPhotoAda
                     activityStoryDetailsBinding.followBtn.visibility = View.VISIBLE
                     activityStoryDetailsBinding.followingBtn.visibility = View.GONE
                 }
+
+                if(userPreference!!.user_id!! == model.data!!.writerData!!.id)
+                {
+                    activityStoryDetailsBinding.thisEditBtn.visibility = View.VISIBLE
+                    activityStoryDetailsBinding.followBtn.visibility = View.GONE
+                    activityStoryDetailsBinding.followingBtn.visibility = View.GONE
+                    activityStoryDetailsBinding.favoritesLinLay.visibility = View.GONE
+                }else{
+                    activityStoryDetailsBinding.thisEditBtn.visibility = View.GONE
+                }
+
+
 
                 rating = model.data!!.rating!!.toFloat().toDouble()
 
@@ -313,7 +318,9 @@ class StoryDetailsActivity : BaseActivity(), View.OnClickListener, StoryPhotoAda
                 overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
             }
             R.id.ratingLinLay -> {
-                initializeChildBottomBarBottomBar("Rating & Review")
+                if(userPreference!!.user_id!! != writerId) {
+                    initializeChildBottomBarBottomBar("Rating & Review")
+                }
             }
             R.id.followBtn -> {
                 setFollowingStatus()
@@ -324,7 +331,7 @@ class StoryDetailsActivity : BaseActivity(), View.OnClickListener, StoryPhotoAda
             R.id.userLinLay -> {
                 val intent = Intent(applicationContext , MainActivity::class.java)
                 intent.putExtra(PARAM_COMING_FROM, TAB_BAR_PROFILE)
-                intent.putExtra(PARAM_WRITER_ID, writerId)
+                intent.putExtra(PARAM_USER_ID, writerId)
                 startActivity(intent)
                 overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
             }

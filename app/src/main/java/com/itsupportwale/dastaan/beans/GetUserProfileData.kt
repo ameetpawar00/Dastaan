@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName
 class GetUserProfileData {
     @SerializedName("error")
     @Expose
-    var error: Boolean? = null
+    var error: String? = null
 
     @SerializedName("status")
     @Expose
@@ -34,7 +34,7 @@ class GetUserProfileData {
     class MyStories {
         @SerializedName("id")
         @Expose
-        var id: String? = null
+        var id: Int? = null
 
         @SerializedName("title")
         @Expose
@@ -90,7 +90,7 @@ class GetUserProfileData {
     class User {
         @SerializedName("id")
         @Expose
-        var id: String? = null
+        var id: Int? = null
 
         @SerializedName("name")
         @Expose

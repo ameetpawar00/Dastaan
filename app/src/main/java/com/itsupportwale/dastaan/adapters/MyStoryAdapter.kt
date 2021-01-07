@@ -12,18 +12,18 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.itsupportwale.dastaan.R
 import com.itsupportwale.dastaan.beans.ResponseHomeData
+import com.itsupportwale.dastaan.beans.ResponseMyStory
 import com.itsupportwale.dastaan.databinding.RowItemMySubscriptionBinding
 import com.itsupportwale.dastaan.databinding.RowItemStoryBinding
 import com.itsupportwale.dastaan.utility.CLICK_FROM_FAV
 import com.itsupportwale.dastaan.utility.CLICK_FROM_NOT_FAV
 import com.itsupportwale.dastaan.utility.CLICK_FROM_PARENT
-import com.itsupportwale.dastaan.utility.TAB_PROP_MOST
 
 
-class MyStoryAdapter(activity: Context, arrayList: ArrayList<ResponseHomeData.Story>) : RecyclerView.Adapter<MyStoryAdapter.ListViewHolder>() {
+class MyStoryAdapter(activity: Context, arrayList: ArrayList<ResponseMyStory.Story>) : RecyclerView.Adapter<MyStoryAdapter.ListViewHolder>() {
 
     var activity: Context
-    var arrayList:ArrayList<ResponseHomeData.Story>
+    var arrayList:ArrayList<ResponseMyStory.Story>
 
     init {
         this.activity = activity

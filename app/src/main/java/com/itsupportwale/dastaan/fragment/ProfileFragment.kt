@@ -2,17 +2,16 @@ package com.itsupportwale.dastaan.fragment
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.bumptech.glide.Glide
 import com.google.gson.Gson
 import com.google.gson.JsonObject
-import com.loopj.android.http.RequestParams
 import com.itsupportwale.dastaan.R
 import com.itsupportwale.dastaan.activity.MyStoriesList
 import com.itsupportwale.dastaan.activity.StoryDetailsActivity
@@ -20,9 +19,11 @@ import com.itsupportwale.dastaan.adapters.MyStoriesAdapter
 import com.itsupportwale.dastaan.beans.GetUserProfileData
 import com.itsupportwale.dastaan.databinding.FragmentProfileBinding
 import com.itsupportwale.dastaan.servermanager.UrlManager
+import com.itsupportwale.dastaan.servermanager.UrlManager.Companion.PARAM_USER_ID
 import com.itsupportwale.dastaan.servermanager.request.CommonValueModel
 import com.itsupportwale.dastaan.utility.API
 import com.itsupportwale.dastaan.utility.UserPreference
+import com.loopj.android.http.RequestParams
 
 /**
  * A simple [Fragment] subclass.
@@ -52,7 +53,7 @@ class ProfileFragment : BaseFragment(), FragmentBaseListener, View.OnClickListen
         return view
     }
     private fun initView(view: View) {
-        fragmentProfileBinding.viewAll.setOnClickListener(this)
+        fragmentProfileBinding.viewAllBtn.setOnClickListener(this)
         myStoriesAdapter = MyStoriesAdapter(requireActivity(),myStoriesDataArray)
         fragmentProfileBinding.thisRecyclerView.layoutManager = LinearLayoutManager(requireActivity() , LinearLayoutManager.HORIZONTAL ,false)
         fragmentProfileBinding.thisRecyclerView.adapter = myStoriesAdapter
@@ -67,8 +68,22 @@ class ProfileFragment : BaseFragment(), FragmentBaseListener, View.OnClickListen
             }
         })
 
-        userId = userPreference?.user_id!!
+        val bundle = arguments
+
+        if (bundle != null && bundle.containsKey(PARAM_USER_ID)) {
+
+            userId = bundle.getInt(PARAM_USER_ID)
+        }else{
+            userId = userPreference?.user_id!!
+        }
+
+        if(userId == 0)
+        {
+            userId = userPreference?.user_id!!
+        }
+
         getProfileData()
+
     }
 
     private fun getProfileData() {
@@ -84,9 +99,9 @@ class ProfileFragment : BaseFragment(), FragmentBaseListener, View.OnClickListen
         apiCall(activity, UrlManager.MAIN_URL, UrlManager.PROFILE_METHOD_NAME, params, commonModel)
     }
 
-    override fun onClick(p0: View?) {
+    override fun onClick(view: View?) {
         when (view?.id) {
-            R.id.viewAll -> {
+            R.id.viewAllBtn -> {
                 val intent = Intent(requireActivity(), MyStoriesList::class.java)
                 intent.putExtra(UrlManager.PARAM_USER_ID,  userId)
                 requireActivity().startActivity(intent)
@@ -105,7 +120,12 @@ class ProfileFragment : BaseFragment(), FragmentBaseListener, View.OnClickListen
             fragmentProfileBinding.userEmail.text = model.data!!.user!!.email
             fragmentProfileBinding.followersCount.text = model.data!!.user!!.followerCount.toString()
             fragmentProfileBinding.storyCount.text = "("+model.data!!.myStories!!.size.toString()+")"
-
+            if(+model.data!!.myStories!!.size>1)
+            {
+                fragmentProfileBinding.followersTitle.text = "Followers"
+            }else{
+                fragmentProfileBinding.followersTitle.text = "Follower"
+            }
             Glide.with(requireActivity()).asBitmap()
                 .load(model.data!!.user!!.photo)
                 .error(R.drawable.default_image_icon)
@@ -117,11 +137,11 @@ class ProfileFragment : BaseFragment(), FragmentBaseListener, View.OnClickListen
 
             if(myStoriesDataArray.size>0)
             {
-
-                fragmentProfileBinding.viewAll.visibility = View.VISIBLE
+                fragmentProfileBinding.viewAllBtn.visibility = View.VISIBLE
                 fragmentProfileBinding.thisRecyclerView.visibility = View.VISIBLE
                 fragmentProfileBinding.noDataAvailable.visibility = View.GONE
             }else{
+                fragmentProfileBinding.viewAllBtn.visibility = View.GONE
                 fragmentProfileBinding.thisRecyclerView.visibility = View.GONE
                 fragmentProfileBinding.noDataAvailable.visibility = View.VISIBLE
             }

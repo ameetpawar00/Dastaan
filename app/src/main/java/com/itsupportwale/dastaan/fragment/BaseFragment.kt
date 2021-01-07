@@ -22,8 +22,6 @@ import com.itsupportwale.dastaan.servermanager.BooleanDeserializer
 import com.itsupportwale.dastaan.servermanager.DoubleDeserializer
 import com.itsupportwale.dastaan.servermanager.IntDeserializer
 import com.itsupportwale.dastaan.servermanager.request.CommonValueModel
-import com.itsupportwale.dastaan.servermanager.request.GetRequestModel
-import com.itsupportwale.dastaan.servermanager.request.PostRequestModel
 
 
 open class BaseFragment : Fragment() {

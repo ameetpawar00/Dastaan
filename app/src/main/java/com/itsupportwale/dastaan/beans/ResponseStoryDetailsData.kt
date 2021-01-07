@@ -145,7 +145,7 @@ class ResponseStoryDetailsData {
     class RatingDatum {
         @SerializedName("id")
         @Expose
-        var id: String? = null
+        var id: Int? = null
 
         @SerializedName("review")
         @Expose
@@ -157,11 +157,11 @@ class ResponseStoryDetailsData {
 
         @SerializedName("story_id")
         @Expose
-        var storyId: String? = null
+        var storyId: Int? = null
 
         @SerializedName("reviewer_id")
         @Expose
-        var reviewerId: String? = null
+        var reviewerId: Int? = null
 
         @SerializedName("status")
         @Expose

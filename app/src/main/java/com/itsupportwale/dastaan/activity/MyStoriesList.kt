@@ -15,6 +15,7 @@ import com.itsupportwale.dastaan.R
 import com.itsupportwale.dastaan.adapters.*
 import com.itsupportwale.dastaan.beans.GetNotificationData
 import com.itsupportwale.dastaan.beans.ResponseHomeData
+import com.itsupportwale.dastaan.beans.ResponseMyStory
 import com.itsupportwale.dastaan.databinding.ActivityMyStoriesListBinding
 import com.itsupportwale.dastaan.servermanager.UrlManager
 import com.itsupportwale.dastaan.servermanager.UrlManager.Companion.METHOD_NAME
@@ -25,7 +26,7 @@ import io.reactivex.disposables.CompositeDisposable
 
 class MyStoriesList : BaseActivity(), View.OnClickListener, MyStoryAdapter.onRecyclerViewItemClickListener{
     lateinit var activityMyStoriesListBinding: ActivityMyStoriesListBinding
-    private val storyDataArray: ArrayList<ResponseHomeData.Story> = ArrayList()
+    private val storyDataArray: ArrayList<ResponseMyStory.Story> = ArrayList()
     lateinit var storyAdapter: MyStoryAdapter
 
     var pageIndex = 1
@@ -126,13 +127,11 @@ class MyStoriesList : BaseActivity(), View.OnClickListener, MyStoryAdapter.onRec
         showLog("HOME_METHOD_NAME-result", result.toString())
         if(apiName.equals(UrlManager.GET_MY_STORIES_METHOD_NAME))
         {
-            val model: GetNotificationData = getGsonAsConvert().fromJson(result, GetNotificationData::class.java)
-            if (model.status!!)
-            {
+
                 Log.d("modelmodel", result.toString())
-                val model: ResponseHomeData = getGsonAsConvert().fromJson(
+                val model: ResponseMyStory = getGsonAsConvert().fromJson(
                     result,
-                    ResponseHomeData::class.java
+                    ResponseMyStory::class.java
                 )
                 if (model.status!!) {
 
@@ -155,7 +154,6 @@ class MyStoriesList : BaseActivity(), View.OnClickListener, MyStoryAdapter.onRec
                         resources.getString(R.string.no_data_available)
                     )
                 }
-            }
         }
     }
 

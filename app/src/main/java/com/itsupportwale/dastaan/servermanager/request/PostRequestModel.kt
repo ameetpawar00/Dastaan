@@ -8,7 +8,6 @@ class PostRequestModel {
     var message: String? = ""
     var mobile: String? = ""
     var fullname: String? = ""
-    var autoId: String? = ""
     var carName: String? = ""
     var auction: String? = ""
     var auctionDisplay: String? = ""
@@ -28,7 +27,6 @@ class PostRequestModel {
     var model: String? = ""
     var modelYear: String? = ""
     var email: String? = ""
-    var autoBid: String? = ""
     var phone: String? = ""
     var name: String? = ""
     var latitude: Double? = 0.0
@@ -39,8 +37,7 @@ class PostRequestModel {
     var password: String? = ""
     var otp: String? = ""
     var device_token: String? = ""
-    var id: String? = ""
-    var carId: String? = ""
+    var id: Int? = 0
     var location: String? = ""
     var logBooks: String? = ""
     var spareKeys: String? = ""

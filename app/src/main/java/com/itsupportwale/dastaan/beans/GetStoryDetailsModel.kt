@@ -24,7 +24,7 @@ class GetStoryDetailsModel {
 
         @SerializedName("id")
         @Expose
-         var id: String? = null
+         var id: Int? = null
 
         @SerializedName("title")
         @Expose
@@ -152,7 +152,7 @@ class GetStoryDetailsModel {
      class OwnerData {
          @SerializedName("id")
          @Expose
-          var id: String? = null
+          var id: Int? = null
 
          @SerializedName("name")
          @Expose
@@ -223,7 +223,7 @@ class GetStoryDetailsModel {
     class RatingDatum {
         @SerializedName("id")
         @Expose
-         var id: String? = null
+         var id: Int? = null
 
         @SerializedName("review")
         @Expose
@@ -235,11 +235,11 @@ class GetStoryDetailsModel {
 
         @SerializedName("property_id")
         @Expose
-         var propertyId: String? = null
+         var propertyId: Int? = null
 
         @SerializedName("reviewer_id")
         @Expose
-         var reviewerId: String? = null
+         var reviewerId: Int? = null
 
         @SerializedName("status")
         @Expose

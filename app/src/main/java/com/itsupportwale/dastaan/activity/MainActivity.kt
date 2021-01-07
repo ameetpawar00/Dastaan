@@ -20,17 +20,13 @@ import com.bumptech.glide.Glide
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 import com.google.gson.Gson
-import com.google.gson.JsonObject
-import com.loopj.android.http.RequestParams
 import com.itsupportwale.dastaan.R
-import com.itsupportwale.dastaan.beans.ResponseGetLocationData
 import com.itsupportwale.dastaan.databinding.ActivityMainBinding
 import com.itsupportwale.dastaan.fragment.FavouritesFragment
 import com.itsupportwale.dastaan.fragment.HomeFragment
 import com.itsupportwale.dastaan.fragment.ProfileFragment
 import com.itsupportwale.dastaan.fragment.SettingsFragment
-import com.itsupportwale.dastaan.servermanager.UrlManager
-import com.itsupportwale.dastaan.servermanager.request.CommonValueModel
+import com.itsupportwale.dastaan.servermanager.UrlManager.Companion.PARAM_USER_ID
 import com.itsupportwale.dastaan.utility.*
 
 
@@ -39,7 +35,7 @@ class MainActivity : BaseActivity(), View.OnClickListener,
 
     private var userPreference: UserPreference? = null
     lateinit var activityMainBinding: ActivityMainBinding
-
+    var userId = 0
     val gson: Gson = Gson()
 
     lateinit var drawer: DrawerLayout
@@ -103,8 +99,16 @@ class MainActivity : BaseActivity(), View.OnClickListener,
         activityMainBinding.userProfileLinLay.setOnClickListener(this)
 
         if (intent.hasExtra(PARAM_COMING_FROM)) {
+
+            if (intent.hasExtra(PARAM_USER_ID)) {
+                userId = intent.getIntExtra(PARAM_USER_ID, 0)
+            }
+
             var commingFrom = intent.getIntExtra(PARAM_COMING_FROM, 1)
             changeTab(commingFrom)
+
+
+
         } else {
             changeTab(TAB_BAR_HOME)
         }
@@ -271,9 +275,14 @@ class MainActivity : BaseActivity(), View.OnClickListener,
                 activityMainBinding.topNavBar.notificationIcon.visibility = View.GONE
                 activityMainBinding.topNavBar.notificationCount.visibility = View.GONE
 
-                activityMainBinding.topNavBar.editBtn.visibility = View.VISIBLE
 
 
+                if(userId == userPreference?.user_id!!)
+                {
+                    activityMainBinding.topNavBar.editBtn.visibility = View.VISIBLE
+                }else{
+                    activityMainBinding.topNavBar.editBtn.visibility = View.GONE
+                }
                 //activityMainBinding.topNavBar.navTitle.setTextColor(resources.getColor(R.color.black))
                 //activityMainBinding.topNavBar.notificationIcon.setColorFilter(ContextCompat.getColor(this, R.color.black))
                 //activityMainBinding.topNavBar.menuIcon.setColorFilter(ContextCompat.getColor(this, R.color.black))
@@ -286,6 +295,9 @@ class MainActivity : BaseActivity(), View.OnClickListener,
                 val fragmentTransaction = fragmentManager.beginTransaction()
                 val fragment: Fragment
                 fragment = ProfileFragment()
+                val args = Bundle()
+                args.putInt(PARAM_USER_ID, userId)
+                fragment.setArguments(args)
                 fragmentTransaction.setCustomAnimations(
                     R.anim.slide_from_left,
                     R.anim.slide_to_right

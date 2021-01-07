@@ -20,7 +20,7 @@ class GetFavData {
     class Datum {
         @SerializedName("id")
         @Expose
-        var id: String? = null
+        var id: Int? = null
 
         @SerializedName("title")
         @Expose

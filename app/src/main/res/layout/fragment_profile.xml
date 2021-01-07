@@ -118,7 +118,7 @@
                                 android:textSize="@dimen/text_size_12sp" />
                         </LinearLayout>
                         <View
-                            android:visibility="gone"
+                            android:visibility="visible"
                             android:layout_width="1dp"
                             android:layout_height="match_parent"
                             android:background="@color/grey_live"
@@ -132,44 +132,20 @@
                             android:orientation="vertical"
                             >
                             <TextView
-                                android:id="@+id/likeCount"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="56"
-                                android:textSize="@dimen/text_size_18sp"
-                                android:textColor="@color/colorHeadings"
-                                android:fontFamily="@font/louis_george_cafe_bold"
-                                />
-                            <TextView
-                                android:textAllCaps="true"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Likes"
-                                android:textSize="@dimen/text_size_10sp"
-                                android:textColor="@color/colorHeadings"
-                                android:fontFamily="@font/louis_george_cafe_bold"
-                                />
-                            <View
-                                android:layout_marginHorizontal="@dimen/dim_20_dp"
-                                android:layout_marginVertical="@dimen/dim_5_dp"
-                                android:layout_width="match_parent"
-                                android:layout_height="1dp"
-                                android:background="@color/grey_live"
-                                />
-                            <TextView
                                 android:id="@+id/followersCount"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="56"
+                                android:text="0"
                                 android:textSize="@dimen/text_size_18sp"
                                 android:textColor="@color/colorHeadings"
                                 android:fontFamily="@font/louis_george_cafe_bold"
                                 />
                             <TextView
+                                android:id="@+id/followersTitle"
                                 android:textAllCaps="true"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Followers"
+                                android:text="Follower"
                                 android:textSize="@dimen/text_size_10sp"
                                 android:textColor="@color/colorHeadings"
                                 android:fontFamily="@font/louis_george_cafe_bold"
@@ -219,7 +195,7 @@
                         />
                     <TextView
                         android:layout_centerVertical="true"
-                        android:id="@+id/viewAll"
+                        android:id="@+id/viewAllBtn"
                         android:visibility="gone"
                         android:layout_alignParentEnd="true"
                         android:layout_gravity="start"
@@ -229,6 +205,7 @@
                         android:fontFamily="@font/louis_george_cafe_bold"
                         android:textAllCaps="false"
                         android:textSize="@dimen/dim_10_dp"
+                        android:clickable="true"
                         android:textColor="@color/signup_color"
                         />
                 </RelativeLayout>

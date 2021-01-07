@@ -7,31 +7,32 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.itsupportwale.dastaan.databinding.RowItemStoryBinding
-import com.itsupportwale.dastaan.databinding.RowItemStoryPhotoBinding
-
+import com.itsupportwale.dastaan.beans.GetUserProfileData
+import com.itsupportwale.dastaan.databinding.RowRecentlyViewedBinding
+import java.text.NumberFormat
+import java.util.*
 import kotlin.collections.ArrayList
 
-class StoryPhotoAdapter(activity: Context, arrayList:ArrayList<String>) : RecyclerView.Adapter<StoryPhotoAdapter.ListViewHolder>() {
+class MyStoriesAdapter(activity: Context, arrayList:ArrayList<GetUserProfileData.MyStories>) : RecyclerView.Adapter<MyStoriesAdapter.ListViewHolder>() {
 
     var activity: Context
-    var arrayList:ArrayList<String>
+    var arrayList:ArrayList<GetUserProfileData.MyStories>
 
     init {
         this.activity = activity
         this.arrayList = arrayList
     }
 
-    class ListViewHolder(listBinding: RowItemStoryPhotoBinding) : RecyclerView.ViewHolder(listBinding.root)
+    class ListViewHolder(listBinding: RowRecentlyViewedBinding) : RecyclerView.ViewHolder(listBinding.root)
     {
-        var listBinding: RowItemStoryPhotoBinding
+        var listBinding: RowRecentlyViewedBinding
         init {
             this.listBinding = listBinding
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
-        val listBinding = DataBindingUtil.inflate<RowItemStoryPhotoBinding>(LayoutInflater.from(parent.context), R.layout.row_item_story_photo ,parent ,false  )
+        val listBinding = DataBindingUtil.inflate<RowRecentlyViewedBinding>(LayoutInflater.from(parent.context), R.layout.row_recently_viewed ,parent ,false  )
 
         return ListViewHolder(listBinding)
     }
@@ -41,14 +42,18 @@ class StoryPhotoAdapter(activity: Context, arrayList:ArrayList<String>) : Recycl
     }
 
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
-        //holder.listBinding.thisText.text = arrayList[position]
+        holder.listBinding.thisTitleName.text = arrayList[position].title
+        if(arrayList[position].photo!=null&& arrayList[position].photo!!.isNotEmpty()){
+            Glide.with(activity)
+                .load(arrayList[position].photo!![0])
+                .error(R.drawable.ic_default_image)
+                .into( holder.listBinding.bannerImage)
 
-           Glide.with(activity).load(arrayList[position])
-                   .into(holder.listBinding.thisImage)
+        }
 
         holder.listBinding.parentPanel.setOnClickListener{
             if (mItemClickListener != null) {
-                mItemClickListener?.onItemListItemClickListener( position)
+                mItemClickListener?.onItemListItemClickListener(position)
             }
         }
     }

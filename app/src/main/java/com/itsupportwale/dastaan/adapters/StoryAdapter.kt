@@ -17,7 +17,6 @@ import com.itsupportwale.dastaan.databinding.RowItemStoryBinding
 import com.itsupportwale.dastaan.utility.CLICK_FROM_FAV
 import com.itsupportwale.dastaan.utility.CLICK_FROM_NOT_FAV
 import com.itsupportwale.dastaan.utility.CLICK_FROM_PARENT
-import com.itsupportwale.dastaan.utility.TAB_PROP_MOST
 
 
 class StoryAdapter(activity: Context, arrayList: ArrayList<ResponseHomeData.Story>) : RecyclerView.Adapter<StoryAdapter.ListViewHolder>() {

@@ -5,18 +5,18 @@ package com.itsupportwale.dastaan.utility
 interface ListenerIns {
     fun onReturnValue(input: ArrayList<String>?)
     fun onReturnValue(input: StringBuilder)
-    fun onReturnValue(id: String?)
+    fun onReturnValue(id: Int?)
 }
 interface ListenerSpec {
     fun onReturnValue(input: ArrayList<String>?)
     fun onReturnValue(input: StringBuilder)
-    fun onReturnValue(id: String?)
+    fun onReturnValue(id: Int?)
 
 }
 interface ListenerBranch {
     fun onReturnValue(input: ArrayList<String>?)
     fun onReturnValue(input: StringBuilder)
-    fun onReturnValue(id: String?)
+    fun onReturnValue(id: Int?)
 
 }
 interface ListenerSort {
