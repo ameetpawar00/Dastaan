@@ -2,14 +2,18 @@ package com.itsupportwale.dastaan.activity
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.EditText
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -17,6 +21,7 @@ import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.gson.Gson
 import com.google.gson.JsonObject
+import com.itsupportwale.dastaan.BuildConfig
 import com.itsupportwale.dastaan.R
 import com.itsupportwale.dastaan.adapters.StoryPhotoAdapter
 import com.itsupportwale.dastaan.adapters.StoryRatingAdapter
@@ -27,16 +32,16 @@ import com.itsupportwale.dastaan.databinding.ActivityStoryDetailsBinding
 import com.itsupportwale.dastaan.servermanager.UrlManager
 import com.itsupportwale.dastaan.servermanager.UrlManager.Companion.METHOD_NAME
 import com.itsupportwale.dastaan.servermanager.UrlManager.Companion.PARAM_USER_ID
-import com.itsupportwale.dastaan.servermanager.UrlManager.Companion.PARAM_WRITER_ID
 import com.itsupportwale.dastaan.servermanager.request.CommonValueModel
 import com.itsupportwale.dastaan.utility.*
 import com.loopj.android.http.RequestParams
-import kotlinx.android.synthetic.main.activity_story_details.*
+import java.io.File
+import java.lang.Integer.parseInt
 
 
 class StoryDetailsActivity : BaseActivity(), View.OnClickListener, StoryPhotoAdapter.onRecyclerViewItemClickListener{
     lateinit var activityStoryDetailsBinding: ActivityStoryDetailsBinding
-
+    lateinit var parentPanel:LinearLayout
     private val storyPhotoArray: ArrayList<String> = ArrayList()
     lateinit var storyPhotoAdapter : StoryPhotoAdapter
     private val storyRatingArray: ArrayList<ResponseStoryDetailsData.RatingDatum> = ArrayList()
@@ -64,13 +69,25 @@ class StoryDetailsActivity : BaseActivity(), View.OnClickListener, StoryPhotoAda
             }
         })
 
+        //handleIntent();
+
         initView()
+    }
+
+    private fun handleIntent()
+    {
+        val appLinkIntent = intent
+        val appLinkAction = appLinkIntent.action
+        val appLinkData = appLinkIntent.data
+        storyId = parseInt(appLinkData!!.lastPathSegment)
+        Log.d("storyIdstoryId",storyId.toString())
     }
 
     override fun onResume() {
         super.onResume()
         getStoryDetails()
     }
+
     fun initView()
     {
         activityStoryDetailsBinding.shareBtn.setOnClickListener(this)
@@ -92,6 +109,8 @@ class StoryDetailsActivity : BaseActivity(), View.OnClickListener, StoryPhotoAda
                 R.color.white
             )
         )
+
+        parentPanel = activityStoryDetailsBinding.parentPanel
 
         storyPhotoAdapter = StoryPhotoAdapter(this, storyPhotoArray)
         activityStoryDetailsBinding.photoListRv.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
@@ -291,7 +310,7 @@ class StoryDetailsActivity : BaseActivity(), View.OnClickListener, StoryPhotoAda
                 finish()
             }
             R.id.shareBtn -> {
-
+                shareYourDastaan()
             }
             R.id.favoritesLinLay -> {
                 val params = RequestParams()
@@ -339,6 +358,41 @@ class StoryDetailsActivity : BaseActivity(), View.OnClickListener, StoryPhotoAda
     }
 
 
+    private fun shareYourDastaan() {
+        var b: Bitmap? = ScreenshotUtils.getScreenShot(parentPanel)
+
+        if (b != null) {
+            val saveFile: File =
+                ScreenshotUtils.getMainDirectoryName(this) //get the path to save screenshot
+            val file: File = ScreenshotUtils.store(
+                b,
+                "screenshot.jpg",
+                saveFile
+            ) //save the screenshot to selected path
+
+
+            val outputFileUri: Uri =
+                FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID, file)
+
+            shareScreenshot(file) //finally share screenshot
+        } else  //If bitmap is null show toast message
+            Toast.makeText(this,"Screenshot Take Failed", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun shareScreenshot(file: File) {
+        val uri =
+            Uri.fromFile(file) //Convert file path into Uri for sharing
+
+
+        val intent = Intent()
+        intent.action = Intent.ACTION_SEND
+        intent.type = "image/*"
+        intent.putExtra(Intent.EXTRA_SUBJECT, "EXTRA_SUBJECT")
+        intent.putExtra(Intent.EXTRA_TEXT, "EXTRA_TEXT")
+        intent.putExtra(Intent.EXTRA_STREAM, uri) //pass uri here
+        startActivity(Intent.createChooser(intent, "Share Your Dastaan"))
+    }
+
     var bottomSheetDialog: BottomSheetDialog? = null
     fun initializeChildBottomBarBottomBar(header: String?) {
         bottomSheetDialog = BottomSheetDialog(this)
@@ -351,7 +405,6 @@ class StoryDetailsActivity : BaseActivity(), View.OnClickListener, StoryPhotoAda
             .setOnClickListener { bottomSheetDialog!!.cancel() }
 
         (parentView.findViewById<View>(R.id.thisRatingBar) as CustomRatingBar).setScore(rating.toFloat())
-
 
         parentView.findViewById<View>(R.id.submitTxt).setOnClickListener {
             if ((parentView.findViewById<View>(R.id.thisRatingBar) as CustomRatingBar).getScore() === 0.0f) {

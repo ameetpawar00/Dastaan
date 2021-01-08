@@ -20,6 +20,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Dastaan">
+
         <activity
             android:name=".activity.MyStoriesList"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -72,6 +73,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
             -->
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:scheme="https"
+                    android:host="test.itsupportwale.com"
+                    android:pathPrefix="/story" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".activity.WelcomeActivity"
