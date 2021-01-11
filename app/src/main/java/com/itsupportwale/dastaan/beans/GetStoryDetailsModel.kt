@@ -2,7 +2,6 @@ package com.itsupportwale.dastaan.beans
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
-import java.math.BigInteger
 
 
 class GetStoryDetailsModel {

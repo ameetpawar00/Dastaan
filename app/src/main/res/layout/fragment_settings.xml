@@ -40,54 +40,128 @@
                         android:orientation="vertical"
                         >
                         <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/application"
+                            android:textSize="@dimen/text_size_16sp"
+                            android:textAllCaps="true"
+                            android:fontFamily="@font/montserrat_bold"
+                            android:textColor="@color/colorHeadings"
+                            />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/sorry_ads_are_there_only_for_our_kitchen_thank_you_for_being_awesome"
+                            android:textSize="@dimen/text_size_14sp"
+                            android:fontFamily="@font/louis_george_cafe"
+                            android:textColor="@color/colorHeadings"
                             android:layout_marginVertical="@dimen/dim_10_dp"
-                            android:layout_alignParentStart="true"
+                            />
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/rem_color"
+                            android:layout_marginVertical="5dp"
+                            />
+                        <TextView
+                            android:layout_marginVertical="@dimen/dim_10_dp"
+                            android:id="@+id/rateUsBtn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/rate_us"
+                            android:textSize="@dimen/text_size_16sp"
+                            android:textAllCaps="true"
+                            android:fontFamily="@font/louis_george_cafe_bold"
+                            android:textColor="@color/colorHeadings"
+                            />
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/rem_color"
+                            android:layout_marginVertical="5dp"
+                            />
+                        <TextView
+                            android:layout_marginVertical="@dimen/dim_10_dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/share_app"
+                            android:textSize="@dimen/text_size_16sp"
+                            android:id="@+id/shareUsBtn"
+                            android:textAllCaps="true"
+                            android:fontFamily="@font/louis_george_cafe_bold"
+                            android:textColor="@color/colorHeadings"
+                            />
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/rem_color"
+                            android:layout_marginVertical="5dp"
+                            />
+                        <TextView
+                            android:layout_marginVertical="@dimen/dim_10_dp"
+                            android:id="@+id/sendFeedbackBtn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/send_feedback"
+                            android:textSize="@dimen/text_size_16sp"
+                            android:textAllCaps="true"
+                            android:fontFamily="@font/louis_george_cafe_bold"
+                            android:textColor="@color/colorHeadings"
+                            />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/rem_color"
+                            android:layout_marginVertical="5dp"
+                            />
+                        <TextView
+                            android:layout_marginVertical="@dimen/dim_10_dp"
+                            android:id="@+id/privacyBtn"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/privacy_policy"
-                            android:textColor="@color/colorHeadings"
+                            android:textSize="@dimen/text_size_16sp"
+                            android:textAllCaps="true"
                             android:fontFamily="@font/louis_george_cafe_bold"
-                            android:textSize="@dimen/text_size_14sp"
+                            android:textColor="@color/colorHeadings"
+                            />
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/rem_color"
+                            android:layout_marginVertical="5dp"
                             />
                         <TextView
                             android:layout_marginVertical="@dimen/dim_10_dp"
-
-                            android:layout_alignParentStart="true"
+                            android:id="@+id/termsBtn"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/faq_s"
-                            android:textColor="@color/colorHeadings"
+                            android:text="@string/term_amp_conditions"
+                            android:textSize="@dimen/text_size_16sp"
+                            android:textAllCaps="true"
                             android:fontFamily="@font/louis_george_cafe_bold"
-                            android:textSize="@dimen/text_size_14sp"
+                            android:textColor="@color/colorHeadings"
                             />
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/rem_color"
+                            android:layout_marginVertical="5dp"
+                            />
+
                         <TextView
                             android:layout_marginVertical="@dimen/dim_10_dp"
-
-                            android:layout_alignParentStart="true"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/help_support"
-                            android:textColor="@color/colorHeadings"
-                            android:fontFamily="@font/louis_george_cafe_bold"
-                            android:textSize="@dimen/text_size_14sp"
-                            />
-
-                        <TextView
                             android:id="@+id/logoutBtn"
-                            android:layout_marginVertical="@dimen/dim_10_dp"
-                            android:layout_alignParentStart="true"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/logout"
                             android:textColor="@color/red_blood"
                             android:fontFamily="@font/louis_george_cafe_bold"
-                            android:textSize="@dimen/text_size_14sp"
+                            android:textSize="@dimen/text_size_16sp"
                             />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
-
-
-
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
     </LinearLayout>

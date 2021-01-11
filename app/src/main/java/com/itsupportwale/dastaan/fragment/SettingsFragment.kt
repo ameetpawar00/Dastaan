@@ -1,10 +1,20 @@
 package com.itsupportwale.dastaan.fragment
 
+import android.app.Activity
+import android.content.ActivityNotFoundException
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -14,6 +24,7 @@ import com.itsupportwale.dastaan.activity.LoginActivity
 import com.itsupportwale.dastaan.activity.SplashScreenActivity
 import com.itsupportwale.dastaan.databinding.FragmentSettingsBinding
 import com.itsupportwale.dastaan.servermanager.request.CommonValueModel
+import com.itsupportwale.dastaan.utility.ShareData
 import com.itsupportwale.dastaan.utility.UserPreference
 
 /**
@@ -26,7 +37,7 @@ class SettingsFragment : BaseFragment(), FragmentBaseListener, View.OnClickListe
 
     lateinit var fragmentSettingsBinding : FragmentSettingsBinding
     val gson: Gson = Gson()
-
+    var rootView: View? = null
     companion object {
         fun newInstance(): SettingsFragment {
             return SettingsFragment()
@@ -52,6 +63,14 @@ class SettingsFragment : BaseFragment(), FragmentBaseListener, View.OnClickListe
     private fun initView(view: View) {
 
         fragmentSettingsBinding.logoutBtn.setOnClickListener(this)
+        fragmentSettingsBinding.termsBtn.setOnClickListener(this)
+        fragmentSettingsBinding.privacyBtn.setOnClickListener(this)
+        fragmentSettingsBinding.sendFeedbackBtn.setOnClickListener(this)
+        fragmentSettingsBinding.shareUsBtn.setOnClickListener(this)
+        fragmentSettingsBinding.rateUsBtn.setOnClickListener(this)
+
+        rootView = view
+
       //  val postRequestModel = PostRequestModel()
      //   showLoader(requireActivity().resources.getString(R.string.please_wait))
     //    var commonModel = CommonValueModel()
@@ -63,6 +82,99 @@ class SettingsFragment : BaseFragment(), FragmentBaseListener, View.OnClickListe
             R.id.logoutBtn -> {
                 LogoutBtn()
             }
+            R.id.termsBtn -> {
+                val uri =
+                    Uri.parse("https://polutiontracker.itsupportwale.com/terms") // missing 'http://' will cause crashed
+
+                val intent = Intent(Intent.ACTION_VIEW, uri)
+                startActivity(intent)
+            }
+            R.id.privacyBtn -> {
+                val uri =
+                    Uri.parse("https://polutiontracker.itsupportwale.com/policy") // missing 'http://' will cause crashed
+
+                val intent = Intent(Intent.ACTION_VIEW, uri)
+                startActivity(intent)
+            }
+            R.id.sendFeedbackBtn -> {
+                sendFeedback(requireActivity())
+            }
+            R.id.shareUsBtn -> {
+                shareUs()
+            }
+            R.id.rateUsBtn -> {
+                rateUs()
+            }
+        }
+    }
+
+
+    fun rateUs() {
+        val uri =
+            Uri.parse("market://details?id=" + requireActivity().getPackageName())
+        val goToMarket = Intent(Intent.ACTION_VIEW, uri)
+        // To count with Play market backstack, After pressing back button,
+        // to taken back to our application, we need to add following flags to intent.
+        goToMarket.addFlags(
+            Intent.FLAG_ACTIVITY_NO_HISTORY or
+                    Intent.FLAG_ACTIVITY_NEW_DOCUMENT or
+                    Intent.FLAG_ACTIVITY_MULTIPLE_TASK
+        )
+        try {
+            startActivity(goToMarket)
+        } catch (e: ActivityNotFoundException) {
+            startActivity(
+                Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse("http://play.google.com/store/apps/details?id=" + requireActivity().getPackageName())
+                )
+            )
+        }
+    }
+
+    private fun shareUs() {
+        val shareData = ShareData(
+            rootView, this!!.activity!!, activity
+        )
+        shareData.ShareImageData("null")
+    }
+
+    fun sendFeedback(
+        activity: Activity
+    ) {
+        val emailIntent = Intent(Intent.ACTION_SENDTO)
+        var deviceInfo = "Device Info:"
+        try {
+            val android_id = Settings.Secure.getString(
+                activity.contentResolver,
+                Settings.Secure.ANDROID_ID
+            )
+            val versionName =
+                activity.packageManager.getPackageInfo(activity.packageName, 0).versionName
+            deviceInfo += "<br> Android Id: $android_id"
+            deviceInfo += "<br> Android Version: $versionName"
+            deviceInfo += "<br> OS Version: " + System.getProperty("os.version") + "(" + Build.VERSION.INCREMENTAL + ")"
+            deviceInfo += "<br> OS API Level: " + Build.VERSION.SDK_INT
+            deviceInfo += "<br> Device: " + Build.DEVICE
+            deviceInfo += "<br> Model (and Product): " + Build.MODEL + " (" + Build.PRODUCT + ")"
+            deviceInfo += "<br>------ Please don't edit anything above this line, to help us serve you better ------<br><br><br>"
+        } catch (e: PackageManager.NameNotFoundException) {
+        }
+        val aEmailList =
+            arrayOf("contact@itsupportwale.in")
+        emailIntent.data = Uri.parse("mailto:") // only email apps should handle this
+        emailIntent.putExtra(Intent.EXTRA_EMAIL, aEmailList)
+        emailIntent.putExtra(
+            Intent.EXTRA_TEXT,
+            Html.fromHtml("<i><font color='your color'>$deviceInfo</font></i>")
+        )
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Feedback : Dastaan")
+        val packageManager = activity.packageManager
+        val isIntentSafe = emailIntent.resolveActivity(packageManager) != null
+        if (isIntentSafe) {
+            startActivity(emailIntent)
+        } else {
+            Toast.makeText(activity, "Email App Not Installed", Toast.LENGTH_SHORT).show()
         }
     }
 

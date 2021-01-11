@@ -20,6 +20,7 @@ import com.google.gson.JsonObject
 import com.jakewharton.rxbinding2.widget.RxTextView
 import com.jakewharton.rxbinding2.widget.TextViewTextChangeEvent
 import com.itsupportwale.dastaan.R
+import com.itsupportwale.dastaan.activity.MySubscriptionActivity
 import com.itsupportwale.dastaan.activity.StoryDetailsActivity
 import com.itsupportwale.dastaan.adapters.*
 import com.itsupportwale.dastaan.beans.ResponseHomeData
@@ -90,6 +91,7 @@ class HomeFragment : BaseFragment(), FragmentBaseListener, View.OnClickListener,
     }
     private fun initView(view: View) {
         fragmentHomeBinding.sortBYBtn.setOnClickListener(this)
+        fragmentHomeBinding.viewAllBtn.setOnClickListener(this)
 
         disposable.add(
             RxTextView.textChangeEvents(fragmentHomeBinding.searchEdt).skipInitialValue()
@@ -207,7 +209,6 @@ class HomeFragment : BaseFragment(), FragmentBaseListener, View.OnClickListener,
                     mySubscriptionDataArray.addAll(model.data!!.mySubscription!!)
                     mySubscriptionAdapter.notifyDataSetChanged()
 
-
                     if(storyDataArray.size>0)
                     {
                         fragmentHomeBinding.noDataAvailableStory.visibility = View.GONE
@@ -322,6 +323,11 @@ class HomeFragment : BaseFragment(), FragmentBaseListener, View.OnClickListener,
         when (view?.id) {
             R.id.sortBYBtn -> {
                 initializeChildBottomBar()
+            }
+            R.id.viewAllBtn -> {
+                val intent = Intent(requireActivity(), MySubscriptionActivity::class.java)
+                startActivity(intent)
+                requireActivity().overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
             }
         }
     }

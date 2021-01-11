@@ -120,6 +120,7 @@
     <string name="error_city">Please Select City</string>
     <string name="notifications">Notifications</string>
     <string name="myStories">My Stories</string>
+    <string name="mySubscriptions">My Subscriptions</string>
     <string name="currency">Currency</string>
     <string name="dollars">Dollars</string>
     <string name="logout">Logout</string>
@@ -231,6 +232,14 @@
     <string name="following">Following</string>
     <string name="view_all"><u>View All</u></string>
     <string name="my_stories">My Stories</string>
+    <string name="my_subscription">My Subscription</string>
+    <string name="application">Application</string>
+    <string name="sorry_ads_are_there_only_for_our_kitchen_thank_you_for_being_awesome">Sorry, Ads are there only for our kitchen, Thank you for being Awesome</string>
+    <string name="rate_us">Rate Us</string>
+    <string name="who_we_are">Who We Are</string>
+    <string name="share_app">Share App</string>
+    <string name="send_feedback">Send Feedback</string>
+    <string name="version">Version</string>
 
     <string-array name="rent_sell">
         <item>Rent</item>

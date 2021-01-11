@@ -114,7 +114,6 @@ class MainActivity : BaseActivity(), View.OnClickListener,
         }
     }
 
-
     private val mCounterReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             // Get extra data included in the Intent
@@ -277,7 +276,7 @@ class MainActivity : BaseActivity(), View.OnClickListener,
 
 
 
-                if(userId == userPreference?.user_id!!)
+                if(userId == 0)
                 {
                     activityMainBinding.topNavBar.editBtn.visibility = View.VISIBLE
                 }else{

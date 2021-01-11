@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+
+        <variable
+            name="mySubscriptionActivity"
+            type="com.itsupportwale.dastaan.activity.MySubscriptionActivity" />
+    </data>
+
+    <LinearLayout
+        android:background="@color/theme_color"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+        <include
+            android:id="@+id/topNavBar"
+            layout="@layout/top_nav_bar_view"
+            />
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:background="@color/theme_color"
+            android:id="@+id/pullToRefresh"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fillViewport="true"
+                >
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    >
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:layout_marginHorizontal="@dimen/dim_20_dp"
+                        android:id="@+id/storyRecyclerView"
+                        android:layout_width="match_parent"
+                        android:paddingBottom="@dimen/dim_100_dp"
+                        android:layout_height="match_parent"
+                        android:visibility="gone"
+                        android:orientation="vertical" />
+                    <TextView
+                        android:id="@+id/noDataAvailable"
+                        android:visibility="visible"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/no_data_available"
+                        android:fontFamily="@font/louis_george_cafe_bold"
+                        android:textSize="@dimen/text_size_12sp"
+                        android:padding="@dimen/dim_20_dp"
+                        android:layout_gravity="center_horizontal"
+                        />
+                </LinearLayout>
+            </androidx.core.widget.NestedScrollView>
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    </LinearLayout>
+</layout>

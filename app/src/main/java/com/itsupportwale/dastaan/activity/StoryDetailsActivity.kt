@@ -1,6 +1,7 @@
 package com.itsupportwale.dastaan.activity
 
 import android.annotation.SuppressLint
+import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
@@ -36,6 +37,7 @@ import com.itsupportwale.dastaan.servermanager.request.CommonValueModel
 import com.itsupportwale.dastaan.utility.*
 import com.loopj.android.http.RequestParams
 import java.io.File
+import java.io.FileOutputStream
 import java.lang.Integer.parseInt
 
 
@@ -69,18 +71,8 @@ class StoryDetailsActivity : BaseActivity(), View.OnClickListener, StoryPhotoAda
             }
         })
 
-        //handleIntent();
 
         initView()
-    }
-
-    private fun handleIntent()
-    {
-        val appLinkIntent = intent
-        val appLinkAction = appLinkIntent.action
-        val appLinkData = appLinkIntent.data
-        storyId = parseInt(appLinkData!!.lastPathSegment)
-        Log.d("storyIdstoryId",storyId.toString())
     }
 
     override fun onResume() {
@@ -310,7 +302,11 @@ class StoryDetailsActivity : BaseActivity(), View.OnClickListener, StoryPhotoAda
                 finish()
             }
             R.id.shareBtn -> {
-                shareYourDastaan()
+
+                val rootView = window.decorView.findViewById<View>(android.R.id.content)
+                val screenshot: Bitmap = getScreenShot(rootView)!!
+                share(screenshot)
+
             }
             R.id.favoritesLinLay -> {
                 val params = RequestParams()
@@ -358,40 +354,9 @@ class StoryDetailsActivity : BaseActivity(), View.OnClickListener, StoryPhotoAda
     }
 
 
-    private fun shareYourDastaan() {
-        var b: Bitmap? = ScreenshotUtils.getScreenShot(parentPanel)
-
-        if (b != null) {
-            val saveFile: File =
-                ScreenshotUtils.getMainDirectoryName(this) //get the path to save screenshot
-            val file: File = ScreenshotUtils.store(
-                b,
-                "screenshot.jpg",
-                saveFile
-            ) //save the screenshot to selected path
 
 
-            val outputFileUri: Uri =
-                FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID, file)
 
-            shareScreenshot(file) //finally share screenshot
-        } else  //If bitmap is null show toast message
-            Toast.makeText(this,"Screenshot Take Failed", Toast.LENGTH_SHORT).show()
-    }
-
-    private fun shareScreenshot(file: File) {
-        val uri =
-            Uri.fromFile(file) //Convert file path into Uri for sharing
-
-
-        val intent = Intent()
-        intent.action = Intent.ACTION_SEND
-        intent.type = "image/*"
-        intent.putExtra(Intent.EXTRA_SUBJECT, "EXTRA_SUBJECT")
-        intent.putExtra(Intent.EXTRA_TEXT, "EXTRA_TEXT")
-        intent.putExtra(Intent.EXTRA_STREAM, uri) //pass uri here
-        startActivity(Intent.createChooser(intent, "Share Your Dastaan"))
-    }
 
     var bottomSheetDialog: BottomSheetDialog? = null
     fun initializeChildBottomBarBottomBar(header: String?) {
@@ -418,6 +383,47 @@ class StoryDetailsActivity : BaseActivity(), View.OnClickListener, StoryPhotoAda
             }
         }
         bottomSheetDialog!!.show()
+    }
+
+
+    fun getScreenShot(view: View): Bitmap? {
+        val screenView = view.rootView
+        screenView.isDrawingCacheEnabled = true
+        val bitmap = Bitmap.createBitmap(screenView.drawingCache)
+        screenView.isDrawingCacheEnabled = false
+        return bitmap
+    }
+
+    fun share(bitmap: Bitmap) {
+        val fileName = "share.png"
+        val dir = File(cacheDir, "images")
+        dir.mkdirs()
+        val file = File(dir, fileName)
+        try {
+            val fOut = FileOutputStream(file)
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fOut)
+            fOut.flush()
+            fOut.close()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        val uri = FileProvider.getUriForFile(
+            this,
+            "com.itsupportwale.dastaan.fileprovider", file
+        )
+        val intent = Intent()
+        intent.action = Intent.ACTION_SEND
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        intent.type = "image/*"
+        intent.setDataAndType(uri, contentResolver.getType(uri))
+        intent.putExtra(Intent.EXTRA_SUBJECT, "EXTRA_SUBJECT")
+        intent.putExtra(Intent.EXTRA_TEXT, "EXTRA_TEXT")
+        intent.putExtra(Intent.EXTRA_STREAM, uri)
+        try {
+            startActivity(Intent.createChooser(intent, "Share Image"))
+        } catch (e: ActivityNotFoundException) {
+            Toast.makeText(this, "No App Available", Toast.LENGTH_SHORT).show()
+        }
     }
 
 
