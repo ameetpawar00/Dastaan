@@ -24,11 +24,11 @@ class ResponseHomeData {
 
         @SerializedName("story")
         @Expose
-        var story: List<Story>? = null
+        var story: List<Story>? = ArrayList()
 
         @SerializedName("my_subscription")
         @Expose
-        var mySubscription: List<MySubscription>? = null
+        var mySubscription: ArrayList<MySubscription>? = ArrayList()
 
     }
 

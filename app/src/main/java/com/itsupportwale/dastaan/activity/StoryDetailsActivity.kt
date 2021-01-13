@@ -16,13 +16,13 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.gson.Gson
 import com.google.gson.JsonObject
-import com.itsupportwale.dastaan.BuildConfig
 import com.itsupportwale.dastaan.R
 import com.itsupportwale.dastaan.adapters.StoryPhotoAdapter
 import com.itsupportwale.dastaan.adapters.StoryRatingAdapter
@@ -117,6 +117,20 @@ class StoryDetailsActivity : BaseActivity(), View.OnClickListener, StoryPhotoAda
         if (null != extras) {
             storyId = extras.getInt(UrlManager.PARAM_STORY_ID)
             getStoryDetails()
+        }
+
+        val appLinkIntent = intent
+        val appLinkAction = appLinkIntent.action
+        val appLinkData = appLinkIntent.data
+
+        if (appLinkAction != null) {
+            if (appLinkAction == "android.intent.action.VIEW") {
+
+                if (appLinkData!!.lastPathSegment != null)
+                {
+                    storyId = parseInt(appLinkData!!.lastPathSegment)
+                }
+            }
         }
     }
 
