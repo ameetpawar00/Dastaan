@@ -240,6 +240,7 @@
     <string name="share_app">Share App</string>
     <string name="send_feedback">Send Feedback</string>
     <string name="version">Version</string>
+    <string name="banner_ad_unit_id">ca-app-pub-4905384164104793/7385679589</string>
 
     <string-array name="rent_sell">
         <item>Rent</item>

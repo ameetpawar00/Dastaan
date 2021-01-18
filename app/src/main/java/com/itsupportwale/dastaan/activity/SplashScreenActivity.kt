@@ -12,7 +12,7 @@ import com.itsupportwale.dastaan.utility.*
 
 class SplashScreenActivity : BaseActivity(), View.OnClickListener{
 
-    private val SPLASH_TIME_OUT = 2000
+    private val SPLASH_TIME_OUT = 3000
     private var userPreference: UserPreference? = null
     lateinit var activitySplashScreenBinding: ActivitySplashScreenBinding
 

@@ -20,6 +20,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.bumptech.glide.Glide
+import com.google.android.gms.ads.*
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.gson.Gson
 import com.google.gson.JsonObject
@@ -49,11 +50,12 @@ class StoryDetailsActivity : BaseActivity(), View.OnClickListener, StoryPhotoAda
     private val storyRatingArray: ArrayList<ResponseStoryDetailsData.RatingDatum> = ArrayList()
     lateinit var storyRatingAdapter : StoryRatingAdapter
     private var userPreference: UserPreference? = null
-
+    private lateinit var adView: AdView
     var storyId: Int=0
     var writerId: Int=0
     var rating = 0.0
 
+    private lateinit var mInterstitialAd: InterstitialAd
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,6 +73,59 @@ class StoryDetailsActivity : BaseActivity(), View.OnClickListener, StoryPhotoAda
             }
         })
 
+        MobileAds.initialize(
+            this
+        ) { }
+        adView = findViewById(R.id.ad_view)
+        val adRequest =
+            AdRequest.Builder()
+                //.addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .build()
+        //
+        //
+        adView.loadAd(adRequest)
+        adView.setAdListener(object : AdListener() {
+            override fun onAdFailedToLoad(errorCode: Int) {
+                Toast.makeText(this@StoryDetailsActivity, "Ad failed: $errorCode", Toast.LENGTH_SHORT)
+                    .show()
+            }
+        })
+
+        mInterstitialAd = InterstitialAd(this)
+        mInterstitialAd.adUnitId = "ca-app-pub-4905384164104793/7198617950"
+
+        val adRequestInterstitial =
+            AdRequest.Builder()
+                //.addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .build()
+
+        mInterstitialAd.loadAd(adRequestInterstitial)
+
+        mInterstitialAd.adListener = object: AdListener() {
+            override fun onAdLoaded() {
+                // Code to be executed when an ad finishes loading.
+            }
+
+            override fun onAdFailedToLoad(adError: LoadAdError) {
+                finish()
+            }
+
+            override fun onAdOpened() {
+                // Code to be executed when the ad is displayed.
+            }
+
+            override fun onAdClicked() {
+                finish()
+            }
+
+            override fun onAdLeftApplication() {
+                finish()
+            }
+
+            override fun onAdClosed() {
+                finish()
+            }
+        }
 
         initView()
     }
@@ -79,6 +134,18 @@ class StoryDetailsActivity : BaseActivity(), View.OnClickListener, StoryPhotoAda
         super.onResume()
         getStoryDetails()
     }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+            if (mInterstitialAd.isLoaded) {
+                mInterstitialAd.show()
+            } else {
+                Log.d("TAG", "The interstitial wasn't loaded yet.")
+            }
+
+
+    }
+
 
     fun initView()
     {
