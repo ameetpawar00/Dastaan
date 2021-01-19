@@ -55,7 +55,7 @@ class ResponseStoryDetailsData {
 
         @SerializedName("photo")
         @Expose
-        var photo: List<String>? = null
+        var photo: ArrayList<String>? = ArrayList()
 
         @SerializedName("status")
         @Expose
@@ -91,7 +91,7 @@ class ResponseStoryDetailsData {
 
         @SerializedName("rating_data")
         @Expose
-        val ratingData: List<RatingDatum>? = null
+        val ratingData: ArrayList<RatingDatum>? = ArrayList()
 
     }
 

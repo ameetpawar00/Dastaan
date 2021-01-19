@@ -86,7 +86,7 @@ class StoryDetailsActivity : BaseActivity(), View.OnClickListener, StoryPhotoAda
         adView.loadAd(adRequest)
         adView.setAdListener(object : AdListener() {
             override fun onAdFailedToLoad(errorCode: Int) {
-                Toast.makeText(this@StoryDetailsActivity, "Ad failed: $errorCode", Toast.LENGTH_SHORT)
+                Toast.makeText(this@StoryDetailsActivity, "bottom Ad failed: $errorCode", Toast.LENGTH_SHORT)
                     .show()
             }
         })
@@ -107,7 +107,8 @@ class StoryDetailsActivity : BaseActivity(), View.OnClickListener, StoryPhotoAda
             }
 
             override fun onAdFailedToLoad(adError: LoadAdError) {
-                finish()
+                Toast.makeText(this@StoryDetailsActivity, "Full Ad failed: "+adError, Toast.LENGTH_SHORT)
+                    .show()
             }
 
             override fun onAdOpened() {
@@ -162,6 +163,10 @@ class StoryDetailsActivity : BaseActivity(), View.OnClickListener, StoryPhotoAda
         activityStoryDetailsBinding.topNavBar.backIcon.visibility = View.VISIBLE
         activityStoryDetailsBinding.topNavBar.backIcon.setOnClickListener(this)
         activityStoryDetailsBinding.topNavBar.navTitle.text = getString(R.string.story_details)
+        activityStoryDetailsBinding.topNavBar.navTitle.setTextColor(ContextCompat.getColor(
+            this,
+            R.color.white
+        ))
         activityStoryDetailsBinding.topNavBar.backIcon.setColorFilter(
             ContextCompat.getColor(
                 this,

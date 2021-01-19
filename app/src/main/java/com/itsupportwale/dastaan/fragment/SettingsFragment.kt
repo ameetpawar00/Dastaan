@@ -34,7 +34,6 @@ import com.itsupportwale.dastaan.utility.UserPreference
  */
 class SettingsFragment : BaseFragment(), FragmentBaseListener, View.OnClickListener {
 
-
     lateinit var fragmentSettingsBinding : FragmentSettingsBinding
     val gson: Gson = Gson()
     var rootView: View? = null
@@ -84,14 +83,14 @@ class SettingsFragment : BaseFragment(), FragmentBaseListener, View.OnClickListe
             }
             R.id.termsBtn -> {
                 val uri =
-                    Uri.parse("https://polutiontracker.itsupportwale.com/terms") // missing 'http://' will cause crashed
+                    Uri.parse("https://dastaan.life/terms.php") // missing 'http://' will cause crashed
 
                 val intent = Intent(Intent.ACTION_VIEW, uri)
                 startActivity(intent)
             }
             R.id.privacyBtn -> {
                 val uri =
-                    Uri.parse("https://polutiontracker.itsupportwale.com/policy") // missing 'http://' will cause crashed
+                    Uri.parse("https://dastaan.life/policy.php") // missing 'http://' will cause crashed
 
                 val intent = Intent(Intent.ACTION_VIEW, uri)
                 startActivity(intent)

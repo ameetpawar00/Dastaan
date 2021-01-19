@@ -6,7 +6,7 @@ interface UrlManager {
         const val TOKEN = "token"
         const val ACCEPT = "Accept: application/json"
         const val CONTENT_TYPE = "Content-type: application/json"
-        const val MAIN_URL = "https://test.itsupportwale.com/api/index.php"
+        const val MAIN_URL = "https://dastaan.life/api/index.php"
         const val LOGIN_METHOD_NAME = "user_login"
         const val VERIFY_USER_METHOD_NAME = "verify_user"
         const val RESEND_OTP_METHOD_NAME = "resend_otp"

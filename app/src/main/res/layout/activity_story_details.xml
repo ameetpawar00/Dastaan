@@ -41,11 +41,20 @@
                         android:layout_centerVertical="true"
                         android:scaleType="fitXY"
                         android:src="@drawable/model_1" />
-
+                    <LinearLayout
+                        android:background="@drawable/trending_gradient_shape_reverse"
+                        android:paddingHorizontal="@dimen/dim_20_dp"
+                        android:paddingBottom="@dimen/dim_20_dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_alignParentTop="true"
+                        >
                     <include
                         android:id="@+id/topNavBar"
                         layout="@layout/top_nav_bar_view"
                         />
+                    </LinearLayout>
                     <LinearLayout
                         android:background="@drawable/trending_gradient_shape"
                         android:paddingHorizontal="@dimen/dim_20_dp"
