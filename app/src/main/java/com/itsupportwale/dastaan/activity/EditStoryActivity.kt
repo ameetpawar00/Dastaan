@@ -36,7 +36,8 @@ import java.io.FileNotFoundException
 import java.lang.StringBuilder
 import kotlin.collections.ArrayList
 import com.itsupportwale.dastaan.databinding.ActivityEditStoryBinding
-
+import com.itsupportwale.dastaan.servermanager.UrlManager.Companion.IDENTITY_HIDE
+import com.itsupportwale.dastaan.servermanager.UrlManager.Companion.IDENTITY_SHOW
 
 
 class EditStoryActivity : BaseActivity(), View.OnClickListener {
@@ -152,12 +153,25 @@ class EditStoryActivity : BaseActivity(), View.OnClickListener {
 
             val jsObj = Gson().toJsonTree(API()) as JsonObject
             jsObj.addProperty(UrlManager.METHOD_NAME, UrlManager.EDIT_STORY_METHOD_NAME)
+            var identityStatus  = IDENTITY_HIDE
+            when (activityEditStoryBinding.identity.getCheckedRadioButtonId()) {
+                R.id.identityShow ->
+                {
+                    identityStatus = IDENTITY_SHOW
+                }
+                R.id.identityHide ->
+                {
+                    identityStatus = IDENTITY_HIDE
+                }
+            }
+
 
             jsObj.addProperty(UrlManager.PARAM_TITLE, activityEditStoryBinding.storyTitle.text.toString().trim())
             jsObj.addProperty(UrlManager.PARAM_STORY_TAGS, activityEditStoryBinding.storyTags.text.toString().trim())
             jsObj.addProperty(UrlManager.PARAM_CONTENT, activityEditStoryBinding.storyContent.text.toString().trim())
             jsObj.addProperty(UrlManager.PARAM_GENRE, selectedGenre)
             jsObj.addProperty(UrlManager.PARAM_GENRE_OLD, previousGenre)
+            jsObj.addProperty(UrlManager.PARAM_IDENTITY, identityStatus)
             jsObj.addProperty(UrlManager.PARAM_WRITER, userPreference!!.user_id)
             jsObj.addProperty(UrlManager.PARAM_STORY_ID, storyId)
 
@@ -213,6 +227,14 @@ class EditStoryActivity : BaseActivity(), View.OnClickListener {
                 activityEditStoryBinding.storyContent.setText(model.data!!.content)
                 activityEditStoryBinding.storyGenre.setText(model.data!!.genre)
                 activityEditStoryBinding.storyTags.setText(model.data!!.storyTags)
+
+                if(model.data!!.identityStatus.equals(IDENTITY_HIDE))
+                {
+                    activityEditStoryBinding.identityHide.isChecked = true
+                }else{
+                    activityEditStoryBinding.identityShow.isChecked = true
+                }
+
                 selectedGenre = model.data!!.genreId!!
                 previousGenre = model.data!!.genreId!!
                 callGetGenreApi()

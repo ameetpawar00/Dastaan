@@ -53,7 +53,42 @@
                     android:textColor="@color/colorHeadings"
                     android:fontFamily="@font/louis_george_cafe_bold"
                     />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size_16sp"
+                    android:text="Show Identity"
+                    android:textColor="@color/colorHeadings"
+                    android:fontFamily="@font/louis_george_cafe_bold"
+                    android:layout_marginBottom="@dimen/dim_10_dp"
+                    />
+                <RadioGroup
+                    android:layout_marginBottom="@dimen/dim_20_dp"
+                    android:id="@+id/identity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal">
 
+                    <RadioButton
+                        android:id="@+id/identityShow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:textColor="@color/colorHeadings"
+                        android:text="Show" />
+
+
+                    <RadioButton
+                        android:id="@+id/identityHide"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:textColor="@color/colorHeadings"
+                        android:checked="true"
+                        android:text="Hide" />
+
+                </RadioGroup>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

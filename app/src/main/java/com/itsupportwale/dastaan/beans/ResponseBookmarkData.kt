@@ -51,6 +51,10 @@ class ResponseBookmarkData {
         @Expose
         var ratings: String? = null
 
+        @SerializedName("identity_status")
+        @Expose
+        var identityStatus: String? = null
+
         @SerializedName("photo")
         @Expose
         var photo: List<String>? = null

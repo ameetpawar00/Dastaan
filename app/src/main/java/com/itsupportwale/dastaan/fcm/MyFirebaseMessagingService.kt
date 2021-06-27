@@ -77,7 +77,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         var notificationIntent = Intent()
 
         if (click_action != null && click_action.trim().length > 0) {
-            if (click_action.equals("bid_status_outbid_live")) {
+           /* if (click_action.equals("bid_status_outbid_live")) {
 
                 notificationIntent = Intent(this, MainActivity::class.java)
                 //notificationIntent.putExtra(PARAM_COMING_FROM, TAB_BAR_LIVE_AUCTION)
@@ -93,8 +93,10 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                 //notificationIntent.putExtra(PARAM_COMING_FROM, TAB_BAR_LIVE_APPRAISAL)
 
             } else {
+
+            }*/
                 notificationIntent = Intent(this, MainActivity::class.java)
-            }
+
         } else {
             notificationIntent = Intent(this, MainActivity::class.java)
         }

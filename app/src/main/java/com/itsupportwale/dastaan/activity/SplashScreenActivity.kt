@@ -29,7 +29,12 @@ class SplashScreenActivity : BaseActivity(), View.OnClickListener{
     }
     private fun splashUsingHandler() {
         Handler().postDelayed({
-            if (userPreference!!.loginStatus != LOGIN_CHECK) {
+            if (userPreference!!.loginStatus == FIRST_CHECK) {
+                val intent = Intent(applicationContext, LoginActivity::class.java)
+                overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
+                startActivity(intent)
+                finish()
+            } else if (userPreference!!.loginStatus != LOGIN_CHECK) {
                 val intent = Intent(applicationContext, OnBoardingActivity::class.java)
                 overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
                 startActivity(intent)

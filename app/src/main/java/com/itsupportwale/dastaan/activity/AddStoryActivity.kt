@@ -20,6 +20,8 @@ import com.itsupportwale.dastaan.beans.ResponseGenreData
 import com.itsupportwale.dastaan.beans.ResponseStoryAddedData
 import com.itsupportwale.dastaan.databinding.ActivityAddStoryBinding
 import com.itsupportwale.dastaan.servermanager.UrlManager
+import com.itsupportwale.dastaan.servermanager.UrlManager.Companion.IDENTITY_HIDE
+import com.itsupportwale.dastaan.servermanager.UrlManager.Companion.IDENTITY_SHOW
 import com.itsupportwale.dastaan.servermanager.request.CommonValueModel
 import com.itsupportwale.dastaan.utility.API
 import com.itsupportwale.dastaan.utility.UserPreference
@@ -55,6 +57,17 @@ class AddStoryActivity : BaseActivity(), View.OnClickListener {
         val params = RequestParams()
         showLoader(resources.getString(R.string.please_wait))
         var commonModel = CommonValueModel()
+        var identityStatus  = IDENTITY_HIDE
+        when (activityAddStoryBinding.identity.getCheckedRadioButtonId()) {
+            R.id.identityShow ->
+            {
+                identityStatus = IDENTITY_SHOW
+            }
+            R.id.identityHide ->
+            {
+                identityStatus = IDENTITY_HIDE
+            }
+        }
 
         val jsObj = Gson().toJsonTree(API()) as JsonObject
         jsObj.addProperty(UrlManager.METHOD_NAME, UrlManager.ADD_STORY_METHOD_NAME)
@@ -62,6 +75,7 @@ class AddStoryActivity : BaseActivity(), View.OnClickListener {
         jsObj.addProperty(UrlManager.PARAM_CONTENT, activityAddStoryBinding.storyContent.text.toString().trim())
         jsObj.addProperty(UrlManager.PARAM_STORY_TAGS, activityAddStoryBinding.storyTags.text.toString().trim())
         jsObj.addProperty(UrlManager.PARAM_GENRE, selectedGenre)
+        jsObj.addProperty(UrlManager.PARAM_IDENTITY, identityStatus)
         jsObj.addProperty(UrlManager.PARAM_WRITER, userPreference!!.user_id)
 
         if(galleryImages.size>0)

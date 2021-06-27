@@ -100,7 +100,7 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:host="test.itsupportwale.com"
+                    android:host="www.dastaan.life"
                     android:pathPrefix="/story"
                     android:scheme="https" />
             </intent-filter>

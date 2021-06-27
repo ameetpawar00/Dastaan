@@ -58,17 +58,25 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
     }
 
     fun initView() {
+        activityLoginBinding.continueBtn.setOnClickListener(this)
         activityLoginBinding.loginBtn.setOnClickListener(this)
         activityLoginBinding.facebookBtn.setOnClickListener(this)
         activityLoginBinding.googleBtn.setOnClickListener(this)
         activityLoginBinding.registerBtn.setOnClickListener(this)
         activityLoginBinding.forgotPasswordBtn.setOnClickListener(this)
+
+        userPreference!!.loginStatus = FIRST_CHECK
+        userPreference?.save(this)
+
     }
 
     override fun onClick(view: View?) {
         when (view?.id) {
             R.id.loginBtn -> {
                 checkValidation()
+            }
+            R.id.continueBtn -> {
+                gotoNextActivity()
             }
             R.id.forgotPasswordBtn -> {
                 initializeForgotPasswordBottomBar()
@@ -166,7 +174,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         showSnackBar(activityLoginBinding.edtPassword, message.toString())
     }
 
-    private fun gotoNextActivity() {
+    fun gotoNextActivity() {
         val intent = Intent(applicationContext , MainActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP)
         startActivity(intent)

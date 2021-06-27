@@ -1,15 +1,13 @@
 package com.itsupportwale.dastaan.activity
 
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
+import android.content.*
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
@@ -57,10 +55,16 @@ class MainActivity : BaseActivity(), View.OnClickListener,
             } else drawer.openDrawer(GravityCompat.START)
         }
         activityMainBinding.topNavBar.notificationIcon.setOnClickListener { v ->
-            var intent = Intent(this, NotificationActivity::class.java)
-            startActivity(intent)
-            overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
-            drawer.closeDrawer(GravityCompat.START);
+            if(userPreference!!.email!=null && userPreference!!.email!="")
+            {
+                var intent = Intent(this, NotificationActivity::class.java)
+                startActivity(intent)
+                overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
+                drawer.closeDrawer(GravityCompat.START);
+            }else{
+                gotoNextActivity()
+            }
+
 
         }
         val toggle = ActionBarDrawerToggle(
@@ -138,24 +142,46 @@ class MainActivity : BaseActivity(), View.OnClickListener,
                 drawer.closeDrawer(GravityCompat.START);
             }
             R.id.favListLinLay -> {
-                changeTab(TAB_BAR_FAV)
-                drawer.closeDrawer(GravityCompat.START);
+                if(userPreference!!.email!=null && userPreference!!.email!="")
+                {
+                    changeTab(TAB_BAR_FAV)
+                    drawer.closeDrawer(GravityCompat.START);
+                }else{
+                    gotoNextActivity()
+                }
             }
             R.id.userProfileLinLay -> {
-                changeTab(TAB_BAR_PROFILE)
-                drawer.closeDrawer(GravityCompat.START);
+                if(userPreference!!.email!=null && userPreference!!.email!="")
+                {
+                    changeTab(TAB_BAR_PROFILE)
+                    drawer.closeDrawer(GravityCompat.START);
+                }else{
+                    gotoNextActivity()
+                }
             }
             R.id.notificationLinLay -> {
-                var intent = Intent(this, NotificationActivity::class.java)
-                startActivity(intent)
-                overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
-                drawer.closeDrawer(GravityCompat.START);
+                if(userPreference!!.email!=null && userPreference!!.email!="")
+                {
+                    var intent = Intent(this, NotificationActivity::class.java)
+                    startActivity(intent)
+                    overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
+                    drawer.closeDrawer(GravityCompat.START);
+                }else{
+                    gotoNextActivity()
+                }
+
             }
             R.id.editBtn -> {
-                var intent = Intent(this, EditUserProfileActivity::class.java)
-                startActivity(intent)
-                overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
-                drawer.closeDrawer(GravityCompat.START);
+                if(userPreference!!.email!=null && userPreference!!.email!="")
+                {
+                    var intent = Intent(this, EditUserProfileActivity::class.java)
+                    startActivity(intent)
+                    overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
+                    drawer.closeDrawer(GravityCompat.START);
+                }else{
+                    gotoNextActivity()
+                }
+
             }
             R.id.settingsLinLay -> {
                 changeTab(TAB_BAR_SETTING)
@@ -165,18 +191,62 @@ class MainActivity : BaseActivity(), View.OnClickListener,
                 changeTab(TAB_BAR_HOME)
             }
             R.id.tabBarFavCard -> {
-                changeTab(TAB_BAR_FAV)
+                if(userPreference!!.email!=null && userPreference!!.email!="")
+                {
+                    changeTab(TAB_BAR_FAV)
+                }else{
+                    gotoNextActivity()
+                }
+
             }
             R.id.tabBarProfileCard -> {
-                changeTab(TAB_BAR_PROFILE)
+                if(userPreference!!.email!=null && userPreference!!.email!="")
+                {
+                    changeTab(TAB_BAR_PROFILE)
+                }else{
+                    gotoNextActivity()
+                }
+
             }
             R.id.tabBarSettingCard -> {
                 changeTab(TAB_BAR_SETTING)
             }
             R.id.tabBarAddCard -> {
-                changeTab(TAB_BAR_ADD)
+                if(userPreference!!.email!=null && userPreference!!.email!="")
+                {
+                    changeTab(TAB_BAR_ADD)
+                }else{
+                    gotoNextActivity()
+                }
+
             }
         }
+    }
+
+    private fun gotoNextActivity() {
+
+        val builder: AlertDialog.Builder = AlertDialog.Builder(this)
+
+        builder.setTitle("Login For this Feature")
+        builder.setMessage("Please Login to Continue. . . .")
+
+        builder.setPositiveButton(
+            "Login",
+            DialogInterface.OnClickListener { dialog, which -> // Do nothing but close the dialog
+                val intent = Intent(applicationContext , LoginActivity::class.java)
+                startActivity(intent)
+                overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
+            })
+
+        builder.setNegativeButton(
+            "Cancel",
+            DialogInterface.OnClickListener { dialog, which -> // Do nothing
+                dialog.dismiss()
+            })
+
+        val alert: AlertDialog = builder.create()
+        alert.show()
+
     }
 
     private fun changeTab(i: Int) {

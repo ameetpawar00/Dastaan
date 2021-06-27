@@ -5,6 +5,7 @@ import android.content.Context
 import android.graphics.ColorMatrix
 import android.graphics.ColorMatrixColorFilter
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -12,6 +13,7 @@ import com.bumptech.glide.Glide
 import com.itsupportwale.dastaan.R
 import com.itsupportwale.dastaan.beans.ResponseHomeData
 import com.itsupportwale.dastaan.databinding.RowItemMySubscriptionBinding
+import com.itsupportwale.dastaan.servermanager.UrlManager
 
 
 class MySubscriptionAdapter(activity: Context, arrayList: ArrayList<ResponseHomeData.MySubscription>) : RecyclerView.Adapter<MySubscriptionAdapter.ListViewHolder>() {
@@ -56,18 +58,33 @@ class MySubscriptionAdapter(activity: Context, arrayList: ArrayList<ResponseHome
                 mItemClickListener?.onItemListItemClickListenerSubscription(position)
             }
         }
+
+        if(arrayList[position].identityStatus.equals(UrlManager.IDENTITY_HIDE))
+        {
+            holder.listBinding.thisWriterName.visibility = View.INVISIBLE
+            holder.listBinding.writerImage.visibility = View.INVISIBLE
+        }else{
+            if(arrayList[position].writerData!=null)
+            {
+                holder.listBinding.thisWriterName.text = arrayList[position].writerData!!.name
+                holder.listBinding.thisWriterName.visibility = View.VISIBLE
+                Glide.with(activity)
+                    .load(arrayList[position].writerData!!.photo)
+                    .error(R.drawable.default_image_icon)
+                    .into(holder.listBinding.writerImage)
+            }else{
+                holder.listBinding.thisWriterName.visibility = View.INVISIBLE
+            }
+        }
+
         holder.listBinding.thisTitleName.text = arrayList[position].title
-        holder.listBinding.thisWriterName.text = arrayList[position].writerData!!.name
+
 
         Glide.with(activity)
             .load(arrayList[position].photo!![0])
             .error(R.drawable.default_image_icon)
             .into(holder.listBinding.bannerImage)
 
-        Glide.with(activity)
-            .load(arrayList[position].writerData!!.photo)
-            .error(R.drawable.default_image_icon)
-            .into(holder.listBinding.writerImage)
 
         /*holder.listBinding.titleTxt.text = arrayList[position].title
         holder.listBinding.price.text =""+activity.resources.getString(R.string.dollar)+" "+ NumberFormat.getNumberInstance(Locale.US).format(arrayList[position].price!!.toDouble())

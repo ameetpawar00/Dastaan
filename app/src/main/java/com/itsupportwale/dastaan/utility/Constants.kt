@@ -16,3 +16,4 @@ const val PARAM_COMING_FROM: String = "coming_from"
 const val PERMISSION_REQUEST_LOCATION: Int = 123
 const val PERMISSION_REQUEST_READ_WRITE = 125
 const val LOGIN_CHECK: Int = 1
+const val FIRST_CHECK: Int = 5

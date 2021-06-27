@@ -13,6 +13,7 @@ import com.bumptech.glide.Glide
 import com.itsupportwale.dastaan.beans.GetFavData
 import com.itsupportwale.dastaan.beans.ResponseBookmarkData
 import com.itsupportwale.dastaan.databinding.RowFavouritesDataBinding
+import com.itsupportwale.dastaan.servermanager.UrlManager
 import com.itsupportwale.dastaan.utility.CLICK_FROM_FAV
 import com.itsupportwale.dastaan.utility.CLICK_FROM_NOT_FAV
 import com.itsupportwale.dastaan.utility.CLICK_FROM_PARENT
@@ -55,11 +56,26 @@ class FavouritesDataAdapter(activity: Context, arrayList:ArrayList<ResponseBookm
         val filter = ColorMatrixColorFilter(matrix)
         holder.listBinding.bannerImage.setColorFilter(filter)
         holder.listBinding.thisTitle.text = arrayList[position].title
-        holder.listBinding.thisWriterName.text = "By "+arrayList[position].writerData!!.name
+
         holder.listBinding.storyTags.text = arrayList[position].storyTags
         holder.listBinding.storyDate.text = arrayList[position].timestamp
         holder.listBinding.storyReads.text = arrayList[position].view+" Reads"
         holder.listBinding.ratingTxt.text = arrayList[position].ratings
+
+        if(arrayList[position].identityStatus.equals(UrlManager.IDENTITY_HIDE))
+        {
+            holder.listBinding.thisWriterName.visibility = View.INVISIBLE
+        }else{
+            if(arrayList[position].writerData!=null)
+            {
+                holder.listBinding.thisWriterName.visibility = View.VISIBLE
+                holder.listBinding.thisWriterName.text = "By "+arrayList[position].writerData!!.name
+            }else{
+                holder.listBinding.thisWriterName.visibility = View.INVISIBLE
+            }
+
+
+        }
 
         Glide.with(activity)
             .load(arrayList[position].photo!![0])

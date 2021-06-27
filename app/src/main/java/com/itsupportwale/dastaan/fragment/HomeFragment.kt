@@ -1,6 +1,8 @@
 package com.itsupportwale.dastaan.fragment
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
@@ -20,6 +22,8 @@ import com.google.gson.JsonObject
 import com.jakewharton.rxbinding2.widget.RxTextView
 import com.jakewharton.rxbinding2.widget.TextViewTextChangeEvent
 import com.itsupportwale.dastaan.R
+import com.itsupportwale.dastaan.activity.LoginActivity
+import com.itsupportwale.dastaan.activity.MainActivity
 import com.itsupportwale.dastaan.activity.MySubscriptionActivity
 import com.itsupportwale.dastaan.activity.StoryDetailsActivity
 import com.itsupportwale.dastaan.adapters.*
@@ -286,14 +290,23 @@ class HomeFragment : BaseFragment(), FragmentBaseListener, View.OnClickListener,
             requireActivity().overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
         }else if(tabType== CLICK_FROM_FAV)
         {
-            setBookmarkStatus(storyDataArray[position].id!!)
-            storyDataArray[position].isFavourite = false
-            storyAdapter.notifyDataSetChanged()
+            if(userPreference!!.email!=null && userPreference!!.email!="") {
+                setBookmarkStatus(storyDataArray[position].id!!)
+                storyDataArray[position].isFavourite = false
+                storyAdapter.notifyDataSetChanged()
+            }else{
+                gotoNextActivity()
+            }
         }else if(tabType== CLICK_FROM_NOT_FAV)
         {
-            setBookmarkStatus(storyDataArray[position].id!!)
-            storyDataArray[position].isFavourite = true
-            storyAdapter.notifyDataSetChanged()
+            if(userPreference!!.email!=null && userPreference!!.email!="") {
+                setBookmarkStatus(storyDataArray[position].id!!)
+                storyDataArray[position].isFavourite = true
+                storyAdapter.notifyDataSetChanged()
+            }else{
+                gotoNextActivity()
+            }
+
         }
         /*val intent = Intent(requireActivity(), PropertyDetailsActivity::class.java)
         startActivity(intent)
@@ -317,6 +330,32 @@ class HomeFragment : BaseFragment(), FragmentBaseListener, View.OnClickListener,
             params,
             commonModel
         )
+    }
+
+    private fun gotoNextActivity() {
+
+        val builder: androidx.appcompat.app.AlertDialog.Builder = androidx.appcompat.app.AlertDialog.Builder(requireActivity())
+
+        builder.setTitle("Login For this Feature")
+        builder.setMessage("Please Login to Continue. . . .")
+
+        builder.setPositiveButton(
+            "Login",
+            DialogInterface.OnClickListener { dialog, which -> // Do nothing but close the dialog
+                val intent = Intent(requireActivity() , LoginActivity::class.java)
+                startActivity(intent)
+                requireActivity().overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
+            })
+
+        builder.setNegativeButton(
+            "Cancel",
+            DialogInterface.OnClickListener { dialog, which -> // Do nothing
+                dialog.dismiss()
+            })
+
+        val alert: androidx.appcompat.app.AlertDialog = builder.create()
+        alert.show()
+
     }
 
     override fun onClick(view: View) {

@@ -2,6 +2,7 @@ package com.itsupportwale.dastaan.activity
 
 import android.annotation.SuppressLint
 import android.content.ActivityNotFoundException
+import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
@@ -13,6 +14,7 @@ import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.databinding.DataBindingUtil
@@ -152,7 +154,6 @@ class StoryDetailsActivity : BaseActivity(), View.OnClickListener, StoryPhotoAda
     {
         activityStoryDetailsBinding.shareBtn.setOnClickListener(this)
         activityStoryDetailsBinding.ratingLinLay.setOnClickListener(this)
-        activityStoryDetailsBinding.userLinLay.setOnClickListener(this)
         activityStoryDetailsBinding.followBtn.setOnClickListener(this)
         activityStoryDetailsBinding.followingBtn.setOnClickListener(this)
         activityStoryDetailsBinding.favoritesLinLay.setOnClickListener(this)
@@ -256,23 +257,6 @@ class StoryDetailsActivity : BaseActivity(), View.OnClickListener, StoryPhotoAda
                     activityStoryDetailsBinding.noPicAvailable.visibility = View.VISIBLE
                 }
 
-                if(model.data!!.writerData!=null){
-                    if(model.data!!.writerData!!.photo!=null&& model.data!!.writerData!!.photo!!.isNotEmpty()){
-                        Glide.with(this)
-                            .load(model.data!!.writerData!!.photo)
-                            .error(R.drawable.ic_default_image)
-                            .into(activityStoryDetailsBinding.storyWriterImage)
-                        //writerImage = model.data!!.writerData!!.photo!!
-                        activityStoryDetailsBinding.storyWriterName.text = model.data!!.writerData!!.name!!
-                        activityStoryDetailsBinding.storyWriterEmail.text = model.data!!.writerData!!.email!!
-                        writerId = model.data!!.writerData!!.id!!
-                    }
-                    /*  writerId = model.data!!.writerData!!.id!!
-                      writerName = model.data!!.writerData!!.name!!*/
-
-                    activityStoryDetailsBinding.storyWriterName.text = model.data!!.writerData!!.name
-                }
-
                 // scheduleAVisitBtn
                 if(model.data!!.photo!=null && model.data!!.photo!!.isNotEmpty()){
                     Glide.with(this)
@@ -292,7 +276,7 @@ class StoryDetailsActivity : BaseActivity(), View.OnClickListener, StoryPhotoAda
                     activityStoryDetailsBinding.followingBtn.visibility = View.GONE
                 }
 
-                if(userPreference!!.user_id!! == model.data!!.writerData!!.id)
+                if(model.data!!.writerData!=null && userPreference!!.user_id!! == model.data!!.writerData!!.id)
                 {
                     activityStoryDetailsBinding.thisEditBtn.visibility = View.VISIBLE
                     activityStoryDetailsBinding.followBtn.visibility = View.GONE
@@ -301,6 +285,32 @@ class StoryDetailsActivity : BaseActivity(), View.OnClickListener, StoryPhotoAda
                 }else{
                     activityStoryDetailsBinding.thisEditBtn.visibility = View.GONE
                 }
+
+                if(model.data!!.identityStatus.equals(UrlManager.IDENTITY_HIDE))
+                {
+                    activityStoryDetailsBinding.userLinLay.visibility = View.INVISIBLE
+                    activityStoryDetailsBinding.storyWriterImage.visibility = View.INVISIBLE
+                }else{
+                    activityStoryDetailsBinding.userLinLay.setOnClickListener(this)
+                    activityStoryDetailsBinding.userLinLay.visibility = View.VISIBLE
+                    if(model.data!!.writerData!=null){
+                        if(model.data!!.writerData!!.photo!=null&& model.data!!.writerData!!.photo!!.isNotEmpty()){
+                            Glide.with(this)
+                                .load(model.data!!.writerData!!.photo)
+                                .error(R.drawable.ic_default_image)
+                                .into(activityStoryDetailsBinding.storyWriterImage)
+                            //writerImage = model.data!!.writerData!!.photo!!
+                            activityStoryDetailsBinding.storyWriterName.text = model.data!!.writerData!!.name!!
+                            activityStoryDetailsBinding.storyWriterEmail.text = model.data!!.writerData!!.email!!
+                            writerId = model.data!!.writerData!!.id!!
+                        }
+                        /*  writerId = model.data!!.writerData!!.id!!
+                          writerName = model.data!!.writerData!!.name!!*/
+
+                        activityStoryDetailsBinding.storyWriterName.text = model.data!!.writerData!!.name
+                    }
+                }
+
 
 
 
@@ -395,39 +405,71 @@ class StoryDetailsActivity : BaseActivity(), View.OnClickListener, StoryPhotoAda
 
             }
             R.id.favoritesLinLay -> {
-                val params = RequestParams()
-                var commonModel = CommonValueModel()
-                val jsObj = Gson().toJsonTree(API()) as JsonObject
-                jsObj.addProperty(METHOD_NAME, UrlManager.UPDATE_BOOKMARK_STATUS)
-                jsObj.addProperty(UrlManager.PARAM_STORY_ID, storyId)
-                jsObj.addProperty(UrlManager.PARAM_USER_ID, userPreference!!.user_id)
-                showLog("HOME_METHOD_NAME-param", jsObj.toString())
-                params.put("data", toBase64(jsObj.toString()))
-                apiCall(
-                    applicationContext,
-                    UrlManager.MAIN_URL,
-                    UrlManager.UPDATE_BOOKMARK_STATUS,
-                    params,
-                    commonModel
-                )
+
+                if(userPreference!!.email!=null && userPreference!!.email!="")
+                {
+                    val params = RequestParams()
+                    var commonModel = CommonValueModel()
+                    val jsObj = Gson().toJsonTree(API()) as JsonObject
+                    jsObj.addProperty(METHOD_NAME, UrlManager.UPDATE_BOOKMARK_STATUS)
+                    jsObj.addProperty(UrlManager.PARAM_STORY_ID, storyId)
+                    jsObj.addProperty(UrlManager.PARAM_USER_ID, userPreference!!.user_id)
+                    showLog("HOME_METHOD_NAME-param", jsObj.toString())
+                    params.put("data", toBase64(jsObj.toString()))
+                    apiCall(
+                        applicationContext,
+                        UrlManager.MAIN_URL,
+                        UrlManager.UPDATE_BOOKMARK_STATUS,
+                        params,
+                        commonModel
+                    )
+                }else{
+                    gotoNextActivity()
+                }
+
             }
 
             R.id.thisEditBtn -> {
-                val Messages = Intent(this, EditStoryActivity::class.java)
-                Messages.putExtra(UrlManager.PARAM_STORY_ID, storyId)
-                startActivity(Messages)
-                overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
+                if(userPreference!!.email!=null && userPreference!!.email!="")
+                {
+                    if(userPreference!!.user_id!! != writerId) {
+                        val Messages = Intent(this, EditStoryActivity::class.java)
+                        Messages.putExtra(UrlManager.PARAM_STORY_ID, storyId)
+                        startActivity(Messages)
+                        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
+                    }
+                }else{
+                    gotoNextActivity()
+                }
+
             }
             R.id.ratingLinLay -> {
-                if(userPreference!!.user_id!! != writerId) {
-                    initializeChildBottomBarBottomBar("Rating & Review")
+                if(userPreference!!.email!=null && userPreference!!.email!="")
+                {
+                    if(userPreference!!.user_id!! != writerId) {
+                        initializeChildBottomBarBottomBar("Rating & Review")
+                    }
+                }else{
+                    gotoNextActivity()
                 }
+
             }
             R.id.followBtn -> {
-                setFollowingStatus()
+                if(userPreference!!.email!=null && userPreference!!.email!="")
+                {
+                    setFollowingStatus()
+                }else{
+                    gotoNextActivity()
+                }
+
             }
             R.id.followingBtn -> {
-                setFollowingStatus()
+                if(userPreference!!.email!=null && userPreference!!.email!="")
+                {
+                    setFollowingStatus()
+                }else{
+                    gotoNextActivity()
+                }
             }
             R.id.userLinLay -> {
                 val intent = Intent(applicationContext , MainActivity::class.java)
@@ -440,7 +482,31 @@ class StoryDetailsActivity : BaseActivity(), View.OnClickListener, StoryPhotoAda
     }
 
 
+    private fun gotoNextActivity() {
 
+        val builder: AlertDialog.Builder = AlertDialog.Builder(this)
+
+        builder.setTitle("Login For this Feature")
+        builder.setMessage("Please Login to Continue. . . .")
+
+        builder.setPositiveButton(
+            "Login",
+            DialogInterface.OnClickListener { dialog, which -> // Do nothing but close the dialog
+                val intent = Intent(applicationContext , LoginActivity::class.java)
+                startActivity(intent)
+                overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
+            })
+
+        builder.setNegativeButton(
+            "Cancel",
+            DialogInterface.OnClickListener { dialog, which -> // Do nothing
+                dialog.dismiss()
+            })
+
+        val alert: AlertDialog = builder.create()
+        alert.show()
+
+    }
 
 
 

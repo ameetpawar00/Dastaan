@@ -78,7 +78,7 @@
     <string name="google">Login with google</string>
     <string name="login_with">Login with</string>
     <string name="twitter">twitter</string>
-    <string name="login_to_continue">Login To Continue</string>
+    <string name="login_to_continue">Login</string>
     <string name="signup_here_now">Signup here now!</string>
     <string name="use_current_location">Use current location</string>
     <string name="search">Search. . .</string>
@@ -241,6 +241,7 @@
     <string name="send_feedback">Send Feedback</string>
     <string name="version">Version</string>
     <string name="banner_ad_unit_id">ca-app-pub-4905384164104793/7385679589</string>
+    <string name="continueWithoutLogin">Continue Without Login</string>
 
     <string-array name="rent_sell">
         <item>Rent</item>

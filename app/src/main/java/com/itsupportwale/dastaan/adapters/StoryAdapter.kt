@@ -14,6 +14,7 @@ import com.itsupportwale.dastaan.R
 import com.itsupportwale.dastaan.beans.ResponseHomeData
 import com.itsupportwale.dastaan.databinding.RowItemMySubscriptionBinding
 import com.itsupportwale.dastaan.databinding.RowItemStoryBinding
+import com.itsupportwale.dastaan.servermanager.UrlManager
 import com.itsupportwale.dastaan.utility.CLICK_FROM_FAV
 import com.itsupportwale.dastaan.utility.CLICK_FROM_NOT_FAV
 import com.itsupportwale.dastaan.utility.CLICK_FROM_PARENT
@@ -57,11 +58,24 @@ class StoryAdapter(activity: Context, arrayList: ArrayList<ResponseHomeData.Stor
 
 
         holder.listBinding.thisTitle.text = arrayList[position].title
-        holder.listBinding.thisWriterName.text = "By "+arrayList[position].writerData!!.name
+
         holder.listBinding.storyTags.text = arrayList[position].storyTags
         holder.listBinding.storyDate.text = arrayList[position].timestamp
         holder.listBinding.storyReads.text = arrayList[position].view+" Reads"
         holder.listBinding.ratingTxt.text = arrayList[position].ratings
+
+        if(arrayList[position].identityStatus.equals(UrlManager.IDENTITY_HIDE))
+        {
+            holder.listBinding.thisWriterName.visibility = View.INVISIBLE
+        }else{
+            if(arrayList[position].writerData!=null)
+            {
+                holder.listBinding.thisWriterName.visibility = View.VISIBLE
+                holder.listBinding.thisWriterName.text = "By "+arrayList[position].writerData!!.name
+            }else{
+                holder.listBinding.thisWriterName.visibility = View.INVISIBLE
+            }
+        }
 
         if(arrayList[position].isFavourite!!)
         {

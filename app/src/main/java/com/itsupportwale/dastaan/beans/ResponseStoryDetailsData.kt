@@ -51,6 +51,10 @@ class ResponseStoryDetailsData {
         @Expose
         var likes: String? = null
 
+        @SerializedName("identity_status")
+        @Expose
+        var identityStatus: String? = null
+
 
 
         @SerializedName("photo")

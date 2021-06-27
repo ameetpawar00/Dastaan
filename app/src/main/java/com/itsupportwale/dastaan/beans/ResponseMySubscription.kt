@@ -77,6 +77,10 @@ class ResponseMySubscription {
         @Expose
         var writer: String? = null
 
+        @SerializedName("identity_status")
+        @Expose
+        var identityStatus: String? = null
+
         @SerializedName("writer_data")
         @Expose
         var writerData: WriterData? = null

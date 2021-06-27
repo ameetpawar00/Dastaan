@@ -82,6 +82,10 @@ class ResponseHomeData {
         @Expose
         var ratings: String? = null
 
+        @SerializedName("identity_status")
+        @Expose
+        var identityStatus: String? = null
+
         @SerializedName("view")
         @Expose
         var view: String? = null
@@ -124,6 +128,10 @@ class ResponseHomeData {
         @SerializedName("approve_status")
         @Expose
         var approveStatus: String? = null
+
+        @SerializedName("identity_status")
+        @Expose
+        var identityStatus: String? = null
 
         @SerializedName("content")
         @Expose
