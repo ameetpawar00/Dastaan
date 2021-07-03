@@ -42,6 +42,13 @@ class MainActivity : BaseActivity(), View.OnClickListener,
         activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
         userPreference = UserPreference.getInstance(this);
+        if(userPreference!!.email!=null && userPreference!!.email!="")
+        {
+           activityMainBinding.profParent.visibility = View.VISIBLE
+        }else{
+            activityMainBinding.profParent.visibility = View.GONE
+        }
+
         init()
         initDrawerView()
     }

@@ -140,11 +140,11 @@ class StoryDetailsActivity : BaseActivity(), View.OnClickListener, StoryPhotoAda
 
     override fun onBackPressed() {
         super.onBackPressed()
-            if (mInterstitialAd.isLoaded) {
-                mInterstitialAd.show()
-            } else {
-                Log.d("TAG", "The interstitial wasn't loaded yet.")
-            }
+        if (mInterstitialAd.isLoaded) {
+            mInterstitialAd.show()
+        } else {
+            Log.d("TAG", "The interstitial wasn't loaded yet.")
+        }
 
 
     }
@@ -401,7 +401,12 @@ class StoryDetailsActivity : BaseActivity(), View.OnClickListener, StoryPhotoAda
 
                 val rootView = window.decorView.findViewById<View>(android.R.id.content)
                 val screenshot: Bitmap = getScreenShot(rootView)!!
-                share(screenshot)
+                val shareData = ShareData(
+                    screenshot, applicationContext,this@StoryDetailsActivity
+                )
+                shareData.shareScreenshots(storyId.toString())
+
+
 
             }
             R.id.favoritesLinLay -> {
@@ -545,39 +550,6 @@ class StoryDetailsActivity : BaseActivity(), View.OnClickListener, StoryPhotoAda
         screenView.isDrawingCacheEnabled = false
         return bitmap
     }
-
-    fun share(bitmap: Bitmap) {
-        val fileName = "share.png"
-        val dir = File(cacheDir, "images")
-        dir.mkdirs()
-        val file = File(dir, fileName)
-        try {
-            val fOut = FileOutputStream(file)
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fOut)
-            fOut.flush()
-            fOut.close()
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-        val uri = FileProvider.getUriForFile(
-            this,
-            "com.itsupportwale.dastaan.fileprovider", file
-        )
-        val intent = Intent()
-        intent.action = Intent.ACTION_SEND
-        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-        intent.type = "image/*"
-        intent.setDataAndType(uri, contentResolver.getType(uri))
-        intent.putExtra(Intent.EXTRA_SUBJECT, "EXTRA_SUBJECT")
-        intent.putExtra(Intent.EXTRA_TEXT, "EXTRA_TEXT")
-        intent.putExtra(Intent.EXTRA_STREAM, uri)
-        try {
-            startActivity(Intent.createChooser(intent, "Share Image"))
-        } catch (e: ActivityNotFoundException) {
-            Toast.makeText(this, "No App Available", Toast.LENGTH_SHORT).show()
-        }
-    }
-
 
     private fun setStoryRating( rating:Float, review:String ) {
         val params = RequestParams()

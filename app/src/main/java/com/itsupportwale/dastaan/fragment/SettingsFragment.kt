@@ -4,6 +4,10 @@ import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -12,20 +16,18 @@ import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.google.gson.Gson
 import com.itsupportwale.dastaan.R
-import com.itsupportwale.dastaan.activity.LoginActivity
 import com.itsupportwale.dastaan.activity.SplashScreenActivity
 import com.itsupportwale.dastaan.databinding.FragmentSettingsBinding
 import com.itsupportwale.dastaan.servermanager.request.CommonValueModel
 import com.itsupportwale.dastaan.utility.ShareData
 import com.itsupportwale.dastaan.utility.UserPreference
+
 
 /**
  * A simple [Fragment] subclass.
@@ -132,12 +134,39 @@ class SettingsFragment : BaseFragment(), FragmentBaseListener, View.OnClickListe
     }
 
     private fun shareUs() {
+        var screenshot= drawableToBitmap(requireActivity().getDrawable(R.drawable.splash)!!)
         val shareData = ShareData(
-            rootView, this!!.activity!!, activity
+            screenshot, requireActivity(),requireActivity()
         )
-        shareData.ShareImageData("null")
+        shareData.shareScreenshots("")
     }
 
+    fun drawableToBitmap(drawable: Drawable): Bitmap {
+        var bitmap: Bitmap? = null
+        if (drawable is BitmapDrawable) {
+            val bitmapDrawable = drawable
+            if (bitmapDrawable.bitmap != null) {
+                return bitmapDrawable.bitmap
+            }
+        }
+        bitmap = if (drawable.intrinsicWidth <= 0 || drawable.intrinsicHeight <= 0) {
+            Bitmap.createBitmap(
+                1,
+                1,
+                Bitmap.Config.ARGB_8888
+            ) // Single color bitmap will be created of 1x1 pixel
+        } else {
+            Bitmap.createBitmap(
+                drawable.intrinsicWidth,
+                drawable.intrinsicHeight,
+                Bitmap.Config.ARGB_8888
+            )
+        }
+        val canvas = Canvas(bitmap)
+        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight())
+        drawable.draw(canvas)
+        return bitmap
+    }
     fun sendFeedback(
         activity: Activity
     ) {

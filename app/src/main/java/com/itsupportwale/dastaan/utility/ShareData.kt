@@ -13,87 +13,49 @@ import android.view.View
 import androidx.core.content.FileProvider
 import com.itsupportwale.dastaan.R
 import java.io.File
+import java.io.FileOutputStream
 
 class ShareData(
-    private val rootView: View?,
-    private val activity: Activity,
-    private val context: Context?
+    private val bitmap: Bitmap,
+    private val context: Context,
+    private val activity: Activity
 ) {
-    fun ShareImageData(deeplink: String) {
-        var linkAppMain =
-            "http://play.google.com/store/apps/details?id=" + context!!.packageName
-        if (deeplink != "null") {
-            linkAppMain = deeplink
-            if (rootView != null && context != null) { //&& !context.isFinishing()
-                rootView.isDrawingCacheEnabled = true
-                val bitmap = Bitmap.createBitmap(rootView.drawingCache)
-                if (bitmap != null) {
-                    val mediaStorageDir =
-                        File(activity.externalCacheDir.toString() + "Image.png")
-                    /* FileOutputStream outputStream = new FileOutputStream(String.valueOf(mediaStorageDir));
-                     bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
-                     outputStream.close();*/
-                    val imageUri = FileProvider.getUriForFile(
-                        context,
-                        context.packageName + ".provider",
-                        mediaStorageDir
-                    )
-                    val waIntent = Intent(Intent.ACTION_SEND)
-                    waIntent.type = "image/*"
-                    waIntent.putExtra(Intent.EXTRA_STREAM, imageUri)
-                    waIntent.putExtra(Intent.EXTRA_TITLE, "Validate Your News")
-                    waIntent.putExtra(Intent.EXTRA_SUBJECT, "Is It Fake News")
-                    waIntent.putExtra(
-                        Intent.EXTRA_TEXT,
-                        "Check Your News Is Real or Fake : Install Now $linkAppMain"
-                    )
-                    activity.startActivity(Intent.createChooser(waIntent, "Share with"))
-                }
-            }
-        } else {
-            if (rootView != null && context != null) {
-                try {
-                    try {
-                        val imageUri: Uri
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                            imageUri = Uri.parse(
-                                MediaStore.Images.Media.insertImage(
-                                    context.contentResolver,
-                                    BitmapFactory.decodeResource(
-                                        context.resources,
-                                        R.drawable.download
-                                    ), null, null
-                                )
-                            )
-                        } else {
-                            rootView.isDrawingCacheEnabled = true
-                            val bitmap = Bitmap.createBitmap(rootView.drawingCache)
-                            val mediaStorageDir = File(
-                                activity.externalCacheDir.toString() + "Image.png"
-                            )
-                            imageUri = FileProvider.getUriForFile(
-                                context,
-                                context.packageName + ".provider",
-                                mediaStorageDir
-                            )
-                        }
-                        val share = Intent(Intent.ACTION_SEND)
-                        share.type = "image/*"
-                        share.putExtra(Intent.EXTRA_STREAM, imageUri)
-                        share.putExtra(Intent.EXTRA_TITLE, "Is It Fake News")
-                        share.putExtra(Intent.EXTRA_SUBJECT, "Is It Fake News")
-                        share.putExtra(
-                            Intent.EXTRA_TEXT,
-                            "Check Is It Fake News... Please Do share and provide feedback Install Now $linkAppMain"
-                        ) //todo add link for app
-                        activity.startActivity(Intent.createChooser(share, "Share Using"))
-                    } catch (e: NullPointerException) {
-                    }
-                    // Launch the Google+ share dialog with attribution to your app.
-                } catch (ex: ActivityNotFoundException) {
-                    //   Toast.makeText(mActivity, mActivity.getString(R.string.share_google_plus_not_installed), Toast.LENGTH_LONG).show();
-                }
-            }
+    fun shareScreenshots(storyId: String) {
+        val fileName = "share.png"
+        val dir = File(context.cacheDir, "images")
+        dir.mkdirs()
+        val file = File(dir, fileName)
+        try {
+            val fOut = FileOutputStream(file)
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fOut)
+            fOut.flush()
+            fOut.close()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        val uri = FileProvider.getUriForFile(
+            context,
+            "com.itsupportwale.dastaan.fileprovider", file
+        )
+        val intent = Intent()
+        intent.action = Intent.ACTION_SEND
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        intent.type = "image/*"
+        intent.setDataAndType(uri, context.contentResolver.getType(uri))
+        if(!storyId.equals("")){
+            intent.putExtra(Intent.EXTRA_SUBJECT, "Share your thoughts, stories, and views/ अपने विचार, कहानियां और विचार साझा करें on \n Dastaan.life https://dastaan.life/story/"+storyId)
+            intent.putExtra(Intent.EXTRA_TEXT, "Share your thoughts, stories, and views/ अपने विचार, कहानियां और विचार साझा करें on \n Dastaan.life https://dastaan.life/story/"+storyId)
+        }else{
+            intent.putExtra(Intent.EXTRA_SUBJECT, "Share your thoughts, stories, and views/ अपने विचार, कहानियां और विचार साझा करें on \n Dastaan.life https://dastaan.life")
+            intent.putExtra(Intent.EXTRA_TEXT, "Share your thoughts, stories, and views/ अपने विचार, कहानियां और विचार साझा करें on \n Dastaan.life https://dastaan.life")
+
+        }
+
+        intent.putExtra(Intent.EXTRA_STREAM, uri)
+        try {
+            activity.startActivity(Intent.createChooser(intent, "Share Image"))
+        } catch (e: ActivityNotFoundException) {
+            //Toast.makeText(this, "No App Available", Toast.LENGTH_SHORT).show()
         }
     }
 

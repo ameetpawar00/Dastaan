@@ -10,12 +10,17 @@ android {
         applicationId "com.itsupportwale.dastaan.life"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 102
-        versionName "1.2"
+        versionCode 104
+        versionName "1.4"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
-
+    lintOptions {
+        checkReleaseBuilds false
+        // Or, if you prefer, you can continue to check for errors in release builds,
+        // but continue the build even when errors are found:
+        abortOnError false
+    }
     buildTypes {
         release {
             minifyEnabled false
